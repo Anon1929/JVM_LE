@@ -1,7 +1,8 @@
 # JVM_LE
 JVM- Leitor Exibidor - SB
 
-Build:
+# Build
 make
-Execução:
+
+# Execução
 ./exec
