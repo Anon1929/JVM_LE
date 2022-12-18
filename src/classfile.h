@@ -3,7 +3,7 @@
 #define CLASSFILEH
 
 /*
-ClassFile {
+Classfile {
     u4             magic;
     u2             minor_version;
     u2             major_version;
@@ -27,6 +27,15 @@ typedef unsigned char u1;
 typedef unsigned short u2;
 typedef unsigned int u4;
 typedef unsigned long u8;
+
+
+typedef struct attribute_info{
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u1 *info;
+
+}attribute_info;
+
 
 typedef struct cp_info{
     u1 tag;
@@ -83,7 +92,6 @@ typedef struct field_info{
     u2 attributes_count;
     attribute_info *attributes;
 }field_info;
-
 typedef struct method_info{
     u2 access_flags;
     u2 name_index;
@@ -93,14 +101,7 @@ typedef struct method_info{
 
 }method_info;
 
-typedef struct attribute_info{
-    u2 attribute_name_index;
-    u4 attribute_length;
-    u1 *info;
-
-}attribute_info;
-
-typedef struct ClassFile {
+typedef struct Classfile {
     u4             magic;
     u2             minor_version;
     u2             major_version;
@@ -117,6 +118,6 @@ typedef struct ClassFile {
     method_info    *methods;
     u2             attributes_count;
     attribute_info *attributes;
-}ClassFile;
+}Classfile;
 
 #endif
