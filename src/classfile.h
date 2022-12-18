@@ -44,7 +44,7 @@ typedef struct attribute_info{
 
 }attribute_info;
 
-typedef struct ClassFile {
+typedef struct Classfile {
     u4             magic;
     u2             minor_version;
     u2             major_version;
@@ -61,6 +61,6 @@ typedef struct ClassFile {
     method_info    *methods;
     u2             attributes_count;
     attribute_info *attributes;
-}ClassFile;
+}Classfile;
 
 #endif
