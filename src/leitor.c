@@ -1,5 +1,6 @@
 #include "leitor.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "classfile.h"
 
 //abrindo arquivo .class
