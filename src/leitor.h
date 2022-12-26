@@ -1,4 +1,5 @@
 #include "classfile.h"
+#include <stdio.h>
 #ifndef LEITORH
 #define LEITORH
 
@@ -9,7 +10,7 @@ static u8 u8Read();
 
 
 void readClassfile(Classfile *);
-void readCpinfo(cp_info *);
+void readCpinfo(cp_info *, FILE *);
 void readField_info(field_info *);
 void readMethod_info(method_info *);
 void readAttribute_info(attribute_info *);
