@@ -116,7 +116,96 @@ typedef struct method_info
 
 } method_info;
 
+typedef struct Code_attribute
+{
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u2 max_stack;
+    u2 max_locals;
+    u4 code_length;
+    u1 *code;
+    u2 exception_table_length;
+    struct
+    {
+        u2 start_pc;
+        u2 end_pc;
+        u2 handler_pc;
+        u2 catch_type;
+    } *exception_table;
+    u2 attributes_count;
+    attribute_info *attributes;
+} Code_attribute;
 
+typedef struct exception_table
+{
+    u2 start_pc;
+    u2 end_pc;
+    u2 handler_pc;
+    u2 catch_type;
+} exception_table;
+
+// typedef struct deprecated_attribute
+// {
+//     u2 attribute_name_index;
+//     u4 attribute_length;
+// } deprecated_attribute;
+
+// typedef struct exceptions_attribute
+// {
+//     u2 attribute_name_index;
+//     u4 attribute_length;
+//     u2 number_of_exceptions;
+//     u2 *exception_index_table;
+// } exceptions_attribute;
+
+// typedef struct innerClasses_attribute
+// {
+//     u2 attribute_name_index;
+//     u4 attribute_length;
+//     u2 number_of_classes;
+//     struct
+//     {
+//         u2 inner_class_info_index;
+//         u2 outer_class_info_index;
+//         u2 inner_name_index;
+//         u2 inner_class_access_flags;
+//     } *classes;
+// } innerClasses_attribute;
+
+// typedef struct lineNumberTable_attribute
+// {
+//     u2 attribute_name_index;
+//     u4 attribute_length;
+//     u2 line_number_table_length;
+//     struct
+//     {
+//         u2 start_pc;
+//         u2 line_number;
+//     } *line_number_table;
+// } lineNumberTable_attribute;
+
+// typedef struct localVariableTable_attribute
+// {
+//     u2 attribute_name_index;
+//     u4 attribute_length;
+//     u2 local_variable_table_length;
+//     struct
+//     {
+//         u2 start_pc;
+//         u2 length;
+//         u2 name_index;
+//         u2 descriptor_index;
+//         u2 index;
+//     } *local_variable_table;
+// } localVariableTable_attribute;
+
+
+// typedef struct sourceFile_attribute
+// {
+//     u2 attribute_name_index;
+//     u4 attribute_length;
+//     u2 sourcefile_index;
+// } sourceFile_attribute;
 
 enum tagswitch
 {
