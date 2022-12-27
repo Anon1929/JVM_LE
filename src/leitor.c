@@ -94,6 +94,32 @@ void readCpinfo(cp_info* cp, FILE *fd)
     default:
         break;
     }
-    
-        
+}
+
+//lendo field_info
+void readField_info(field_info* fi)
+{
+    fi->access_flags = u2Read(fd);
+    fi->name_index = u2Read(fd);
+    fi->descriptor_index = u2Read(fd);
+    fi->attributes_count = u2Read(fd);
+    //fi->attributes
+}
+
+//lendo method_info
+void readMethod_info(method_info* mi)
+{
+    mi->access_flags = u2Read(fd);
+    mi->name_index = u2Read(fd);
+    mi->descriptor_index = u2Read(fd);
+    mi->attributes_count = u2Read(fd);
+    //mi->attributes
+}
+
+//lendo attribute_info
+void readAttribute_info(attribute_info* ai)
+{
+    ai->attribute_name_index = u2Read(fd);
+    ai->attribute_length = u4Read(fd);
+    //ai->info
 }

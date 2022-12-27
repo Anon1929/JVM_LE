@@ -105,6 +105,7 @@ typedef struct field_info
     u2 attributes_count;
     attribute_info *attributes;
 } field_info;
+
 typedef struct method_info
 {
     u2 access_flags;
