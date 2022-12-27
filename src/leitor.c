@@ -103,7 +103,11 @@ void readField_info(field_info* fi)
     fi->name_index = u2Read(fd);
     fi->descriptor_index = u2Read(fd);
     fi->attributes_count = u2Read(fd);
-    //fi->attributes
+    fi->attributes = (attribute_info *)malloc(fi->attributes_count * sizeof(attribute_info));
+//    for (int i = 0; i < fi->attributes_count; i++)
+//    {
+//        fi->attributes[i] =
+//    }
 }
 
 //lendo method_info
@@ -113,7 +117,11 @@ void readMethod_info(method_info* mi)
     mi->name_index = u2Read(fd);
     mi->descriptor_index = u2Read(fd);
     mi->attributes_count = u2Read(fd);
-    //mi->attributes
+    mi->attributes = (attribute_info *)malloc(mi->attributes_count * sizeof(attribute_info));
+//    for (int i = 0; i < mi->attributes_count; i++)
+//    {
+//        mi->attributes[i] =
+//    }
 }
 
 //lendo attribute_info
@@ -121,5 +129,9 @@ void readAttribute_info(attribute_info* ai)
 {
     ai->attribute_name_index = u2Read(fd);
     ai->attribute_length = u4Read(fd);
-    //ai->info
+    ai->info = (u1 *)malloc(ai->attribute_length * sizeof(u1));
+    for (int i = 0; i < ai->attribute_length; i++)
+    {
+        ai->info[i] = u1Read(fd);
+    }
 }
