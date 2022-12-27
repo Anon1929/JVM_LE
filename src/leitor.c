@@ -97,7 +97,7 @@ void readCpinfo(cp_info* cp, FILE *fd)
 }
 
 //lendo field_info
-void readField_info(field_info* fi)
+void readField_info(field_info* fi, FILE* fd)
 {
     fi->access_flags = u2Read(fd);
     fi->name_index = u2Read(fd);
@@ -111,7 +111,7 @@ void readField_info(field_info* fi)
 }
 
 //lendo method_info
-void readMethod_info(method_info* mi)
+void readMethod_info(method_info* mi, FILE* fd)
 {
     mi->access_flags = u2Read(fd);
     mi->name_index = u2Read(fd);
@@ -125,7 +125,7 @@ void readMethod_info(method_info* mi)
 }
 
 //lendo attribute_info
-void readAttribute_info(attribute_info* ai)
+void readAttribute_info(attribute_info* ai, FILE* fd)
 {
     ai->attribute_name_index = u2Read(fd);
     ai->attribute_length = u4Read(fd);
@@ -136,7 +136,7 @@ void readAttribute_info(attribute_info* ai)
     }
 }
 
-void readAttribute_code(code_attribute* ca)
+void readAttribute_code(code_attribute* ca, FILE* fd)
 {
     ca->attribute_name_index = u2Read(fd);
     ca->attribute_length = u4Read(fd);
@@ -165,13 +165,13 @@ void readAttribute_code(code_attribute* ca)
 //    }
 }
 
-void readAttribute_deprecated(deprecated_attribute* da)
+void readAttribute_deprecated(deprecated_attribute* da, FILE* fd)
 {
     da->attribute_name_index = u2Read(fd);
     da->attribute_length = u4Read(fd);
 }
 
-void readAttribute_exceptions(exceptions_attribute* ea)
+void readAttribute_exceptions(exceptions_attribute* ea, FILE* fd)
 {
     ea->attribute_name_index = u2Read(fd);
     ea->attribute_length = u4Read(fd);
@@ -183,7 +183,7 @@ void readAttribute_exceptions(exceptions_attribute* ea)
     }
 }
 
-void readAttribute_innerClasses(innerClasses_attribute* ica)
+void readAttribute_innerClasses(innerClasses_attribute* ica, FILE* fd)
 {
     ica->attribute_name_index = u2Read(fd);
     ica->attribute_length = u4Read(fd);
@@ -198,7 +198,7 @@ void readAttribute_innerClasses(innerClasses_attribute* ica)
     }
 }
 
-void readAttribute_lineNumberTable(lineNumberTable_attribute* lnta)
+void readAttribute_lineNumberTable(lineNumberTable_attribute* lnta, FILE* fd)
 {
     lnta->attribute_name_index = u2Read(fd);
     lnta->attribute_length = u4Read(fd);
@@ -211,7 +211,7 @@ void readAttribute_lineNumberTable(lineNumberTable_attribute* lnta)
     }
 }
 
-void readAttribute_localVariableTable(localVariableTable_attribute* lvta)
+void readAttribute_localVariableTable(localVariableTable_attribute* lvta, FILE* fd)
 {
     lvta->attribute_name_index = u2Read(fd);
     lvta->attribute_length = u4Read(fd);
@@ -227,7 +227,7 @@ void readAttribute_localVariableTable(localVariableTable_attribute* lvta)
     }
 }
 
-void readAttribute_sourceFile(sourceFile_attribute* sfa)
+void readAttribute_sourceFile(sourceFile_attribute* sfa, FILE* fd)
 {
     sfa->attribute_name_index = u2Read(fd);
     sfa->attribute_length = u4Read(fd);
