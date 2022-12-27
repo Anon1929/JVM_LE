@@ -3,13 +3,13 @@
 #include <stdlib.h>
 #include "classfile.h"
 
-//abrindo arquivo .class
+// abrindo arquivo .class
 static FILE *openFile(char *path)
 {
     FILE *fd = fopen(path, "rb");
     return fd;
 }
-//lendo u1, u2, u4 e u8
+// lendo u1, u2, u4 e u8
 static u1 u1Read(FILE *fd)
 {
     u1 toReturn = getc(fd);
@@ -41,8 +41,8 @@ static u8 u8Read(FILE *fd)
     toReturn = (toReturn << 8) | (getc(fd));
     return toReturn;
 }
-//lendo cp_info
-void readCpinfo(cp_info* cp, FILE *fd)
+// lendo cp_info
+void readCpinfo(cp_info *cp, FILE *fd)
 {
     cp->tag = u1Read(fd);
     switch (cp->tag)
@@ -95,37 +95,36 @@ void readCpinfo(cp_info* cp, FILE *fd)
         break;
     }
 }
-
-//lendo field_info
-void readField_info(field_info* fi)
+// lendo field_info
+void readField_info(field_info *fi, FILE *fd)
 {
     fi->access_flags = u2Read(fd);
     fi->name_index = u2Read(fd);
     fi->descriptor_index = u2Read(fd);
     fi->attributes_count = u2Read(fd);
     fi->attributes = (attribute_info *)malloc(fi->attributes_count * sizeof(attribute_info));
-//    for (int i = 0; i < fi->attributes_count; i++)
-//    {
-//        fi->attributes[i] =
-//    }
+    for (int i = 0; i < fi->attributes_count; i++)
+    {
+        readAttribute_info(&fi->attributes[i], fd);
+    }
 }
 
-//lendo method_info
-void readMethod_info(method_info* mi)
+// lendo method_info
+void readMethod_info(method_info *mi, FILE *fd)
 {
     mi->access_flags = u2Read(fd);
     mi->name_index = u2Read(fd);
     mi->descriptor_index = u2Read(fd);
     mi->attributes_count = u2Read(fd);
     mi->attributes = (attribute_info *)malloc(mi->attributes_count * sizeof(attribute_info));
-//    for (int i = 0; i < mi->attributes_count; i++)
-//    {
-//        mi->attributes[i] =
-//    }
+    for (int i = 0; i < mi->attributes_count; i++)
+    {
+        readAttribute_info(&mi->attributes[i], fd);
+    }
 }
 
-//lendo attribute_info
-void readAttribute_info(attribute_info* ai)
+// lendo attribute_info
+void readAttribute_info(attribute_info *ai, FILE *fd)
 {
     ai->attribute_name_index = u2Read(fd);
     ai->attribute_length = u4Read(fd);
@@ -133,5 +132,46 @@ void readAttribute_info(attribute_info* ai)
     for (int i = 0; i < ai->attribute_length; i++)
     {
         ai->info[i] = u1Read(fd);
+    }
+}
+
+// lendo class_file
+void readClassfile(Classfile *cf, FILE *fd)
+{
+    cf->magic = u4Read(fd);
+    cf->minor_version = u2Read(fd);
+    cf->major_version = u2Read(fd);
+    cf->constant_pool_count = u2Read(fd);
+    cf->constant_pool = (cp_info *)malloc(cf->constant_pool_count * sizeof(cp_info));
+    for (int i = 1; i < cf->constant_pool_count; i++)
+    {
+        readCpinfo(&cf->constant_pool[i], fd);
+    }
+    cf->access_flags = u2Read(fd);
+    cf->this_class = u2Read(fd);
+    cf->super_class = u2Read(fd);
+    cf->interfaces_count = u2Read(fd);
+    cf->interfaces = (u2 *)malloc(cf->interfaces_count * sizeof(u2));
+    for (int i = 0; i < cf->interfaces_count; i++)
+    {
+        readClassinfo(&cf->constant_pool[i], fd);
+    }
+    cf->fields_count = u2Read(fd);
+    cf->fields = (field_info *)malloc(cf->fields_count * sizeof(field_info));
+    for (int i = 0; i < cf->fields_count; i++)
+    {
+        readField_info(&cf->fields[i], fd);
+    }
+    cf->methods_count = u2Read(fd);
+    cf->methods = (method_info *)malloc(cf->methods_count * sizeof(method_info));
+    for (int i = 0; i < cf->methods_count; i++)
+    {
+        readMethod_info(&cf->methods[i], fd);
+    }
+    cf->attributes_count = u2Read(fd);
+    cf->attributes = (attribute_info *)malloc(cf->attributes_count * sizeof(attribute_info));
+    for (int i = 0; i < cf->attributes_count; i++)
+    {
+        readAttribute_info(&cf->attributes[i], fd);
     }
 }
