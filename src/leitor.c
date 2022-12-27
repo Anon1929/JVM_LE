@@ -135,3 +135,101 @@ void readAttribute_info(attribute_info* ai)
         ai->info[i] = u1Read(fd);
     }
 }
+
+void readAttribute_code(code_attribute* ca)
+{
+    ca->attribute_name_index = u2Read(fd);
+    ca->attribute_length = u4Read(fd);
+    ca->max_stack = u2Read(fd);
+    ca->max_locals = u2Read(fd);
+    ca->code_length = u4Read(fd);
+    ca->code = (u1 *)malloc(ca->code_length * sizeof(u1));
+    for (int i = 0; i < ca->code_length; i++)
+    {
+        ca->code[i] = u1Read(fd);
+    }
+    ca->exception_table_length = u2Read(fd);
+    ca->exception_table = (exception_table *)malloc(ca->exception_table_length * sizeof(exception_table));
+    for (int i = 0; i < ca->exception_table_length; i++)
+    {
+        ca->exception_table[i].start_pc = u2Read(fd);
+        ca->exception_table[i].end_pc = u2Read(fd);
+        ca->exception_table[i].handler_pc = u2Read(fd);
+        ca->exception_table[i].catch_type = u2Read(fd);
+    }
+    ca->attributes_count = u2Read(fd);
+    ca->attributes = (attribute_info *)malloc(ca->attributes_count * sizeof(attribute_info));
+//    for (int i = 0; i < ca->attributes_count; i++)
+//    {
+//        ca->attributes[i] =;
+//    }
+}
+
+void readAttribute_deprecated(deprecated_attribute* da)
+{
+    da->attribute_name_index = u2Read(fd);
+    da->attribute_length = u4Read(fd);
+}
+
+void readAttribute_exceptions(exceptions_attribute* ea)
+{
+    ea->attribute_name_index = u2Read(fd);
+    ea->attribute_length = u4Read(fd);
+    ea->number_of_exceptions = u2Read(fd);
+    ea->exception_index_table = (u2 *)malloc(ea->number_of_exceptions * sizeof(u2));
+    for (int i = 0; i < ea->number_of_exceptions; i++)
+    {
+        ea->exception_index_table[i] = u2Read(fd);
+    }
+}
+
+void readAttribute_innerClasses(innerClasses_attribute* ica)
+{
+    ica->attribute_name_index = u2Read(fd);
+    ica->attribute_length = u4Read(fd);
+    ica->number_of_classes = u2Read(fd);
+    ica->classes = (classes *)malloc(ica->number_of_classes * sizeof(classes));
+    for (int i = 0; i < ica->number_of_classes; i++)
+    {
+        ica->classes[i].inner_class_info_index = u2Read(fd);
+        ica->classes[i].outer_class_info_index = u2Read(fd);
+        ica->classes[i].inner_name_index = u2Read(fd);
+        ica->classes[i].inner_class_access_flags = u2Read(fd);
+    }
+}
+
+void readAttribute_lineNumberTable(lineNumberTable_attribute* lnta)
+{
+    lnta->attribute_name_index = u2Read(fd);
+    lnta->attribute_length = u4Read(fd);
+    lnta->line_number_table_length = u2Read(fd);
+    lnta->line_number_table = (line_number_table *)malloc(lnta->line_number_table_length * sizeof(line_number_table));
+    for (int i = 0; i < lnta->line_number_table_length; i++)
+    {
+        lnta->line_number_table[i].start_pc = u2Read(fd);
+        lnta->line_number_table[i].line_number = u2Read(fd);
+    }
+}
+
+void readAttribute_localVariableTable(localVariableTable_attribute* lvta)
+{
+    lvta->attribute_name_index = u2Read(fd);
+    lvta->attribute_length = u4Read(fd);
+    lvta->local_variable_table_length = u2Read(fd);
+    lvta->local_variable_table = (local_variable_table *)malloc(lvta->local_variable_table_length * sizeof(local_variable_table));
+    for (int i = 0; i < lvta->local_variable_table_length; i++)
+    {
+        lvta->local_variable_table[i].start_pc = u2Read(fd);
+        lvta->local_variable_table[i].length = u2Read(fd);
+        lvta->local_variable_table[i].name_index = u2Read(fd);
+        lvta->local_variable_table[i].descriptor_index = u2Read(fd);
+        lvta->local_variable_table[i].index = u2Read(fd);
+    }
+}
+
+void readAttribute_sourceFile(sourceFile_attribute* sfa)
+{
+    sfa->attribute_name_index = u2Read(fd);
+    sfa->attribute_length = u4Read(fd);
+    sfa->sourcefile_index = u2Read(fd);
+}
