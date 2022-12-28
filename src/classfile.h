@@ -113,6 +113,8 @@ typedef struct method_info
     u2 descriptor_index;
     u2 attributes_count;
     attribute_info *attributes;
+    Code_attribute *code_attribute; //um ponteiro para uma struct Code_attribute será que referencia assim??
+
 
 } method_info;
 
@@ -125,13 +127,7 @@ typedef struct Code_attribute
     u4 code_length;
     u1 *code;
     u2 exception_table_length;
-    struct
-    {
-        u2 start_pc;
-        u2 end_pc;
-        u2 handler_pc;
-        u2 catch_type;
-    } *exception_table;
+    exception_table *exception_table; //ponteiro para uma struct exception_table
     u2 attributes_count;
     attribute_info *attributes;
 } Code_attribute;
