@@ -69,13 +69,7 @@ typedef struct cp_info
 
 } cp_info;
 
-typedef struct attribute_info
-{
-    u2 attribute_name_index;
-    u4 attribute_length;
-    u1 *info;
-
-} attribute_info;
+struct attribute_info;
 
 typedef struct exception_table
 {
@@ -97,7 +91,7 @@ typedef struct Code_attribute
     u2 exception_table_length;
     exception_table *exception_table; //ponteiro para uma struct exception_table?
     u2 attributes_count;
-    attribute_info *attributes;
+    struct attribute_info *attributes;
 
 } Code_attribute;
 
@@ -127,6 +121,23 @@ typedef struct InnerClasses_attribute
     classes *classes;
 
 } InnerClasses_attribute;
+
+
+typedef struct attribute_info
+{
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u1 *info;
+    union {
+        u2 ConstantValue;
+        Code_attribute Code;
+        Exceptions_attribute Exception;
+        InnerClasses_attribute InnerClass;
+
+        
+    }attr_info_union;
+
+} attribute_info;
 
 typedef struct field_info
 {
@@ -184,7 +195,6 @@ typedef struct Classfile
     method_info *methods;
     u2 attributes_count;
     attribute_info *attributes;
-    InnerClasses_attribute *inner_classes_attribute;
 
 } Classfile;
 

@@ -137,6 +137,12 @@ void readAttribute_info(attribute_info* ai, FILE* fd)
     {
         ai->info[i] = u1Read(fd);
     }
+    /*
+    
+    Comparar strings 
+    e fazer leitura de acordo
+    
+    */
       
 }
 
@@ -214,7 +220,6 @@ void readClassfile(Classfile *cf, FILE *fd)
 
 void readFile(Classfile * cf, char *nome){
     FILE * arquivo = openFile(nome);
-
-
+    readClassfile(cf,arquivo);
 
 }

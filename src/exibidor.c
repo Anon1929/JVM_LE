@@ -1,6 +1,19 @@
 #include "exibidor.h"
+#include "classfile.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+char *translateUTF8(cp_info * cp){
+    char *string_final = (char *)malloc((cp->cp_info_union.utf_8_info.length +1)*sizeof(char));
+    u1 * temp = cp->cp_info_union.utf_8_info.bytes;
+    for(;temp < cp->cp_info_union.utf_8_info.bytes + cp->cp_info_union.utf_8_info.length; temp++){
+        *string_final = (char )* temp;
+        string_final++;
+    }
+    return string_final;
+}
+
+
 void printClassfile(Classfile *classfile)
 {
     printf("Magic: %x", classfile->magic);

@@ -8,4 +8,6 @@ void printField_info(field_info *);
 void printMethod_info(method_info *);
 void printAttribute_info(attribute_info *);
 
+char *translateUTF8(cp_info *);
+
 #endif 
