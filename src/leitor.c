@@ -7,6 +7,9 @@
 static FILE *openFile(char *path)
 {
     FILE *fd = fopen(path, "rb");
+    if(!fd){
+        printf("Arquivo não encontrado\n");
+    }
     return fd;
 }
 // lendo u1, u2, u4 e u8
@@ -207,4 +210,11 @@ void readClassfile(Classfile *cf, FILE *fd)
     {
         readAttribute_info(&cf->attributes[i], fd);
     }
+}
+
+void readFile(Classfile * cf, char *nome){
+    FILE * arquivo = openFile(nome);
+
+
+
 }
