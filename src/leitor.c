@@ -152,7 +152,7 @@ void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp)
 
     if(ai->attribute_length > 0){
         char * string_comp;
-        string_comp = translateUTF8(cp + ai->attribute_name_index - 1);
+        string_comp = decodeUTF8(cp + ai->attribute_name_index - 1);
         if(strcmp(string_comp, "Code")==0){
             //ai->
         }
@@ -166,8 +166,6 @@ void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp)
         else if (strcmp(string_comp, "Exceptions") == 0){
             //
         }
-
-
 
     }
 

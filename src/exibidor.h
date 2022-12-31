@@ -8,6 +8,7 @@ void printField_info(field_info *);
 void printMethod_info(method_info *);
 void printAttribute_info(attribute_info *);
 
-char *translateUTF8(cp_info *);
+char *decodeUTF8(cp_info *);
 char *decodeAccFlags(u2);
+char *decodeClassInfo(cp_info* cp,int classnumber);
 #endif 

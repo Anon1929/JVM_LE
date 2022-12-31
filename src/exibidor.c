@@ -4,15 +4,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *translateUTF8(cp_info * cp){
-    char *string_final = (char *)malloc((cp->cp_info_union.utf_8_info.length +1)*sizeof(char));
+char *decodeUTF8(cp_info * cp){
+    int compr = cp->cp_info_union.utf_8_info.length;
+    char *string_final = (char *)malloc((compr +1)*sizeof(char));
     u1 * temp = cp->cp_info_union.utf_8_info.bytes;
-    for(;temp < cp->cp_info_union.utf_8_info.bytes + cp->cp_info_union.utf_8_info.length; temp++){
-        *string_final = (char )* temp;
-        string_final++;
+    for(int i=0;i<+compr; i++){
+        *(string_final+i*sizeof(char)) = (char )*temp;
+        temp++;
     }
     return string_final;
 }
+
+char * decodeClassInfo(cp_info* cp,int classnumber){
+    int utflocal = (cp+classnumber)->cp_info_union.class_info.name_index;
+    char * stringfinal;
+    stringfinal = decodeUTF8(cp+utflocal);
+    return stringfinal;
+}
+
 
 char *decodeAccFlags(u2 flag){
     char *decode = malloc(sizeof(char)*100);
@@ -63,13 +72,12 @@ void printClassfile(Classfile *classfile)
     //     printCpinfo(&classfile->constant_pool[i]);
     // }
     //Acho que não precisa imprimir o constant pool diretamente
-    printf("%x\n",classfile->access_flags);
-    printf("Access flags: %s\n", decodeAccFlags(classfile->access_flags));
+    printf("Access flags: %d (%s)\n", classfile->access_flags , decodeAccFlags(classfile->access_flags));
 
+    printf("This class: %d <%s>\n", classfile->this_class, decodeClassInfo(classfile->constant_pool,classfile->this_class));
+    printf("This class: %d <%s>\n", classfile->super_class, decodeClassInfo(classfile->constant_pool,classfile->super_class));
+    printf("Interfaces count: %d\n", classfile->interfaces_count);
     /*
-    printf("This class: %d", classfile->this_class);
-    printf("Super class: %d", classfile->super_class);
-    printf("Interfaces count: %d", classfile->interfaces_count);
     // for (int i = 0; i < classfile->interfaces_count; i++)
     // {
     //     printf("Interfaces: %d", classfile->[i]);
