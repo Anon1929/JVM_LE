@@ -117,11 +117,11 @@ void readMethod_info(method_info *mi, FILE *fd)
     mi->name_index = u2Read(fd);
     mi->descriptor_index = u2Read(fd);
     mi->attributes_count = u2Read(fd);
-    mi->attributes = (attribute_info *)malloc(mi->attributes_count * sizeof(attribute_info));
+ /*   mi->attributes = (attribute_info *)malloc(mi->attributes_count * sizeof(attribute_info));
     for (int i = 0; i < mi->attributes_count; i++)
     {
         readAttribute_info(&mi->attributes[i], fd);
-    }
+    } */
 }
 
 //lendo attribute_info

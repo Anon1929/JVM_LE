@@ -1,5 +1,6 @@
 #include "exibidor.h"
-
+#include <stdio.h>
+#include <stdlib.h>
 void printClassfile(Classfile *classfile)
 {
     printf("Magic: %x", classfile->magic);
@@ -58,7 +59,7 @@ void printClassfile(Classfile *classfile)
     printf("Attributes count: %d", classfile->attributes_count);
     for (int i = 0; i < classfile->attributes_count; i++)
     {
-        printAttribute_info(&classfile->attributes[i]);
+   //     printAttribute_info(&classfile->attributes[i]);
     }
     
 
@@ -85,7 +86,7 @@ void printMethod_info(method_info *method)
     printf("Attributes count: %d", method->attributes_count);
     for (int i = 0; i < method->attributes_count; i++)
     {
-        printAttribute_info(&method->attributes[i]);
+    //    printAttribute_info(&method->attributes[i]);
     }
 }
 void printAttribute_info(attribute_info *attribute)
@@ -144,12 +145,4 @@ void printCpinfo(cp_info *cpinfo)
     }
     
 
-}
-
-int main(int argc, char *argv[])
-{
-    Classfile *classfile = (Classfile *)malloc(sizeof(Classfile));
-    readClassfile(classfile);
-    printClassfile(classfile);
-    return 0;
 }
