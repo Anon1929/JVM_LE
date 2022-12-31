@@ -2,6 +2,7 @@
 #include "classfile.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 char *translateUTF8(cp_info * cp){
     char *string_final = (char *)malloc((cp->cp_info_union.utf_8_info.length +1)*sizeof(char));
@@ -13,44 +14,59 @@ char *translateUTF8(cp_info * cp){
     return string_final;
 }
 
+char *decodeAccFlags(u2 flag){
+    char *decode = malloc(sizeof(char)*100);
+    if(flag & 0x0001){
+        strcat(decode,"Public, ");
+    }
+    if(flag & 0x0010){
+        strcat(decode,"Final, ");
+    }
+    if(flag & 0x0020){
+        strcat(decode,"Super, ");
+    }
+    if(flag & 0x0200){
+        strcat(decode,"Interface, ");
+    }
+    if(flag & 0x0400){
+        strcat(decode,"Abstract, ");
+    }
+    if(flag & 0x1000){
+        strcat(decode,"Synthetic, ");
+    }
+    if(flag & 0x2000){
+        strcat(decode,"Annotation, ");
+    }
+    if(flag & 0x4000){
+        strcat(decode,"Enum, ");
+    }
+    
+    return decode;
+}
+
+
+
+
+
+
 
 void printClassfile(Classfile *classfile)
 {
-    printf("Magic: %x", classfile->magic);
-    printf("Minor version: %d", classfile->minor_version);
-    printf("Major version: %d", classfile->major_version);
-    printf("Constant pool count: %d", classfile->constant_pool_count);
+    printf("Magic: %x\n", classfile->magic);
+    printf("Minor version: %d\n", classfile->minor_version);
+    printf("Major version: %d\n", classfile->major_version);
+    printf("Constant pool count: %d\n", classfile->constant_pool_count);
+
+
     // for (int i = 1; i < classfile->constant_pool_count; i++)
     // {
     //     printCpinfo(&classfile->constant_pool[i]);
     // }
     //Acho que não precisa imprimir o constant pool diretamente
-    switch(classfile->access_flags){
-        case 0x0001:
-            printf("Access flags: public");
-            break;
-        case 0x0010:
-            printf("Access flags: final");
-            break;
-        case 0x0020:
-            printf("Access flags: super");
-            break;
-        case 0x0200:
-            printf("Access flags: interface");
-            break;
-        case 0x0400:
-            printf("Access flags: abstract");
-            break;
-        case 0x1000:
-            printf("Access flags: synthetic");
-            break;
-        case 0x2000:
-            printf("Access flags: annotation");
-            break;
-        case 0x4000:
-            printf("Access flags: enum");
-            break;
-    }
+    printf("%x\n",classfile->access_flags);
+    printf("Access flags: %s\n", decodeAccFlags(classfile->access_flags));
+
+    /*
     printf("This class: %d", classfile->this_class);
     printf("Super class: %d", classfile->super_class);
     printf("Interfaces count: %d", classfile->interfaces_count);
@@ -78,7 +94,7 @@ void printClassfile(Classfile *classfile)
 
 
 
-    
+    */
 }
 void printField_info(field_info *field)
 {

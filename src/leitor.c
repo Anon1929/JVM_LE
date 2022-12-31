@@ -1,6 +1,8 @@
 #include "leitor.h"
+#include "exibidor.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h> 
 #include "classfile.h"
 
 // abrindo arquivo .class
@@ -100,7 +102,7 @@ void readCpinfo(cp_info *cp, FILE *fd)
 }
 
 //lendo field_info
-void readField_info(field_info* fi, FILE* fd)
+void readField_info(field_info* fi, FILE* fd,cp_info* cp)
 {
     fi->access_flags = u2Read(fd);
     fi->name_index = u2Read(fd);
@@ -109,12 +111,12 @@ void readField_info(field_info* fi, FILE* fd)
     fi->attributes = (attribute_info *)malloc(fi->attributes_count * sizeof(attribute_info));
     for (int i = 0; i < fi->attributes_count; i++)
     {
-        readAttribute_info(&fi->attributes[i], fd);
+        readAttribute_info(&fi->attributes[i], fd,cp);
     }
 }
 
 // lendo method_info
-void readMethod_info(method_info *mi, FILE *fd)
+void readMethod_info(method_info *mi, FILE *fd,cp_info* cp)
 {
     mi->access_flags = u2Read(fd);
     mi->name_index = u2Read(fd);
@@ -123,32 +125,59 @@ void readMethod_info(method_info *mi, FILE *fd)
  /*   mi->attributes = (attribute_info *)malloc(mi->attributes_count * sizeof(attribute_info));
     for (int i = 0; i < mi->attributes_count; i++)
     {
-        readAttribute_info(&mi->attributes[i], fd);
+        readAttribute_info(&mi->attributes[i], fd,cp);
     } */
 }
 
 //lendo attribute_info
-void readAttribute_info(attribute_info* ai, FILE* fd)
+void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp)
 {
     ai->attribute_name_index = u2Read(fd);
     ai->attribute_length = u4Read(fd);
+    /*
     ai->info = (u1 *)malloc(ai->attribute_length * sizeof(u1));
     for (int i = 0; i < ai->attribute_length; i++)
     {
         ai->info[i] = u1Read(fd);
-    }
-    /*
-    
+    }          
+    /*         //leitura direta
+
+    // Solução por union   |
+                           V
+
     Comparar strings 
     e fazer leitura de acordo
     
     */
+
+    if(ai->attribute_length > 0){
+        char * string_comp;
+        string_comp = translateUTF8(cp + ai->attribute_name_index - 1);
+        if(strcmp(string_comp, "Code")==0){
+            //ai->
+        }
+        else if (strcmp(string_comp, "InnerClasses") == 0){
+            //innrt
+        }
+        else if (strcmp(string_comp, "ConstantValue") == 0){
+            ai->attr_info_union.ConstantValue = u2Read(fd);
+
+        }
+        else if (strcmp(string_comp, "Exceptions") == 0){
+            //
+        }
+
+
+
+    }
+
+
       
 }
 
 //atributo code
 //utilizado em estrutura method_info
-void readAttribute_code(Code_attribute* ca, FILE* fd)
+void readAttribute_code(Code_attribute* ca, FILE* fd,cp_info* cp)
 {
     ca->attribute_name_index = u2Read(fd);
     ca->attribute_length = u4Read(fd);
@@ -173,7 +202,7 @@ void readAttribute_code(Code_attribute* ca, FILE* fd)
     ca->attributes = (attribute_info *)malloc(ca->attributes_count * sizeof(attribute_info));
     for (int i = 0; i < ca->attributes_count; i++)
     {
-        readAttribute_info(&ca->attributes[i], fd);
+        readAttribute_info(&ca->attributes[i], fd,cp);
     }
 }
 
@@ -202,19 +231,19 @@ void readClassfile(Classfile *cf, FILE *fd)
     cf->fields = (field_info *)malloc(cf->fields_count * sizeof(field_info));
     for (int i = 0; i < cf->fields_count; i++)
     {
-        readField_info(&cf->fields[i], fd);
+        readField_info(&cf->fields[i], fd, cf->constant_pool);
     }
     cf->methods_count = u2Read(fd);
     cf->methods = (method_info *)malloc(cf->methods_count * sizeof(method_info));
     for (int i = 0; i < cf->methods_count; i++)
     {
-        readMethod_info(&cf->methods[i], fd);
+        readMethod_info(&cf->methods[i], fd,cf->constant_pool);
     }
     cf->attributes_count = u2Read(fd);
     cf->attributes = (attribute_info *)malloc(cf->attributes_count * sizeof(attribute_info));
     for (int i = 0; i < cf->attributes_count; i++)
     {
-        readAttribute_info(&cf->attributes[i], fd);
+        readAttribute_info(&cf->attributes[i], fd,cf->constant_pool);
     }
 }
 
