@@ -2,39 +2,10 @@
 #ifndef CLASSFILEH
 #define CLASSFILEH
 
-/*
-Classfile {
-    u4             magic;
-    u2             minor_version;
-    u2             major_version;
-    u2             constant_pool_count;
-    cp_info        constant_pool[constant_pool_count-1];
-    u2             access_flags;
-    u2             this_class;
-    u2             super_class;
-    u2             interfaces_count;
-    u2             interfaces[interfaces_count];
-    u2             fields_count;
-    field_info     fields[fields_count];
-    u2             methods_count;
-    method_info    methods[methods_count];
-    u2             attributes_count;
-    attribute_info attributes[attributes_count];
-}
-*/
-
 typedef unsigned char u1;
 typedef unsigned short u2;
 typedef unsigned int u4;
 typedef unsigned long u8;
-
-typedef struct attribute_info
-{
-    u2 attribute_name_index;
-    u4 attribute_length;
-    u1 *info;
-
-} attribute_info;
 
 typedef struct cp_info
 {
@@ -95,7 +66,67 @@ typedef struct cp_info
         } double_info;
 
     } cp_info_union;
+
 } cp_info;
+
+typedef struct attribute_info
+{
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u1 *info;
+
+} attribute_info;
+
+typedef struct exception_table
+{
+    u2 start_pc;
+    u2 end_pc;
+    u2 handler_pc;
+    u2 catch_type;
+
+} exception_table;
+
+typedef struct Code_attribute
+{
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u2 max_stack;
+    u2 max_locals;
+    u4 code_length;
+    u1 *code;
+    u2 exception_table_length;
+    exception_table *exception_table;
+    u2 attributes_count;
+    attribute_info *attributes;
+
+} Code_attribute;
+
+typedef struct Exceptions_attribute
+{
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u2 number_of_exceptions;
+    u2 *exception_index_table;
+
+} Exceptions_attribute;
+
+typedef struct classes
+{
+    u2 inner_class_info_index;
+    u2 outer_class_info_index;
+    u2 inner_name_index;
+    u2 inner_class_access_flags;
+
+} classes;
+
+typedef struct InnerClasses_attribute
+{
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u2 number_of_classes;
+    classes *classes;
+
+} InnerClasses_attribute;
 
 typedef struct field_info
 {
@@ -104,7 +135,9 @@ typedef struct field_info
     u2 descriptor_index;
     u2 attributes_count;
     attribute_info *attributes;
+
 } field_info;
+
 typedef struct method_info
 {
     u2 access_flags;
@@ -112,6 +145,8 @@ typedef struct method_info
     u2 descriptor_index;
     u2 attributes_count;
     attribute_info *attributes;
+    Code_attribute *code_attribute;
+    Exceptions_attribute *exceptions_attribute;
 
 } method_info;
 
@@ -151,6 +186,8 @@ typedef struct Classfile
     method_info *methods;
     u2 attributes_count;
     attribute_info *attributes;
+    InnerClasses_attribute *inner_classes_attribute;
+
 } Classfile;
 
 #endif
