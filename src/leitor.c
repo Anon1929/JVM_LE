@@ -134,6 +134,7 @@ void readAttribute_info(attribute_info* ai, FILE* fd)
     {
         ai->info[i] = u1Read(fd);
     }
+      
 }
 
 //atributo code

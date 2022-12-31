@@ -95,7 +95,7 @@ typedef struct Code_attribute
     u4 code_length;
     u1 *code;
     u2 exception_table_length;
-    exception_table *exception_table;
+    exception_table *exception_table; //ponteiro para uma struct exception_table?
     u2 attributes_count;
     attribute_info *attributes;
 
@@ -144,9 +144,7 @@ typedef struct method_info
     u2 name_index;
     u2 descriptor_index;
     u2 attributes_count;
-    attribute_info *attributes;
-    Code_attribute *code_attribute;
-    Exceptions_attribute *exceptions_attribute;
+    attribute_info **attributes;
 
 } method_info;
 
