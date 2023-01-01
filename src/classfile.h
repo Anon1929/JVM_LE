@@ -82,8 +82,6 @@ typedef struct exception_table
 
 typedef struct Code_attribute
 {
-    u2 attribute_name_index;
-    u4 attribute_length;
     u2 max_stack;
     u2 max_locals;
     u4 code_length;
@@ -97,8 +95,6 @@ typedef struct Code_attribute
 
 typedef struct Exceptions_attribute
 {
-    u2 attribute_name_index;
-    u4 attribute_length;
     u2 number_of_exceptions;
     u2 *exception_index_table;
 
@@ -115,8 +111,6 @@ typedef struct classes
 
 typedef struct InnerClasses_attribute
 {
-    u2 attribute_name_index;
-    u4 attribute_length;
     u2 number_of_classes;
     classes *classes;
 
@@ -144,7 +138,6 @@ typedef struct attribute_info
         InnerClasses_attribute InnerClass;
         u2 SourceFileindex;
         LineNumberTableAttr LineNumberTable_attr;
-        
 
     }attr_info_union;
 

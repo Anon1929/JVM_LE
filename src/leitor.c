@@ -158,6 +158,7 @@ void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp){
             readAttribute_code(&(ai->attr_info_union.Code),fd,cp);
         }
         else if (strcmp(string_comp, "InnerClasses") == 0){
+
             //innrt
         }
         else if (strcmp(string_comp, "ConstantValue") == 0){
@@ -170,15 +171,9 @@ void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp){
         else if (strcmp(string_comp, "SourceFile") == 0){
             ai->attr_info_union.SourceFileindex = u2Read(fd);
         }
-        
-        else if (strcmp(string_comp, "Exceptions") == 0){
-            //
-        }
 
         else if (strcmp(string_comp, "LineNumberTable") == 0){
             readAttrLineNumberTable(&(ai->attr_info_union.LineNumberTable_attr),fd);
-
-            //
         }
 
         else if (strcmp(string_comp, "LocalVariableTable") == 0){
@@ -200,6 +195,13 @@ void readAttrLineNumberTable(LineNumberTableAttr * ln , FILE* fd){
     }
 
 }
+
+void readAttrInnerClass(InnerClasses_attribute * ic, FILE* fd){
+    //ic->att
+
+}
+
+
 void readAttribute_code(Code_attribute* ca, FILE* fd,cp_info* cp)
 {
     ca->max_stack = u2Read(fd);
@@ -255,7 +257,6 @@ void readClassfile(Classfile *cf, FILE *fd)
         readField_info(&cf->fields[i], fd, cf->constant_pool);
     }
     cf->methods_count = u2Read(fd);
-    //printf("%d\n", cf->methods_count);
     cf->methods = (method_info *)malloc(cf->methods_count * sizeof(method_info));
     for (int i = 0; i < cf->methods_count; i++)
     {

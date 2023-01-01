@@ -131,6 +131,9 @@ void printMethod_info(method_info *method)
         //printAttribute_info(&method->attributes[i]);
 
     }
+
+
+
 }
 
 void printAttribute_info(attribute_info *attribute,cp_info *cp){
@@ -156,7 +159,7 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
     else if (strcmp(string_name, "SourceFile") == 0){
         printf("nice\n");
     }
-    /*
+    
     else if (strcmp(string_name, "Exceptions") == 0){
         //
     }
@@ -168,7 +171,7 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
     else if (strcmp(string_name, "LocalVariableTable") == 0){
         //
     }
-    */
+    
 
     }
 }
