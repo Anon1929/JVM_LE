@@ -11,7 +11,7 @@ int main(int argc,char * argv[]){
 
 
 		printf("Leitura Ok\n");
-		//printClassfile(&cf);
+		printClassfile(&cf);
 
 
 	}

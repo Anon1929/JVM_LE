@@ -26,28 +26,31 @@ char * decodeClassInfo(cp_info* cp,int classnumber){
 char *decodeAccFlags(u2 flag){
     char *decode = malloc(sizeof(char)*100);
     if(flag & 0x0001){
-        strcat(decode,"Public, ");
+        strcat(decode,"Public ");
+    }
+    if(flag & 0x0008){
+        strcat(decode,"Static ");
     }
     if(flag & 0x0010){
-        strcat(decode,"Final, ");
+        strcat(decode,"Final ");
     }
     if(flag & 0x0020){
-        strcat(decode,"Super, ");
+        strcat(decode,"Super ");
     }
     if(flag & 0x0200){
-        strcat(decode,"Interface, ");
+        strcat(decode,"Interface ");
     }
     if(flag & 0x0400){
-        strcat(decode,"Abstract, ");
+        strcat(decode,"Abstract ");
     }
     if(flag & 0x1000){
-        strcat(decode,"Synthetic, ");
+        strcat(decode,"Synthetic ");
     }
     if(flag & 0x2000){
-        strcat(decode,"Annotation, ");
+        strcat(decode,"Annotation ");
     }
     if(flag & 0x4000){
-        strcat(decode,"Enum, ");
+        strcat(decode,"Enum ");
     }
     
     return decode;
@@ -72,7 +75,7 @@ void printClassfile(Classfile *classfile)
     //     printCpinfo(&classfile->constant_pool[i]);
     // }
     //Acho que não precisa imprimir o constant pool diretamente
-    printf("Access flags: %d (%s)\n", classfile->access_flags , decodeAccFlags(classfile->access_flags));
+    printf("Access flags: %d [%s]\n", classfile->access_flags , decodeAccFlags(classfile->access_flags));
 
     printf("This class: %d <%s>\n", classfile->this_class, decodeClassInfo(classfile->constant_pool,classfile->this_class));
     printf("This class: %d <%s>\n", classfile->super_class, decodeClassInfo(classfile->constant_pool,classfile->super_class));
@@ -84,29 +87,45 @@ void printClassfile(Classfile *classfile)
     // }
     //Não sei onde estão as interfaces
 
+    printf("EXIBIÇÃO DE FIELDS\n");
+    printf("=========\n");
+
     printf("Fields count: %d\n", classfile->fields_count);
     /*
     for (int i = 0; i < classfile->fields_count; i++)
     {
         printField_info(&classfile->fields[i]);
+        printf("=========\n");
     }
     */
+    printf("FIM EXIBIÇÃO DE FIELDS\n");
+
+
+
+
     printf("Methods count: %d\n", classfile->methods_count);
+    printf("EXIBIÇÃO DE MÉTODOS\n");
     printf("=========\n");
     
     for (int i = 0; i < classfile->methods_count; i++)
     {
-        printMethod_info(&classfile->methods[i]);
+        printMethod_info(&classfile->methods[i],classfile->constant_pool);
+        printf("=========\n");
     }
+    printf("FIM EXIBIÇÃO DE MÉTODOS\n");
+    
+    
+    printf("EXIBIÇÃO DE ATRIBUTOS\n");
     printf("=========\n");
     
-
     printf("Attributes count: %d\n", classfile->attributes_count);
-    /*
+    
     for (int i = 0; i < classfile->attributes_count; i++){
         printAttribute_info(&classfile->attributes[i], classfile->constant_pool);
+        printf("=========\n");
     }
-    */
+
+    printf("FIM EXIBIÇÃO DE ATRIBUTOS\n");
 }
 void printField_info(field_info *field)
 {
@@ -119,11 +138,11 @@ void printField_info(field_info *field)
   //      printAttribute_info(&field->attributes[i]);
     }
 }
-void printMethod_info(method_info *method)
+void printMethod_info(method_info *method,cp_info *cp)
 {
-    printf("Access flags: %d\n", method->access_flags);
-    printf("Name index: %d\n", method->name_index);
-    printf("Descriptor index: %d\n", method->descriptor_index);
+    printf("Access flags: %x [%s]\n", method->access_flags, decodeAccFlags(method->access_flags));
+    printf("Name index: %d <%s>\n", method->name_index, decodeUTF8(cp + method->name_index));
+    printf("Descriptor index: %d <%s>\n", method->descriptor_index, decodeUTF8(cp + method->descriptor_index));
     printf("Attributes count: %d\n", method->attributes_count);
 
     for (int i = 0; i < method->attributes_count; i++)
@@ -137,10 +156,9 @@ void printMethod_info(method_info *method)
 }
 
 void printAttribute_info(attribute_info *attribute,cp_info *cp){
-    printf("Attribute name index: %d\n", attribute->attribute_name_index);
+    printf("Attribute name index: %d <%s> \n", attribute->attribute_name_index, decodeUTF8(cp + attribute->attribute_name_index));
     printf("Attribute length: %d\n", attribute->attribute_length);
     char * string_name;
-    for(int i = 0; i < attribute->attribute_length; i++){
 
     string_name = decodeUTF8(cp + attribute->attribute_name_index);
 
@@ -173,7 +191,7 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
     }
     
 
-    }
+    
 }
 void printCpinfo(cp_info *cpinfo)
 {
