@@ -19,6 +19,6 @@ void readFile(Classfile *,char *);
 void readAttrLineNumberTable(LineNumberTableAttr *, FILE*);
 void readAttrInnerClass(InnerClasses_attribute *, FILE*);
 void readAttrException(Exceptions_attribute *, FILE*);
-
+void readAttrLocalVariable(LocalVariableTableAttr *, FILE*);
 
 #endif 
