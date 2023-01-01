@@ -173,7 +173,7 @@ void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp){
             readAttrLineNumberTable(&(ai->attr_info_union.LineNumberTable_attr),fd);
         }
         else if (strcmp(string_comp, "LocalVariableTable") == 0){
-            //
+            readAttrLocalVariableTable(&(ai->attr_info_union.LocalVariableTable_attr),fd);
         }
         
     }
@@ -189,7 +189,20 @@ void readAttrLineNumberTable(LineNumberTableAttr * ln , FILE* fd){
         ln->line_number_table[i].start_pc = u2Read(fd);
         ln->line_number_table[i].line_number = u2Read(fd);
     }
+}
 
+void readAttrLocalVariableTable(LocalVariableTableAttr * lvt, FILE* fd)
+{
+    lvt->local_variable_table_length = u2Read(fd);
+    lvt->local_variable_table = (LocalVariableTable *)malloc(lvt->local_variable_table_length * sizeof(LocalVariableTable));
+    for (int i = 0; i < lvt->local_variable_table_length; i++)
+    {
+        lvt->local_variable_table[i].start_pc = u2Read(fd);
+        lvt->local_variable_table[i].length = u2Read(fd);
+        lvt->local_variable_table[i].name_index = u2Read(fd);
+        lvt->local_variable_table[i].descriptor_index = u2Read(fd);
+        lvt->local_variable_table[i].index = u2Read(fd);
+    }
 }
 
 void readAttrInnerClass(InnerClasses_attribute * ic, FILE* fd){

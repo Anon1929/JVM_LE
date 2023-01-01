@@ -126,6 +126,21 @@ typedef struct{
     LineNumberTable * line_number_table;
 }LineNumberTableAttr;
 
+typedef struct LocalVariableTable
+{
+    u2 start_pc;
+    u2 length;
+    u2 name_index;
+    u2 descriptor_index;
+    u2 index;
+} LocalVariableTable;
+
+typedef struct LocalVariableTableAttr
+{
+    u2 local_variable_table_length;
+    LocalVariableTable * local_variable_table;
+} LocalVariableTableAttr;
+
 typedef struct attribute_info
 {
     u2 attribute_name_index;
@@ -138,6 +153,7 @@ typedef struct attribute_info
         InnerClasses_attribute InnerClass;
         u2 SourceFileindex;
         LineNumberTableAttr LineNumberTable_attr;
+        LocalVariableTableAttr LocalVariableTable_attr;
 
     }attr_info_union;
 
