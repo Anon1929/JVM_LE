@@ -158,6 +158,7 @@ void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp){
             readAttribute_code(&(ai->attr_info_union.Code),fd,cp);
         }
         else if (strcmp(string_comp, "InnerClasses") == 0){
+            readAttrInnerClass(&(ai->attr_info_union.InnerClass),fd);
 
             //innrt
         }
@@ -197,8 +198,14 @@ void readAttrLineNumberTable(LineNumberTableAttr * ln , FILE* fd){
 }
 
 void readAttrInnerClass(InnerClasses_attribute * ic, FILE* fd){
-    //ic->att
-
+    ic->number_of_classes = u2Read(fd);
+    ic->classes = (classes *)malloc(ic->number_of_classes * sizeof(classes));
+    for (int i = 0;i<ic->number_of_classes;i++){
+        ic->classes[i].inner_class_info_index = u2Read(fd);
+        ic->classes[i].outer_class_info_index = u2Read(fd);
+        ic->classes[i].inner_name_index = u2Read(fd);
+        ic->classes[i].inner_class_access_flags = u2Read(fd);
+    }
 }
 
 
