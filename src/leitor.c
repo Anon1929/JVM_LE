@@ -159,24 +159,19 @@ void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp){
         }
         else if (strcmp(string_comp, "InnerClasses") == 0){
             readAttrInnerClass(&(ai->attr_info_union.InnerClass),fd);
-
-            //innrt
         }
         else if (strcmp(string_comp, "ConstantValue") == 0){
             ai->attr_info_union.ConstantValueindex = u2Read(fd);
-
         }
         else if (strcmp(string_comp, "Exceptions") == 0){
-            //
+            readAttrException(&(ai->attr_info_union.Exception),fd);
         }
         else if (strcmp(string_comp, "SourceFile") == 0){
             ai->attr_info_union.SourceFileindex = u2Read(fd);
         }
-
         else if (strcmp(string_comp, "LineNumberTable") == 0){
             readAttrLineNumberTable(&(ai->attr_info_union.LineNumberTable_attr),fd);
         }
-
         else if (strcmp(string_comp, "LocalVariableTable") == 0){
             //
         }
@@ -208,6 +203,13 @@ void readAttrInnerClass(InnerClasses_attribute * ic, FILE* fd){
     }
 }
 
+void readAttrException(Exceptions_attribute * exc, FILE* fd){
+    exc->number_of_exceptions = u2Read(fd);
+    exc->exception_index_table = (u2 *)malloc(exc->number_of_exceptions * sizeof(u2));
+    for (int i = 0;i<exc->number_of_exceptions;i++){
+        exc->exception_index_table[i] = u2Read(fd);
+    }
+}
 
 void readAttribute_code(Code_attribute* ca, FILE* fd,cp_info* cp)
 {
