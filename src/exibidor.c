@@ -91,13 +91,13 @@ void printClassfile(Classfile *classfile)
     printf("=========\n");
 
     printf("Fields count: %d\n", classfile->fields_count);
-    /*
+    
     for (int i = 0; i < classfile->fields_count; i++)
     {
-        printField_info(&classfile->fields[i]);
+        printField_info(&classfile->fields[i],classfile->constant_pool);
         printf("=========\n");
     }
-    */
+    
     printf("FIM EXIBIÇÃO DE FIELDS\n");
 
 
@@ -127,7 +127,7 @@ void printClassfile(Classfile *classfile)
 
     printf("FIM EXIBIÇÃO DE ATRIBUTOS\n");
 }
-void printField_info(field_info *field)
+void printField_info(field_info *field,cp_info * cp)
 {
     printf("Access flags: %d\n", field->access_flags);
     printf("Name index: %d\n", field->name_index);
@@ -135,27 +135,25 @@ void printField_info(field_info *field)
     printf("Attributes count: %d\n", field->attributes_count);
     for (int i = 0; i < field->attributes_count; i++)
     {
-  //      printAttribute_info(&field->attributes[i]);
+        printAttribute_info(field->attributes[i],cp);
     }
 }
 void printMethod_info(method_info *method,cp_info *cp)
 {
-    printf("Access flags: %x [%s]\n", method->access_flags, decodeAccFlags(method->access_flags));
+    printf("Access flags: %d [%s]\n", method->access_flags, decodeAccFlags(method->access_flags));
     printf("Name index: %d <%s>\n", method->name_index, decodeUTF8(cp + method->name_index));
     printf("Descriptor index: %d <%s>\n", method->descriptor_index, decodeUTF8(cp + method->descriptor_index));
     printf("Attributes count: %d\n", method->attributes_count);
 
     for (int i = 0; i < method->attributes_count; i++)
     {
-        //printAttribute_info(&method->attributes[i]);
+        printAttribute_info(method->attributes[i],cp);
 
     }
-
-
-
 }
 
 void printAttribute_info(attribute_info *attribute,cp_info *cp){
+    printf("\n");
     printf("Attribute name index: %d <%s> \n", attribute->attribute_name_index, decodeUTF8(cp + attribute->attribute_name_index));
     printf("Attribute length: %d\n", attribute->attribute_length);
     char * string_name;
@@ -163,36 +161,68 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
     string_name = decodeUTF8(cp + attribute->attribute_name_index);
 
     if(strcmp(string_name, "Code")==0){
-            //ai->
+
+        printCodeAttr(attribute->attr_info_union.Code, cp);
+
     }
     else if (strcmp(string_name, "InnerClasses") == 0){
             //innrt
     }
     else if (strcmp(string_name, "ConstantValue") == 0){
+        printf("Constant Value Index: %d <%s>\n", attribute->attr_info_union.ConstantValueindex, decodeUTF8(cp + attribute->attr_info_union.ConstantValueindex));
+
 
     }
     else if (strcmp(string_name, "Exceptions") == 0){
         //
     }
     else if (strcmp(string_name, "SourceFile") == 0){
-        printf("nice\n");
-    }
-    
-    else if (strcmp(string_name, "Exceptions") == 0){
-        //
+        printf("Source File Name Index: %d <%s>\n", attribute->attr_info_union.SourceFileindex, decodeUTF8(cp + attribute->attr_info_union.SourceFileindex));
     }
 
     else if (strcmp(string_name, "LineNumberTable") == 0){
-        //
+
+        printf("Line Number Table length: %d\n", attribute->attr_info_union.LineNumberTable_attr.line_number_table_length);
+        printf("start_pc\tline_number\n");
+        for(int i=0;i<attribute->attr_info_union.LineNumberTable_attr.line_number_table_length; i++){
+            int startpc = attribute->attr_info_union.LineNumberTable_attr.line_number_table[i].start_pc;
+            int linenumber = attribute->attr_info_union.LineNumberTable_attr.line_number_table[i].line_number;
+            printf("%d\t\t\t%d\n",startpc,linenumber);
+        }
+
     }
 
     else if (strcmp(string_name, "LocalVariableTable") == 0){
         //
     }
+
+    printf("\n");
     
 
     
 }
+
+void printCodeAttr(Code_attribute ca, cp_info * cp){
+    printf("Max Stack: %d\n", ca.max_stack);
+    printf("Max Locals: %d\n", ca.max_locals);
+    printf("Code Length: %d\n", ca.code_length);
+    // printCode
+    printf("Exception Table Length: %d\n", ca.exception_table_length);
+    // printExcepTable
+    printf("Attributes Count: %d\n", ca.attributes_count);
+
+    printf("PRINT ATRIBUTOS DE CODE\n");
+
+    for (int i = 0; i < ca.attributes_count; i++)
+    {
+        printAttribute_info(&ca.attributes[i],cp);
+
+    }
+
+}
+
+
+
 void printCpinfo(cp_info *cpinfo)
 {
     printf("Tag: %d\n", cpinfo->tag);
