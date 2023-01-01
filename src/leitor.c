@@ -108,10 +108,13 @@ void readField_info(field_info* fi, FILE* fd,cp_info* cp)
     fi->name_index = u2Read(fd);
     fi->descriptor_index = u2Read(fd);
     fi->attributes_count = u2Read(fd);
-    fi->attributes = (attribute_info **)malloc(fi->attributes_count * sizeof(attribute_info));
-    for (int i = 0; i < fi->attributes_count; i++)
-    {
-        //readAttribute_info(&fi->attributes[i], fd,cp);
+
+  if (fi->attributes_count > 0){
+        fi->attributes = (attribute_info **)malloc(fi->attributes_count * sizeof(attribute_info *));
+        for (int i = 0; i < fi->attributes_count; i++){
+            *(fi->attributes + i) = (attribute_info *) malloc(sizeof(attribute_info));
+            readAttribute_info(*(fi->attributes + i),fd, cp); 
+            }
     }
 }
 
@@ -151,7 +154,6 @@ void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp){
         char * string_comp;
         
         string_comp = decodeUTF8(cp + ai->attribute_name_index);
-        printf("%s\n",string_comp);
         if(strcmp(string_comp, "Code")==0){
             readAttribute_code(&(ai->attr_info_union.Code),fd,cp);
         }
@@ -263,7 +265,7 @@ void readClassfile(Classfile *cf, FILE *fd)
     cf->attributes = (attribute_info *)malloc(cf->attributes_count * sizeof(attribute_info));
     for (int i = 0; i < cf->attributes_count; i++)
     {
-    //    readAttribute_info(&cf->attributes[i], fd,cf->constant_pool);
+        readAttribute_info(&cf->attributes[i], fd,cf->constant_pool);
     }
 }
 
