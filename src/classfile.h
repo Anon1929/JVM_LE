@@ -122,19 +122,30 @@ typedef struct InnerClasses_attribute
 
 } InnerClasses_attribute;
 
+typedef struct LineNumberTable{
+    u2 start_pc;
+    u2 line_number;
+}LineNumberTable;
+
+typedef struct{
+    u2 line_number_table_length;
+    LineNumberTable * line_number_table;
+}LineNumberTableAttr;
 
 typedef struct attribute_info
 {
     u2 attribute_name_index;
     u4 attribute_length;
-    u1 *info;
+    //u1 *info; removido para usar union
     union {
-        u2 ConstantValue;
+        u2 ConstantValueindex;
         Code_attribute Code;
         Exceptions_attribute Exception;
         InnerClasses_attribute InnerClass;
-
+        u2 SourceFileindex;
+        LineNumberTableAttr LineNumberTable_attr;
         
+
     }attr_info_union;
 
 } attribute_info;
@@ -145,7 +156,7 @@ typedef struct field_info
     u2 name_index;
     u2 descriptor_index;
     u2 attributes_count;
-    attribute_info *attributes;
+    attribute_info **attributes;
 
 } field_info;
 

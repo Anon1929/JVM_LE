@@ -16,5 +16,6 @@ void readMethod_info(method_info *, FILE *,cp_info *);
 void readAttribute_info(attribute_info *, FILE *,cp_info *);
 void readAttribute_code(Code_attribute *, FILE *,cp_info *);
 void readFile(Classfile *,char *);
+void readAttrLineNumberTable(LineNumberTableAttr *, FILE*);
 
 #endif 

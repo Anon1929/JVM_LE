@@ -108,30 +108,32 @@ void readField_info(field_info* fi, FILE* fd,cp_info* cp)
     fi->name_index = u2Read(fd);
     fi->descriptor_index = u2Read(fd);
     fi->attributes_count = u2Read(fd);
-    fi->attributes = (attribute_info *)malloc(fi->attributes_count * sizeof(attribute_info));
+    fi->attributes = (attribute_info **)malloc(fi->attributes_count * sizeof(attribute_info));
     for (int i = 0; i < fi->attributes_count; i++)
     {
-        readAttribute_info(&fi->attributes[i], fd,cp);
+        //readAttribute_info(&fi->attributes[i], fd,cp);
     }
 }
 
 // lendo method_info
-void readMethod_info(method_info *mi, FILE *fd,cp_info* cp)
-{
+void readMethod_info(method_info *mi, FILE *fd,cp_info* cp){
     mi->access_flags = u2Read(fd);
     mi->name_index = u2Read(fd);
     mi->descriptor_index = u2Read(fd);
     mi->attributes_count = u2Read(fd);
- /*   mi->attributes = (attribute_info *)malloc(mi->attributes_count * sizeof(attribute_info));
-    for (int i = 0; i < mi->attributes_count; i++)
-    {
-        readAttribute_info(&mi->attributes[i], fd,cp);
-    } */
+    
+    if (mi->attributes_count > 0){
+        mi->attributes = (attribute_info **)malloc(mi->attributes_count * sizeof(attribute_info *));
+        for (int i = 0; i < mi->attributes_count; i++){
+            *(mi->attributes + i) = (attribute_info *) malloc(sizeof(attribute_info));
+            readAttribute_info(*(mi->attributes + i),fd, cp); 
+            }
+    }
+
 }
 
 //lendo attribute_info
-void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp)
-{
+void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp){  
     ai->attribute_name_index = u2Read(fd);
     ai->attribute_length = u4Read(fd);
     /*
@@ -139,46 +141,65 @@ void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp)
     for (int i = 0; i < ai->attribute_length; i++)
     {
         ai->info[i] = u1Read(fd);
-    }          
-    /*         //leitura direta
-
-    // Solução por union   |
-                           V
-
+    }             //leitura direta
+    // Solução por union  
     Comparar strings 
     e fazer leitura de acordo
-    
     */
 
     if(ai->attribute_length > 0){
         char * string_comp;
-        string_comp = decodeUTF8(cp + ai->attribute_name_index - 1);
+        
+        string_comp = decodeUTF8(cp + ai->attribute_name_index);
+        printf("%s\n",string_comp);
         if(strcmp(string_comp, "Code")==0){
-            //ai->
+            readAttribute_code(&(ai->attr_info_union.Code),fd,cp);
         }
         else if (strcmp(string_comp, "InnerClasses") == 0){
             //innrt
         }
         else if (strcmp(string_comp, "ConstantValue") == 0){
-            ai->attr_info_union.ConstantValue = u2Read(fd);
+            ai->attr_info_union.ConstantValueindex = u2Read(fd);
 
         }
         else if (strcmp(string_comp, "Exceptions") == 0){
             //
         }
+        else if (strcmp(string_comp, "SourceFile") == 0){
+            ai->attr_info_union.SourceFileindex = u2Read(fd);
+        }
+        
+        else if (strcmp(string_comp, "Exceptions") == 0){
+            //
+        }
 
+        else if (strcmp(string_comp, "LineNumberTable") == 0){
+            readAttrLineNumberTable(&(ai->attr_info_union.LineNumberTable_attr),fd);
+
+            //
+        }
+
+        else if (strcmp(string_comp, "LocalVariableTable") == 0){
+            //
+        }
+        
     }
 
 
       
-}
+      }
 
-//atributo code
-//utilizado em estrutura method_info
+void readAttrLineNumberTable(LineNumberTableAttr * ln , FILE* fd){
+    ln->line_number_table_length = u2Read(fd);
+    ln->line_number_table = (LineNumberTable *)malloc(ln->line_number_table_length * sizeof(LineNumberTable));
+    for (int i = 0;i<ln->line_number_table_length;i++){
+        ln->line_number_table[i].start_pc = u2Read(fd);
+        ln->line_number_table[i].line_number = u2Read(fd);
+    }
+
+}
 void readAttribute_code(Code_attribute* ca, FILE* fd,cp_info* cp)
 {
-    ca->attribute_name_index = u2Read(fd);
-    ca->attribute_length = u4Read(fd);
     ca->max_stack = u2Read(fd);
     ca->max_locals = u2Read(fd);
     ca->code_length = u4Read(fd);
@@ -232,6 +253,7 @@ void readClassfile(Classfile *cf, FILE *fd)
         readField_info(&cf->fields[i], fd, cf->constant_pool);
     }
     cf->methods_count = u2Read(fd);
+    //printf("%d\n", cf->methods_count);
     cf->methods = (method_info *)malloc(cf->methods_count * sizeof(method_info));
     for (int i = 0; i < cf->methods_count; i++)
     {
@@ -241,12 +263,11 @@ void readClassfile(Classfile *cf, FILE *fd)
     cf->attributes = (attribute_info *)malloc(cf->attributes_count * sizeof(attribute_info));
     for (int i = 0; i < cf->attributes_count; i++)
     {
-        readAttribute_info(&cf->attributes[i], fd,cf->constant_pool);
+    //    readAttribute_info(&cf->attributes[i], fd,cf->constant_pool);
     }
 }
 
 void readFile(Classfile * cf, char *nome){
     FILE * arquivo = openFile(nome);
     readClassfile(cf,arquivo);
-
-}
+    }
