@@ -166,7 +166,13 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
 
     }
     else if (strcmp(string_name, "InnerClasses") == 0){
-            //innrt
+        printf("Inner Classes length: %d\n", attribute->attr_info_union.InnerClass.number_of_classes);
+        for (int i = 0; i < attribute->attr_info_union.InnerClass.number_of_classes; i++){
+            printf("Inner Class Info: %d\n", attribute->attr_info_union.InnerClass.classes[i].inner_class_info_index);
+            printf("Outer Class Info: %d\n", attribute->attr_info_union.InnerClass.classes[i].outer_class_info_index);
+            printf("Inner Name Index: %d\n", attribute->attr_info_union.InnerClass.classes[i].inner_name_index);
+            printf("Inner Class Access Flags: %d\n", attribute->attr_info_union.InnerClass.classes[i].inner_class_access_flags);
+        }
     }
     else if (strcmp(string_name, "ConstantValue") == 0){
         printf("Constant Value Index: %d <%s>\n", attribute->attr_info_union.ConstantValueindex, decodeUTF8(cp + attribute->attr_info_union.ConstantValueindex));
@@ -174,7 +180,10 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
 
     }
     else if (strcmp(string_name, "Exceptions") == 0){
-        //
+        printf("Number of Exceptions: %d\n", attribute->attr_info_union.Exception.number_of_exceptions);
+        for (int i = 0; i < attribute->attr_info_union.Exception.number_of_exceptions; i++){
+            printf("Exception Index: %d <%s>\n", attribute->attr_info_union.Exception.exception_index_table[i], decodeUTF8(cp + attribute->attr_info_union.Exception.exception_index_table[i]));
+        }
     }
     else if (strcmp(string_name, "SourceFile") == 0){
         printf("Source File Name Index: %d <%s>\n", attribute->attr_info_union.SourceFileindex, decodeUTF8(cp + attribute->attr_info_union.SourceFileindex));
@@ -193,7 +202,16 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
     }
 
     else if (strcmp(string_name, "LocalVariableTable") == 0){
-        //
+        printf("Local Variable Table length: %d\n", attribute->attr_info_union.LocalVariableTable_attr.local_variable_table_length);
+        printf("start_pc\tlength\tname_index\tdescriptor_index\tindex\n");
+        for(int i=0;i<attribute->attr_info_union.LocalVariableTable_attr.local_variable_table_length; i++){
+            int startpc = attribute->attr_info_union.LocalVariableTable_attr.local_variable_table[i].start_pc;
+            int length = attribute->attr_info_union.LocalVariableTable_attr.local_variable_table[i].length;
+            int nameindex = attribute->attr_info_union.LocalVariableTable_attr.local_variable_table[i].name_index;
+            int descriptorindex = attribute->attr_info_union.LocalVariableTable_attr.local_variable_table[i].descriptor_index;
+            int index = attribute->attr_info_union.LocalVariableTable_attr.local_variable_table[i].index;
+            printf("%d\t\t\t%d\t\t\t%d\t\t\t%d\t\t\t%d\n",startpc,length,nameindex,descriptorindex,index);
+        }
     }
 
     printf("\n");
