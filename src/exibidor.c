@@ -224,6 +224,8 @@ void printCodeAttr(Code_attribute ca, cp_info * cp){
     printf("Max Stack: %d\n", ca.max_stack);
     printf("Max Locals: %d\n", ca.max_locals);
     printf("Code Length: %d\n", ca.code_length);
+
+    printf("1 - %d\n", *(ca.code));
     // printCode
     printf("Exception Table Length: %d\n", ca.exception_table_length);
     // printExcepTable
