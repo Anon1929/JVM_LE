@@ -254,13 +254,30 @@ void printCodeAttr(Code_attribute ca, cp_info * cp){
 
 }
 
-void treatoperand(Code_attribute ca, cp_info* cp, int * oper, int type){
+void treatoperand(Code_attribute ca, cp_info* cp, int * indice, int type){
 
     switch(type){
 
         case 41:  //tableswitch tratar
         case 42:  //lookupswitch tratar
+
         case 4:
+        ++(*indice);
+        if(*(ca.code+*indice) == iinc){
+            printf("iinc ");
+            ++(*indice);
+            ++(*indice);
+            ++(*indice);
+            ++(*indice);   //iinc index1.1 1.2    index2.1 index2.2
+            
+        }
+        else{
+              //opcode index1 index2
+            opcode name = *(ca.code + *indice);
+            printf("%s", get_op_name(name));
+            ++(*indice); 
+            ++(*indice);
+        }
         //wide, tratar
         /*
         3/5: opcode, indexbyte1, indexbyte2
@@ -273,52 +290,52 @@ void treatoperand(Code_attribute ca, cp_info* cp, int * oper, int type){
         case 43:
         case 44:
         case 45:
-        ++(*oper);
-        ++(*oper);        
-        ++(*oper);
-        ++(*oper);
+        ++(*indice);
+        ++(*indice);        
+        ++(*indice);
+        ++(*indice);
         return;
 
 
 
         case 1:
         //treatcpattr?
-        ++(*oper);
-        printf("#%d", *(ca.code+ *oper));  //tratar para mostrar o texto
+        ++(*indice);
+        printf("#%d", *(ca.code+ *indice));  //tratar para mostrar o texto
         return;
 
         case 10:
-        ++(*oper);
+        ++(*indice);
         printf("%d", *(ca.code));
         return;
 
         case 12:
-        ++(*oper);
+        ++(*indice);
         return;
 
         case 2:
         //treatcpattr
-        ++(*oper);
+        ++(*indice);
         u2 temp;
-        temp = *(ca.code+*oper) << 8;
-        ++(*oper);
-        temp |= *(ca.code+*oper);
+        temp = *(ca.code+*indice) << 8;
+        ++(*indice);
+        temp |= *(ca.code+*indice);
         printf("#%d", temp);
         return;
 
         case 23:
-        ++(*oper);
-        ++(*oper);
+        ++(*indice);
+        ++(*indice);
         return;
 
         case 21:
-        ++(*oper);
-        ++(*oper);
+        ++(*indice);
+        ++(*indice);
         return;
 
         case 22:
-        ++(*oper);
-        ++(*oper);
+        ++(*indice);
+        ++(*indice);
         return;
 
 
