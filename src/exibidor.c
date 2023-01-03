@@ -226,6 +226,7 @@ void printCodeAttr(Code_attribute ca, cp_info * cp){
     printf("Code Length: %d\n", ca.code_length);    
 
     printf("MNEMONICOS CODIGO\n");
+    printf("\n");
 
     for(int i=0; i<ca.code_length;i++){
         int op = *(ca.code+i);
@@ -236,6 +237,8 @@ void printCodeAttr(Code_attribute ca, cp_info * cp){
         printf("\n");
         //printf("i = %d\n",i);
     }
+
+    printf("\n");
  
     printf("Exception Table Length: %d\n", ca.exception_table_length);
     // printExcepTable
