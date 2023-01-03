@@ -81,11 +81,10 @@ void printClassfile(Classfile *classfile)
     printf("This class: %d <%s>\n", classfile->super_class, decodeClassInfo(classfile->constant_pool,classfile->super_class));
     printf("Interfaces count: %d\n", classfile->interfaces_count);
     
-    // for (int i = 0; i < classfile->interfaces_count; i++)
-    // {
-    //     printf("Interfaces: %d\n", classfile->[i]);
-    // }
-    //Não sei onde estão as interfaces
+     for (int i = 0; i < classfile->interfaces_count; i++)
+     {
+         printf("Interfaces: %s\n", decodeUTF8(classfile->constant_pool + classfile->interfaces[i]));
+     }
 
     printf("EXIBIÇÃO DE FIELDS\n");
     printf("=========\n");
