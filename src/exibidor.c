@@ -89,6 +89,7 @@ void printClassfile(Classfile *classfile)
 
     printf("EXIBIÇÃO DE FIELDS\n");
     printf("=========\n");
+    printf("\n");
 
     printf("Fields count: %d\n", classfile->fields_count);
     
@@ -99,6 +100,7 @@ void printClassfile(Classfile *classfile)
     }
     
     printf("FIM EXIBIÇÃO DE FIELDS\n");
+    printf("\n");
 
 
 
@@ -113,6 +115,7 @@ void printClassfile(Classfile *classfile)
         printf("=========\n");
     }
     printf("FIM EXIBIÇÃO DE MÉTODOS\n");
+    printf("\n");
     
     
     printf("EXIBIÇÃO DE ATRIBUTOS\n");
@@ -126,6 +129,7 @@ void printClassfile(Classfile *classfile)
     }
 
     printf("FIM EXIBIÇÃO DE ATRIBUTOS\n");
+    printf("\n");
 }
 void printField_info(field_info *field,cp_info * cp)
 {
@@ -141,8 +145,8 @@ void printField_info(field_info *field,cp_info * cp)
 void printMethod_info(method_info *method,cp_info *cp)
 {
     printf("Access flags: %d [%s]\n", method->access_flags, decodeAccFlags(method->access_flags));
-    printf("Name index: %d <%s>\n", method->name_index, decodeUTF8(cp + method->name_index));
-    printf("Descriptor index: %d <%s>\n", method->descriptor_index, decodeUTF8(cp + method->descriptor_index));
+    printf("Name index: %d %s\n", method->name_index, cp[method->name_index].cp_info_union.utf_8_info.bytes);
+    printf("Descriptor index: %d <%s>\n", method->descriptor_index, cp[method->name_index].cp_info_union.utf_8_info.bytes);
     printf("Attributes count: %d\n", method->attributes_count);
 
     for (int i = 0; i < method->attributes_count; i++)
@@ -163,6 +167,7 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
     if(strcmp(string_name, "Code")==0){
 
         printCodeAttr(attribute->attr_info_union.Code, cp);
+        
 
     }
     else if (strcmp(string_name, "InnerClasses") == 0){
@@ -241,7 +246,14 @@ void printCodeAttr(Code_attribute ca, cp_info * cp){
     printf("\n");
  
     printf("Exception Table Length: %d\n", ca.exception_table_length);
-    // printExcepTable
+    for (int i = 0; i < ca.exception_table_length; i++)
+    {
+        printf("Start PC: %d\n", ca.exception_table[i].start_pc);
+        printf("End PC: %d\n", ca.exception_table[i].end_pc);
+        printf("Handler PC: %d\n", ca.exception_table[i].handler_pc);
+        printf("Catch Type: %d\n", ca.exception_table[i].catch_type);
+    }
+    
     printf("Attributes Count: %d\n", ca.attributes_count);
 
     printf("PRINT ATRIBUTOS DE CODE\n");
@@ -258,7 +270,7 @@ void treatoperand(Code_attribute ca, cp_info* cp, int * indice, int type){
 
     switch(type){
 
-        case 41:  //tableswitch tratar
+        case 41: //tableswitch tratar
         case 42:  //lookupswitch tratar
 
         case 4:
@@ -658,13 +670,13 @@ int get_op_type(int op){
         case goto_w:
         case jsr_w: return 45;
 
-        case aload:
-        case astore:
-        case dload:
-        case dstore:
-        case fload:
-        case fstore:
-        case iload:
+        case aload: 
+        case astore: 
+        case dload: 
+        case dstore: 
+        case fload: 
+        case fstore: 
+        case iload: 
         case istore:
         case ldc:
         case lload:
