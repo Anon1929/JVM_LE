@@ -16,6 +16,9 @@ char *decodeUTF8(cp_info *);
 char *decodeAccFlags(u2);
 char *decodeClassInfo(cp_info* cp,int classnumber);
 
+void treatoperand(Code_attribute, cp_info*, int *,int type);
+
+
 typedef enum opcode
 {
     nop = 0x00,
@@ -209,7 +212,7 @@ typedef enum opcode
     if_icmpge = 0xa2,
     if_icmpgt = 0xa3,
     if_icmple = 0xa4,
-    if_acmpeg = 0xa5,
+    if_acmpeq = 0xa5,
 
     if_acmpne = 0xa6,
     inst_goto = 0xa7,
@@ -235,13 +238,15 @@ typedef enum opcode
     invokestatic = 0xb8,
 
     invokeinterface = 0xb9,
-    inst_new = 0xbb,
+    invokedynamic = 0xba,
+    new = 0xbb,
     newarray = 0xbc,
     anewarray = 0xbd,
 
     arraylength = 0xbe,
     athrow = 0xbf,
-    checkcast = 0xc0,instanceof = 0xc1,
+    checkcast = 0xc0,
+    instanceof = 0xc1,
 
     monitorenter = 0xc2,
     monitorexit = 0xc3,
@@ -255,5 +260,7 @@ typedef enum opcode
 }opcode;
 
 const char *get_op_name(opcode op);
+
+int get_op_type(int op);
 
 #endif 

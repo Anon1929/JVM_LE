@@ -225,13 +225,18 @@ void printCodeAttr(Code_attribute ca, cp_info * cp){
     printf("Max Locals: %d\n", ca.max_locals);
     printf("Code Length: %d\n", ca.code_length);    
 
-    opcode teste = *(ca.code);
-    printf("TESTE %d %s\n ",teste, str(teste));
+    printf("MNEMONICOS CODIGO\n");
 
-    printf("1 - %x  op\n", *(ca.code));
-    printf("2 - %x\n", *(ca.code+1));
-    printf("3 - %x\n", *(ca.code+2));
-    // printCode
+    for(int i=0; i<ca.code_length;i++){
+        int op = *(ca.code+i);
+        int type = get_op_type(op);
+        opcode mnem = op;
+        printf("%d %s ",i, get_op_name(mnem));
+        treatoperand(ca,cp, &i,type);
+        printf("\n");
+        //printf("i = %d\n",i);
+    }
+ 
     printf("Exception Table Length: %d\n", ca.exception_table_length);
     // printExcepTable
     printf("Attributes Count: %d\n", ca.attributes_count);
@@ -245,6 +250,34 @@ void printCodeAttr(Code_attribute ca, cp_info * cp){
     }
 
 }
+
+void treatoperand(Code_attribute ca, cp_info* cp, int * oper, int type){
+
+    switch(type){
+        case 0:  return;
+        
+        case 1:
+        //treatcpattr?
+        ++(*oper);
+        printf("#%d", *(ca.code+ *oper));
+        return;
+
+        case 2:
+        //treatcpattr
+        ++(*oper);
+        u2 temp;
+        temp = *(ca.code+*oper) << 8;
+        ++(*oper);
+        temp |= *(ca.code+*oper);
+        printf("#%d", temp);
+        return;
+
+    }
+
+}
+
+
+
 
 
 
@@ -494,7 +527,7 @@ case    if_icmplt:                return "if_icmplt";
 case    if_icmpge:                return "if_icmpge";             
 case    if_icmpgt:                return "if_icmpgt";             
 case    if_icmple:                return "if_icmple";             
-case    if_acmpeg:                return "if_acmpeg";             
+case    if_acmpeq:                return "if_acmpeq";             
 
 case    if_acmpne:                return "if_acmpne";             
 case    inst_goto:                return "inst_goto";             
@@ -519,14 +552,16 @@ case    invokevirtual:            return "invokevirtual";
 case    invokespecial:            return "invokespecial";                 
 case    invokestatic:             return "invokestatic";                
 
-case    invokeinterface:          return "invokeinterface";                   
-case    inst_new:                 return "inst_new";            
+case    invokeinterface:          return "invokeinterface";               
+case    invokedynamic:            return "invokedynamic";                   
+case    new:                      return "new";            
 case    newarray:                 return "newarray";            
 case    anewarray:                return "anewarray";             
 
 case    arraylength:              return "arraylength";               
 case    athrow:                   return "athrow";          
 case    checkcast:                return "checkcast";             
+case    instanceof:               return "instanceof";
 
 case    monitorenter:             return "monitorenter";                
 case    monitorexit:              return "monitorexit";               
@@ -540,4 +575,77 @@ case    jsr_w:                    return "jsr_w";
     }
 
     return "Unknown op";
+}
+
+//https://en.wikipedia.org/wiki/List_of_Java_bytecode_instructions
+
+int get_op_type(int op){
+    switch(op){
+
+        case wide: return 4;
+        case tableswitch: return 41;
+        case lookupswitch: return 42;
+        case invokeinterface: return 43;
+        case invokedynamic: return 44;
+
+        case goto_w:
+        case jsr_w: return 45;
+
+        case aload:
+        case astore:
+        case dload:
+        case dstore:
+        case fload:
+        case fstore:
+        case iload:
+        case istore:
+        case ldc:
+        case lload:
+        case lstore:
+        case ret: return 1;  //index
+
+        case bipush: return 10; //byte
+        case newarray: return 12; //atype
+
+        case anewarray:
+        case checkcast:
+        case getfield:
+        case getstatic:
+        case instanceof:
+        case invokespecial:
+        case invokestatic:
+        case invokevirtual:
+        case ldc_w:
+        case ldc2_w:
+        case new:
+        case putfield:
+        case putstatic: return 2;  //index
+
+        case iinc: return 21;     //ind const
+        case sipush: return 22;   //byte byte
+
+        case inst_goto:
+        case if_acmpeq:
+        case if_acmpne:
+        case if_icmpeq:
+        case if_icmpge:
+        case if_icmpgt:
+        case if_icmple:
+        case if_icmplt:
+        case if_icmpne:
+        case ifge:
+        case ifgt:
+        case ifeq:
+        case ifle:
+        case iflt:
+        case ifne:
+        case ifnonnull:
+        case ifnull:
+        case jsr: return 23;   //branchbyte
+
+
+        default:
+            return 0;
+    }
+    
 }
