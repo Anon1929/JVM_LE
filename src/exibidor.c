@@ -223,9 +223,14 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
 void printCodeAttr(Code_attribute ca, cp_info * cp){
     printf("Max Stack: %d\n", ca.max_stack);
     printf("Max Locals: %d\n", ca.max_locals);
-    printf("Code Length: %d\n", ca.code_length);
+    printf("Code Length: %d\n", ca.code_length);    
 
-    printf("1 - %d\n", *(ca.code));
+    opcode teste = *(ca.code);
+    printf("TESTE %d %s\n ",teste, str(teste));
+
+    printf("1 - %x  op\n", *(ca.code));
+    printf("2 - %x\n", *(ca.code+1));
+    printf("3 - %x\n", *(ca.code+2));
     // printCode
     printf("Exception Table Length: %d\n", ca.exception_table_length);
     // printExcepTable
@@ -290,4 +295,249 @@ void printCpinfo(cp_info *cpinfo)
     }
     
 
+}
+
+
+const char *get_op_name(opcode op)
+{
+    switch (op)
+    {
+
+case    nop:                      return "nop";       
+case    aconst_null:              return "aconst_null";               
+case    iconst_m1:                return "iconst_m1";             
+case    iconst_0:                 return "iconst_0";            
+
+case    iconst_1:                 return "iconst_1";            
+case    iconst_2:                 return "iconst_2";            
+case    iconst_3:                 return "iconst_3";            
+case    iconst_4:                 return "iconst_4";            
+
+case    iconst_5:                 return "iconst_5";            
+case    lconst_0:                 return "lconst_0";            
+case    lconst_1:                 return "lconst_1";            
+case    fconst_0:                 return "fconst_0";            
+
+case    fconst_1:                 return "fconst_1";            
+case    fconst_2:                 return "fconst_2";            
+case    dconst_0:                 return "dconst_0";            
+case    dconst_1:                 return "dconst_1";            
+
+case    bipush:                   return "bipush";          
+case    sipush:                   return "sipush";          
+case    ldc:                      return "ldc";       
+case    ldc_w:                    return "ldc_w";         
+case    ldc2_w:                   return "ldc2_w";          
+
+case    iload:                    return "iload";         
+case    lload:                    return "lload";         
+case    fload:                    return "fload";         
+case    dload:                    return "dload";         
+case    aload:                    return "aload";         
+
+case    iload_0:                  return "iload_0";           
+case    iload_1:                  return "iload_1";           
+case    iload_2:                  return "iload_2";           
+case    iload_3:                  return "iload_3";           
+case    lload_0:                  return "lload_0";           
+
+case    lload_1:                  return "lload_1";           
+case    lload_2:                  return "lload_2";           
+case    lload_3:                  return "lload_3";           
+case    fload_0:                  return "fload_0";           
+case    fload_1:                  return "fload_1";           
+
+case    fload_2:                  return "fload_2";           
+case    fload_3:                  return "fload_3";           
+case    dload_0:                  return "dload_0";           
+case    dload_1:                  return "dload_1";           
+case    dload_2:                  return "dload_2";           
+
+case    dload_3:                  return "dload_3";           
+case    aload_0:                  return "aload_0";           
+case    aload_1:                  return "aload_1";           
+case    aload_2:                  return "aload_2";           
+case    aload_3:                  return "aload_3";           
+
+case    iaload:                   return "iaload";          
+case    laload:                   return "laload";          
+case    faload:                   return "faload";          
+case    daload:                   return "daload";          
+case    aaload:                   return "aaload";          
+case    baload:                   return "baload";          
+
+case    caload:                   return "caload";          
+case    saload:                   return "saload";          
+case    istore:                   return "istore";          
+case    lstore:                   return "lstore";          
+case    fstore:                   return "fstore";          
+case    dstore:                   return "dstore";          
+
+case    astore:                   return "astore";          
+case    istore_0:                 return "istore_0";            
+case    istore_1:                 return "istore_1";            
+case    istore_2:                 return "istore_2";            
+case    istore_3:                 return "istore_3";            
+
+case    lstore_0:                 return "lstore_0";            
+case    lstore_1:                 return "lstore_1";            
+case    lstore_2:                 return "lstore_2";            
+case    lstore_3:                 return "lstore_3";            
+case    fstore_0:                 return "fstore_0";            
+
+case    fstore_1:                 return "fstore_1";            
+case    fstore_2:                 return "fstore_2";            
+case    fstore_3:                 return "fstore_3";            
+case    dstore_0:                 return "dstore_0";            
+case    dstore_1:                 return "dstore_1";            
+
+case    dstore_2:                 return "dstore_2";            
+case    dstore_3:                 return "dstore_3";            
+case    astore_0:                 return "astore_0";            
+case    astore_1:                 return "astore_1";            
+case    astore_2:                 return "astore_2";            
+
+case    astore_3:                 return "astore_3";            
+case    iastore:                  return "iastore";           
+case    lastore:                  return "lastore";           
+case    fastore:                  return "fastore";           
+case    dastore:                  return "dastore";           
+
+case    aastore:                  return "aastore";           
+case    bastore:                  return "bastore";           
+case    castore:                  return "castore";           
+case    sastore:                  return "sastore";           
+case    pop:                      return "pop";       
+case    pop2:                     return "pop2";        
+
+case    dup:                      return "dup";       
+case    dup_x1:                   return "dup_x1";          
+case    dup_x2:                   return "dup_x2";          
+case    dup2:                     return "dup2";        
+case    dup2_x1:                  return "dup2_x1";           
+case    dup2_x2:                  return "dup2_x2";           
+case    swap:                     return "swap";        
+
+case    iadd:                     return "iadd";        
+case    ladd:                     return "ladd";        
+case    fadd:                     return "fadd";        
+case    dadd:                     return "dadd";        
+case    isub:                     return "isub";        
+case    lsub:                     return "lsub";        
+case    fsub:                     return "fsub";        
+case    dsub:                     return "dsub";        
+
+case    imul:                     return "imul";        
+case    lmul:                     return "lmul";        
+case    fmul:                     return "fmul";        
+case    dmul:                     return "dmul";        
+case    idiv:                     return "idiv";        
+case    inst_ldiv:                return "inst_ldiv";             
+case    fdiv:                     return "fdiv";        
+case    ddiv:                     return "ddiv";        
+
+case    irem:                     return "irem";        
+case    lrem:                     return "lrem";        
+case    frem:                     return "frem";        
+case    inst_drem:                return "inst_drem";             
+case    ineg:                     return "ineg";        
+case    lneg:                     return "lneg";        
+case    fneg:                     return "fneg";        
+case    dneg:                     return "dneg";        
+
+case    ishl:                     return "ishl";        
+case    lshl:                     return "lshl";        
+case    ishr:                     return "ishr";        
+case    lshr:                     return "lshr";        
+case    iushr:                    return "iushr";         
+case    lushr:                    return "lushr";         
+case    iand:                     return "iand";        
+case    land:                     return "land";        
+
+case    ior:                      return "ior";       
+case    lor:                      return "lor";       
+case    ixor:                     return "ixor";        
+case    lxor:                     return "lxor";        
+case    iinc:                     return "iinc";        
+case    i2l:                      return "i2l";       
+case    i2f:                      return "i2f";       
+case    i2d:                      return "i2d";       
+case    l2i:                      return "l2i";       
+
+case    l2f:                      return "l2f";       
+case    l2d:                      return "l2d";       
+case    f2i:                      return "f2i";       
+case    f2l:                      return "f2l";       
+case    f2d:                      return "f2d";       
+case    d2i:                      return "d2i";       
+case    d2l:                      return "d2l";       
+case    d2f:                      return "d2f";       
+case    i2b:                      return "i2b";       
+case    i2c:                      return "i2c";       
+case    i2s:                      return "i2s";       
+case    lcmp:                     return "lcmp";        
+case    fcmpl:                    return "fcmpl";         
+case    fcmpg:                    return "fcmpg";         
+case    dcmpl:                    return "dcmpl";         
+case    dcmpg:                    return "dcmpg";         
+case    ifeq:                     return "ifeq";        
+
+case    ifne:                     return "ifne";        
+case    iflt:                     return "iflt";        
+case    ifge:                     return "ifge";        
+case    ifgt:                     return "ifgt";        
+case    ifle:                     return "ifle";        
+case    if_icmpeq:                return "if_icmpeq";             
+case    if_icmpne:                return "if_icmpne";             
+
+case    if_icmplt:                return "if_icmplt";             
+case    if_icmpge:                return "if_icmpge";             
+case    if_icmpgt:                return "if_icmpgt";             
+case    if_icmple:                return "if_icmple";             
+case    if_acmpeg:                return "if_acmpeg";             
+
+case    if_acmpne:                return "if_acmpne";             
+case    inst_goto:                return "inst_goto";             
+case    jsr:                      return "jsr";       
+case    ret:                      return "ret";       
+case    tableswitch:              return "tableswitch";               
+
+case    lookupswitch:             return "lookupswitch";                
+case    ireturn:                  return "ireturn";           
+case    lreturn:                  return "lreturn";           
+case    freturn:                  return "freturn";           
+case    dreturn:                  return "dreturn";           
+
+case    areturn:                  return "areturn";           
+case    inst_return:              return "inst_return";               
+case    getstatic:                return "getstatic";             
+case    putstatic:                return "putstatic";             
+case    getfield:                 return "getfield";            
+
+case    putfield:                 return "putfield";            
+case    invokevirtual:            return "invokevirtual";                 
+case    invokespecial:            return "invokespecial";                 
+case    invokestatic:             return "invokestatic";                
+
+case    invokeinterface:          return "invokeinterface";                   
+case    inst_new:                 return "inst_new";            
+case    newarray:                 return "newarray";            
+case    anewarray:                return "anewarray";             
+
+case    arraylength:              return "arraylength";               
+case    athrow:                   return "athrow";          
+case    checkcast:                return "checkcast";             
+
+case    monitorenter:             return "monitorenter";                
+case    monitorexit:              return "monitorexit";               
+case    wide:                     return "wide";        
+case    multianewarray:           return "multianewarray";                  
+case    ifnull:                   return "ifnull";          
+
+case    ifnonnull:                return "ifnonnull";             
+case    goto_w:                   return "goto_w";          
+case    jsr_w:                    return "jsr_w";         
+    }
+
+    return "Unknown op";
 }
