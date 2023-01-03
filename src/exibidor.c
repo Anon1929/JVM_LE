@@ -80,11 +80,12 @@ void printClassfile(Classfile *classfile)
     printf("This class: %d <%s>\n", classfile->this_class, decodeClassInfo(classfile->constant_pool,classfile->this_class));
     printf("This class: %d <%s>\n", classfile->super_class, decodeClassInfo(classfile->constant_pool,classfile->super_class));
     printf("Interfaces count: %d\n", classfile->interfaces_count);
-    
+    printf("EXIB INTERF\n");
      for (int i = 0; i < classfile->interfaces_count; i++)
      {
          printf("Interfaces: %s\n", decodeUTF8(classfile->constant_pool + classfile->interfaces[i]));
      }
+     printf("FIM EXIB INTERF\n");
 
     printf("EXIBIÇÃO DE FIELDS\n");
     printf("=========\n");
