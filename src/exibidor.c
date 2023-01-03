@@ -253,12 +253,43 @@ void printCodeAttr(Code_attribute ca, cp_info * cp){
 void treatoperand(Code_attribute ca, cp_info* cp, int * oper, int type){
 
     switch(type){
+
+        case 41:  //tableswitch tratar
+        case 42:  //lookupswitch tratar
+        case 4:
+        //wide, tratar
+        /*
+        3/5: opcode, indexbyte1, indexbyte2
+        or
+        iinc, indexbyte1, indexbyte2, countbyte1, countbyte2	
+        */
+
         case 0:  return;
-        
+
+        case 43:
+        case 44:
+        case 45:
+        ++(*oper);
+        ++(*oper);        
+        ++(*oper);
+        ++(*oper);
+        return;
+
+
+
         case 1:
         //treatcpattr?
         ++(*oper);
-        printf("#%d", *(ca.code+ *oper));
+        printf("#%d", *(ca.code+ *oper));  //tratar para mostrar o texto
+        return;
+
+        case 10:
+        ++(*oper);
+        printf("%d", *(ca.code));
+        return;
+
+        case 12:
+        ++(*oper);
         return;
 
         case 2:
@@ -270,6 +301,22 @@ void treatoperand(Code_attribute ca, cp_info* cp, int * oper, int type){
         temp |= *(ca.code+*oper);
         printf("#%d", temp);
         return;
+
+        case 23:
+        ++(*oper);
+        ++(*oper);
+        return;
+
+        case 21:
+        ++(*oper);
+        ++(*oper);
+        return;
+
+        case 22:
+        ++(*oper);
+        ++(*oper);
+        return;
+
 
     }
 
@@ -584,8 +631,8 @@ int get_op_type(int op){
         case wide: return 4;
         case tableswitch: return 41;
         case lookupswitch: return 42;
-        case invokeinterface: return 43;
-        case invokedynamic: return 44;
+        case invokeinterface: return 43;  
+        case invokedynamic: return 44;   //indexbyte1, indexbyte2, 0, 0
 
         case goto_w:
         case jsr_w: return 45;
