@@ -254,12 +254,128 @@ void printCodeAttr(Code_attribute ca, cp_info * cp){
 
 }
 
+
+
 void treatoperand(Code_attribute ca, cp_info* cp, int * indice, int type){
 
     switch(type){
 
-        case 41:  //tableswitch tratar
+        case 41:  
+        //tableswitch tratar
+        // opcode
+        ++(*indice);
+        int padding = *(indice) % 4;
+        for(int i=0; i< padding;i++){
+            ++(*indice);
+        }
+
+        int byte1 = 0;
+        int byte2 = 0;
+        int byte3 = 0;
+        int byte4 = 0;
+
+        // indice %4   ++
+            ++(*indice);
+            byte1 = *(ca.code+*indice);
+            ++(*indice);
+            byte2 = *(ca.code+*indice);
+            ++(*indice);
+            byte3 = *(ca.code+*indice);
+            ++(*indice);
+            byte4 = *(ca.code+*indice);
+
+        int bytedefault = (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
+
+        int bytelow = (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
+            ++(*indice);
+            byte1 = *(ca.code+*indice);
+            ++(*indice);
+            byte2 = *(ca.code+*indice);
+            ++(*indice);
+            byte3 = *(ca.code+*indice);
+            ++(*indice);
+            byte4 = *(ca.code+*indice);
+
+        int bytehigh = (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
+            ++(*indice);
+            byte1 = *(ca.code+*indice);
+            ++(*indice);
+            byte2 = *(ca.code+*indice);
+            ++(*indice);
+            byte3 = *(ca.code+*indice);
+            ++(*indice);
+            byte4 = *(ca.code+*indice);
+
+        return;
+
+        // byte byte byte byte default
+
+        // byte byte byte byte low
+        // byte byte byte byte high
+
+        // high -low+1  * (4*bytes)
+        int quant = bytehigh-bytelow + 1;
+        for(int i=0; i< quant;i++){
+            ++(*indice);
+            ++(*indice);
+            ++(*indice);
+            ++(*indice);
+        }
+
+
+
         case 42:  //lookupswitch tratar
+
+        //opp
+        // indice %4   ++
+
+        ++(*indice);
+        int padding2 = *(indice) % 4;
+        for(int i=0; i< padding2;i++){
+            ++(*indice);
+        }
+        // byte byte byte byte default
+        // byte byte byte byte n
+
+            ++(*indice);
+            byte1 = *(ca.code+*indice);
+            ++(*indice);
+            byte2 = *(ca.code+*indice);
+            ++(*indice);
+            byte3 = *(ca.code+*indice);
+            ++(*indice);
+            byte4 = *(ca.code+*indice);
+
+        int bytedefault2 = (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
+
+            ++(*indice);
+            byte1 = *(ca.code+*indice);
+            ++(*indice);
+            byte2 = *(ca.code+*indice);
+            ++(*indice);
+            byte3 = *(ca.code+*indice);
+            ++(*indice);
+            byte4 = *(ca.code+*indice);
+
+        int byten = (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
+
+        // 4byte * n 
+        for(int i=0; i< byten;i++){
+            ++(*indice);
+            ++(*indice);
+            ++(*indice);
+            ++(*indice);
+            ++(*indice);
+            ++(*indice);
+            ++(*indice);
+            ++(*indice);
+        }
+        return;
+
+
+
+
+
 
         case 4:
         ++(*indice);
@@ -278,12 +394,6 @@ void treatoperand(Code_attribute ca, cp_info* cp, int * indice, int type){
             ++(*indice); 
             ++(*indice);
         }
-        //wide, tratar
-        /*
-        3/5: opcode, indexbyte1, indexbyte2
-        or
-        iinc, indexbyte1, indexbyte2, countbyte1, countbyte2	
-        */
 
         case 0:  return;
 
@@ -318,24 +428,25 @@ void treatoperand(Code_attribute ca, cp_info* cp, int * indice, int type){
         ++(*indice);
         u2 temp;
         temp = *(ca.code+*indice) << 8;
+        //byte1 ++ byte2   (16bits)
         ++(*indice);
         temp |= *(ca.code+*indice);
         printf("#%d", temp);
         return;
 
         case 23:
-        ++(*indice);
+        ++(*indice);     // soma  %d  <<8
         ++(*indice);
         return;
 
         case 21:
-        ++(*indice);
-        ++(*indice);
+        ++(*indice);  // #12  %d 
+        ++(*indice);  
         return;
 
         case 22:
         ++(*indice);
-        ++(*indice);
+        ++(*indice);   // <<8  %d
         return;
 
 
@@ -649,11 +760,13 @@ case    jsr_w:                    return "jsr_w";
 int get_op_type(int op){
     switch(op){
 
-        case wide: return 4;
+        case wide: return 4;  
         case tableswitch: return 41;
         case lookupswitch: return 42;
         case invokeinterface: return 43;  
         case invokedynamic: return 44;   //indexbyte1, indexbyte2, 0, 0
+
+        case multianewarray: return 3; //
 
         case goto_w:
         case jsr_w: return 45;
