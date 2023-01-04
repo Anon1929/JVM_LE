@@ -68,12 +68,23 @@ void printClassfile(Classfile *classfile)
     printf("Minor version: %d\n", classfile->minor_version);
     printf("Major version: %d\n", classfile->major_version);
     printf("Constant pool count: %d\n", classfile->constant_pool_count);
+    
 
-    // for (int i = 1; i < classfile->constant_pool_count; i++)
-    // {
-    //     printCpinfo(&classfile->constant_pool[i]);
-    // }
+    printf("\n\n\n");
+    printf("CONSTPOOL\n");
+
+     /*
+     for (int i = 1; i < classfile->constant_pool_count; i++)
+     {
+         printCpinfo(&classfile->constant_pool[i]);
+     }
     //Acho que não precisa imprimir o constant pool diretamente
+    */
+
+
+    printf("\n\n\n");
+    printf("CONSTPOOL\n");
+
     printf("Access flags: %d [%s]\n", classfile->access_flags , decodeAccFlags(classfile->access_flags));
 
     printf("This class: %d <%s>\n", classfile->this_class, decodeClassInfo(classfile->constant_pool,classfile->this_class));
@@ -137,9 +148,9 @@ void printClassfile(Classfile *classfile)
 }
 void printField_info(field_info *field,cp_info * cp)
 {
-    printf("Access flags: %d\n", field->access_flags);
-    printf("Name index: %d\n", field->name_index);
-    printf("Descriptor index: %d\n", field->descriptor_index);
+    printf("Access flags: %d [%s]\n", field->access_flags,decodeAccFlags(field->access_flags));
+    printf("Name index: %d <%s>\n", field->name_index, decodeUTF8(cp+field->name_index));
+    printf("Descriptor index: %d <%s>\n", field->descriptor_index,decodeUTF8(cp+field->descriptor_index));
     printf("Attributes count: %d\n", field->attributes_count);
     for (int i = 0; i < field->attributes_count; i++)
     {
@@ -183,8 +194,7 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
         }
     }
     else if (strcmp(string_name, "ConstantValue") == 0){
-        printf("Constant Value Index: %d <%s>\n", attribute->attr_info_union.ConstantValueindex, decodeUTF8(cp + attribute->attr_info_union.ConstantValueindex));
-
+        printf("Constant Value Index: %d <%d>\n", attribute->attr_info_union.ConstantValueindex, *(cp + attribute->attr_info_union.ConstantValueindex));
 
     }
     else if (strcmp(string_name, "Exceptions") == 0){
