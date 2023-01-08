@@ -1,0 +1,72 @@
+\hypertarget{structcp__info}{}\doxysection{cp\+\_\+info Struct Reference}
+\label{structcp__info}\index{cp\_info@{cp\_info}}
+
+
+Struct que define constant pool.  
+
+
+
+
+{\ttfamily \#include $<$classfile.\+h$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structcp__info_a045b8801a6e96a2a31d3b62ea684f141}\label{structcp__info_a045b8801a6e96a2a31d3b62ea684f141}} 
+u1 {\bfseries tag}
+\item 
+\mbox{\Hypertarget{structcp__info_a56637d6c177729793233da5578765f02}\label{structcp__info_a56637d6c177729793233da5578765f02}} 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>struct \{\\
+\>\>u2 {\bfseries name\_index}\\
+\>\} {\bfseries class\_info}\\
+\>struct \{\\
+\>\>u2 {\bfseries class\_index}\\
+\>\>u2 {\bfseries name\_and\_type\_index}\\
+\>\} {\bfseries field\_ref}\\
+\>struct \{\\
+\>\>u2 {\bfseries class\_index}\\
+\>\>u2 {\bfseries name\_and\_type\_index}\\
+\>\} {\bfseries method\_ref}\\
+\>struct \{\\
+\>\>u2 {\bfseries class\_index}\\
+\>\>u2 {\bfseries name\_and\_type\_index}\\
+\>\} {\bfseries interface\_method\_ref}\\
+\>struct \{\\
+\>\>u2 {\bfseries name\_index}\\
+\>\>u2 {\bfseries descriptor\_index}\\
+\>\} {\bfseries name\_and\_type}\\
+\>struct \{\\
+\>\>u2 {\bfseries length}\\
+\>\>u1 $\ast$ {\bfseries bytes}\\
+\>\} {\bfseries utf\_8\_info}\\
+\>struct \{\\
+\>\>u2 {\bfseries string\_index}\\
+\>\} {\bfseries string\_info}\\
+\>struct \{\\
+\>\>u4 {\bfseries bytes}\\
+\>\} {\bfseries integer\_info}\\
+\>struct \{\\
+\>\>u4 {\bfseries bytes}\\
+\>\} {\bfseries float\_info}\\
+\>struct \{\\
+\>\>u4 {\bfseries high\_bytes}\\
+\>\>u4 {\bfseries low\_bytes}\\
+\>\} {\bfseries long\_info}\\
+\>struct \{\\
+\>\>u4 {\bfseries high\_bytes}\\
+\>\>u4 {\bfseries low\_bytes}\\
+\>\} {\bfseries double\_info}\\
+\} {\bfseries cp\_info\_union}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct que define constant pool. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/classfile.\+h\end{DoxyCompactItemize}

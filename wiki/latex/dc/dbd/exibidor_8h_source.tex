@@ -1,0 +1,272 @@
+\hypertarget{exibidor_8h_source}{}\doxysection{exibidor.\+h}
+\label{exibidor_8h_source}\index{src/exibidor.h@{src/exibidor.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}classfile.h"{}}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifndef\ EXIBIDORH}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ EXIBIDORH}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#define\ str(x)\ \#x}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ xstr(x)\ str(x)}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keywordtype}{void}\ printClassfile(\mbox{\hyperlink{structClassfile}{Classfile}}\ *);}
+\DoxyCodeLine{00009\ \textcolor{keywordtype}{void}\ printCpinfo(\mbox{\hyperlink{structcp__info}{cp\_info}}\ *);}
+\DoxyCodeLine{00010\ \textcolor{keywordtype}{void}\ printField\_info(\mbox{\hyperlink{structfield__info}{field\_info}}\ *,\mbox{\hyperlink{structcp__info}{cp\_info}}\ *);}
+\DoxyCodeLine{00011\ \textcolor{keywordtype}{void}\ printMethod\_info(\mbox{\hyperlink{structmethod__info}{method\_info}}\ *,\mbox{\hyperlink{structcp__info}{cp\_info}}\ *);}
+\DoxyCodeLine{00012\ \textcolor{keywordtype}{void}\ printAttribute\_info(\mbox{\hyperlink{structattribute__info}{attribute\_info}}\ *,\mbox{\hyperlink{structcp__info}{cp\_info}}\ *);}
+\DoxyCodeLine{00013\ \textcolor{keywordtype}{void}\ printCodeAttr(\mbox{\hyperlink{structCode__attribute}{Code\_attribute}},\mbox{\hyperlink{structcp__info}{cp\_info}}\ *);}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keywordtype}{char}\ *decodeUTF8(\mbox{\hyperlink{structcp__info}{cp\_info}}\ *);}
+\DoxyCodeLine{00016\ \textcolor{keywordtype}{char}\ *decodeAccFlags(u2);}
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{char}\ *decodeClassInfo(\mbox{\hyperlink{structcp__info}{cp\_info}}*\ cp,\textcolor{keywordtype}{int}\ classnumber);}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{void}\ treatoperand(\mbox{\hyperlink{structCode__attribute}{Code\_attribute}},\ \mbox{\hyperlink{structcp__info}{cp\_info}}*,\ \textcolor{keywordtype}{int}\ *,\textcolor{keywordtype}{int}\ type);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ opcode}
+\DoxyCodeLine{00023\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ nop\ =\ 0x00,}
+\DoxyCodeLine{00025\ \ \ \ \ aconst\_null\ =\ 0x01,}
+\DoxyCodeLine{00026\ \ \ \ \ iconst\_m1\ =\ 0x02,}
+\DoxyCodeLine{00027\ \ \ \ \ iconst\_0\ =\ 0x03,}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ iconst\_1\ =\ 0x04,}
+\DoxyCodeLine{00030\ \ \ \ \ iconst\_2\ =\ 0x05,}
+\DoxyCodeLine{00031\ \ \ \ \ iconst\_3\ =\ 0x06,}
+\DoxyCodeLine{00032\ \ \ \ \ iconst\_4\ =\ 0x07,}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ iconst\_5\ =\ 0x08,}
+\DoxyCodeLine{00035\ \ \ \ \ lconst\_0\ =\ 0x09,}
+\DoxyCodeLine{00036\ \ \ \ \ lconst\_1\ =\ 0x0a,}
+\DoxyCodeLine{00037\ \ \ \ \ fconst\_0\ =\ 0x0b,}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ fconst\_1\ =\ 0x0c,}
+\DoxyCodeLine{00040\ \ \ \ \ fconst\_2\ =\ 0x0d,}
+\DoxyCodeLine{00041\ \ \ \ \ dconst\_0\ =\ 0x0e,}
+\DoxyCodeLine{00042\ \ \ \ \ dconst\_1\ =\ 0x0f,}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ bipush\ =\ 0x10,}
+\DoxyCodeLine{00045\ \ \ \ \ sipush\ =\ 0x11,}
+\DoxyCodeLine{00046\ \ \ \ \ ldc\ =\ 0x12,}
+\DoxyCodeLine{00047\ \ \ \ \ ldc\_w\ =\ 0x13,}
+\DoxyCodeLine{00048\ \ \ \ \ ldc2\_w\ =\ 0x14,}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ iload\ =\ 0x15,}
+\DoxyCodeLine{00051\ \ \ \ \ lload\ =\ 0x16,}
+\DoxyCodeLine{00052\ \ \ \ \ fload\ =\ 0x17,}
+\DoxyCodeLine{00053\ \ \ \ \ dload\ =\ 0x18,}
+\DoxyCodeLine{00054\ \ \ \ \ aload\ =\ 0x19,}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ iload\_0\ =\ 0x1a,}
+\DoxyCodeLine{00057\ \ \ \ \ iload\_1\ =\ 0x1b,}
+\DoxyCodeLine{00058\ \ \ \ \ iload\_2\ =\ 0x1c,}
+\DoxyCodeLine{00059\ \ \ \ \ iload\_3\ =\ 0x1d,}
+\DoxyCodeLine{00060\ \ \ \ \ lload\_0\ =\ 0x1e,}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ lload\_1\ =\ 0x1f,}
+\DoxyCodeLine{00063\ \ \ \ \ lload\_2\ =\ 0x20,}
+\DoxyCodeLine{00064\ \ \ \ \ lload\_3\ =\ 0x21,}
+\DoxyCodeLine{00065\ \ \ \ \ fload\_0\ =\ 0x22,}
+\DoxyCodeLine{00066\ \ \ \ \ fload\_1\ =\ 0x23,}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ fload\_2\ =\ 0x24,}
+\DoxyCodeLine{00069\ \ \ \ \ fload\_3\ =\ 0x25,}
+\DoxyCodeLine{00070\ \ \ \ \ dload\_0\ =\ 0x26,}
+\DoxyCodeLine{00071\ \ \ \ \ dload\_1\ =\ 0x27,}
+\DoxyCodeLine{00072\ \ \ \ \ dload\_2\ =\ 0x28,}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ dload\_3\ =\ 0x29,}
+\DoxyCodeLine{00075\ \ \ \ \ aload\_0\ =\ 0x2a,}
+\DoxyCodeLine{00076\ \ \ \ \ aload\_1\ =\ 0x2b,}
+\DoxyCodeLine{00077\ \ \ \ \ aload\_2\ =\ 0x2c,}
+\DoxyCodeLine{00078\ \ \ \ \ aload\_3\ =\ 0x2d,}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ iaload\ =\ 0x2e,}
+\DoxyCodeLine{00081\ \ \ \ \ laload\ =\ 0x2f,}
+\DoxyCodeLine{00082\ \ \ \ \ faload\ =\ 0x30,}
+\DoxyCodeLine{00083\ \ \ \ \ daload\ =\ 0x31,}
+\DoxyCodeLine{00084\ \ \ \ \ aaload\ =\ 0x32,}
+\DoxyCodeLine{00085\ \ \ \ \ baload\ =\ 0x33,}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ caload\ =\ 0x34,}
+\DoxyCodeLine{00088\ \ \ \ \ saload\ =\ 0x35,}
+\DoxyCodeLine{00089\ \ \ \ \ istore\ =\ 0x36,}
+\DoxyCodeLine{00090\ \ \ \ \ lstore\ =\ 0x37,}
+\DoxyCodeLine{00091\ \ \ \ \ fstore\ =\ 0x38,}
+\DoxyCodeLine{00092\ \ \ \ \ dstore\ =\ 0x39,}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ astore\ =\ 0x3a,}
+\DoxyCodeLine{00095\ \ \ \ \ istore\_0\ =\ 0x3b,}
+\DoxyCodeLine{00096\ \ \ \ \ istore\_1\ =\ 0x3c,}
+\DoxyCodeLine{00097\ \ \ \ \ istore\_2\ =\ 0x3d,}
+\DoxyCodeLine{00098\ \ \ \ \ istore\_3\ =\ 0x3e,}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ lstore\_0\ =\ 0x3f,}
+\DoxyCodeLine{00101\ \ \ \ \ lstore\_1\ =\ 0x40,}
+\DoxyCodeLine{00102\ \ \ \ \ lstore\_2\ =\ 0x41,}
+\DoxyCodeLine{00103\ \ \ \ \ lstore\_3\ =\ 0x42,}
+\DoxyCodeLine{00104\ \ \ \ \ fstore\_0\ =\ 0x43,}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ fstore\_1\ =\ 0x44,}
+\DoxyCodeLine{00107\ \ \ \ \ fstore\_2\ =\ 0x45,}
+\DoxyCodeLine{00108\ \ \ \ \ fstore\_3\ =\ 0x46,}
+\DoxyCodeLine{00109\ \ \ \ \ dstore\_0\ =\ 0x47,}
+\DoxyCodeLine{00110\ \ \ \ \ dstore\_1\ =\ 0x48,}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ dstore\_2\ =\ 0x49,}
+\DoxyCodeLine{00113\ \ \ \ \ dstore\_3\ =\ 0x4a,}
+\DoxyCodeLine{00114\ \ \ \ \ astore\_0\ =\ 0x4b,}
+\DoxyCodeLine{00115\ \ \ \ \ astore\_1\ =\ 0x4c,}
+\DoxyCodeLine{00116\ \ \ \ \ astore\_2\ =\ 0x4d,}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ astore\_3\ =\ 0x4e,}
+\DoxyCodeLine{00119\ \ \ \ \ iastore\ =\ 0x4f,}
+\DoxyCodeLine{00120\ \ \ \ \ lastore\ =\ 0x50,}
+\DoxyCodeLine{00121\ \ \ \ \ fastore\ =\ 0x51,}
+\DoxyCodeLine{00122\ \ \ \ \ dastore\ =\ 0x52,}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ aastore\ =\ 0x53,}
+\DoxyCodeLine{00125\ \ \ \ \ bastore\ =\ 0x54,}
+\DoxyCodeLine{00126\ \ \ \ \ castore\ =\ 0x55,}
+\DoxyCodeLine{00127\ \ \ \ \ sastore\ =\ 0x56,}
+\DoxyCodeLine{00128\ \ \ \ \ pop\ =\ 0x57,}
+\DoxyCodeLine{00129\ \ \ \ \ pop2\ =\ 0x58,}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ dup\ =\ 0x59,}
+\DoxyCodeLine{00132\ \ \ \ \ dup\_x1\ =\ 0x5a,}
+\DoxyCodeLine{00133\ \ \ \ \ dup\_x2\ =\ 0x5b,}
+\DoxyCodeLine{00134\ \ \ \ \ dup2\ =\ 0x5c,}
+\DoxyCodeLine{00135\ \ \ \ \ dup2\_x1\ =\ 0x5d,}
+\DoxyCodeLine{00136\ \ \ \ \ dup2\_x2\ =\ 0x5e,}
+\DoxyCodeLine{00137\ \ \ \ \ swap\ =\ 0x5f,}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ iadd\ =\ 0x60,}
+\DoxyCodeLine{00140\ \ \ \ \ ladd\ =\ 0x61,}
+\DoxyCodeLine{00141\ \ \ \ \ fadd\ =\ 0x62,}
+\DoxyCodeLine{00142\ \ \ \ \ dadd\ =\ 0x63,}
+\DoxyCodeLine{00143\ \ \ \ \ isub\ =\ 0x64,}
+\DoxyCodeLine{00144\ \ \ \ \ lsub\ =\ 0x65,}
+\DoxyCodeLine{00145\ \ \ \ \ fsub\ =\ 0x66,}
+\DoxyCodeLine{00146\ \ \ \ \ dsub\ =\ 0x67,}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ imul\ =\ 0x68,}
+\DoxyCodeLine{00149\ \ \ \ \ lmul\ =\ 0x69,}
+\DoxyCodeLine{00150\ \ \ \ \ fmul\ =\ 0x6a,}
+\DoxyCodeLine{00151\ \ \ \ \ dmul\ =\ 0x6b,}
+\DoxyCodeLine{00152\ \ \ \ \ idiv\ =\ 0x6c,}
+\DoxyCodeLine{00153\ \ \ \ \ inst\_ldiv\ =\ 0x6d,}
+\DoxyCodeLine{00154\ \ \ \ \ fdiv\ =\ 0x6e,}
+\DoxyCodeLine{00155\ \ \ \ \ ddiv\ =\ 0x6f,}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ irem\ =\ 0x70,}
+\DoxyCodeLine{00158\ \ \ \ \ lrem\ =\ 0x71,}
+\DoxyCodeLine{00159\ \ \ \ \ frem\ =\ 0x72,}
+\DoxyCodeLine{00160\ \ \ \ \ inst\_drem\ =\ 0x73,}
+\DoxyCodeLine{00161\ \ \ \ \ ineg\ =\ 0x74,}
+\DoxyCodeLine{00162\ \ \ \ \ lneg\ =\ 0x75,}
+\DoxyCodeLine{00163\ \ \ \ \ fneg\ =\ 0x76,}
+\DoxyCodeLine{00164\ \ \ \ \ dneg\ =\ 0x77,}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ ishl\ =\ 0x78,}
+\DoxyCodeLine{00167\ \ \ \ \ lshl\ =\ 0x79,}
+\DoxyCodeLine{00168\ \ \ \ \ ishr\ =\ 0x7a,}
+\DoxyCodeLine{00169\ \ \ \ \ lshr\ =\ 0x7b,}
+\DoxyCodeLine{00170\ \ \ \ \ iushr\ =\ 0x7c,}
+\DoxyCodeLine{00171\ \ \ \ \ lushr\ =\ 0x7d,}
+\DoxyCodeLine{00172\ \ \ \ \ iand\ =\ 0x7e,}
+\DoxyCodeLine{00173\ \ \ \ \ land\ =\ 0x7f,}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ ior\ =\ 0x80,}
+\DoxyCodeLine{00176\ \ \ \ \ lor\ =\ 0x81,}
+\DoxyCodeLine{00177\ \ \ \ \ ixor\ =\ 0x82,}
+\DoxyCodeLine{00178\ \ \ \ \ lxor\ =\ 0x83,}
+\DoxyCodeLine{00179\ \ \ \ \ iinc\ =\ 0x84,}
+\DoxyCodeLine{00180\ \ \ \ \ i2l\ =\ 0x85,}
+\DoxyCodeLine{00181\ \ \ \ \ i2f\ =\ 0x86,}
+\DoxyCodeLine{00182\ \ \ \ \ i2d\ =\ 0x87,}
+\DoxyCodeLine{00183\ \ \ \ \ l2i\ =\ 0x88,}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \ \ l2f\ =\ 0x89,}
+\DoxyCodeLine{00186\ \ \ \ \ l2d\ =\ 0x8a,}
+\DoxyCodeLine{00187\ \ \ \ \ f2i\ =\ 0x8b,}
+\DoxyCodeLine{00188\ \ \ \ \ f2l\ =\ 0x8c,}
+\DoxyCodeLine{00189\ \ \ \ \ f2d\ =\ 0x8d,}
+\DoxyCodeLine{00190\ \ \ \ \ d2i\ =\ 0x8e,}
+\DoxyCodeLine{00191\ \ \ \ \ d2l\ =\ 0x8f,}
+\DoxyCodeLine{00192\ \ \ \ \ d2f\ =\ 0x90,}
+\DoxyCodeLine{00193\ \ \ \ \ i2b\ =\ 0x91,}
+\DoxyCodeLine{00194\ \ \ \ \ i2c\ =\ 0x92,}
+\DoxyCodeLine{00195\ \ \ \ \ i2s\ =\ 0x93,}
+\DoxyCodeLine{00196\ \ \ \ \ lcmp\ =\ 0x94,}
+\DoxyCodeLine{00197\ \ \ \ \ fcmpl\ =\ 0x95,}
+\DoxyCodeLine{00198\ \ \ \ \ fcmpg\ =\ 0x96,}
+\DoxyCodeLine{00199\ \ \ \ \ dcmpl\ =\ 0x97,}
+\DoxyCodeLine{00200\ \ \ \ \ dcmpg\ =\ 0x98,}
+\DoxyCodeLine{00201\ \ \ \ \ ifeq\ =\ 0x99,}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ ifne\ =\ 0x9a,}
+\DoxyCodeLine{00204\ \ \ \ \ iflt\ =\ 0x9b,}
+\DoxyCodeLine{00205\ \ \ \ \ ifge\ =\ 0x9c,}
+\DoxyCodeLine{00206\ \ \ \ \ ifgt\ =\ 0x9d,}
+\DoxyCodeLine{00207\ \ \ \ \ ifle\ =\ 0x9e,}
+\DoxyCodeLine{00208\ \ \ \ \ if\_icmpeq\ =\ 0x9f,}
+\DoxyCodeLine{00209\ \ \ \ \ if\_icmpne\ =\ 0xa0,}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \ \ \ \ if\_icmplt\ =\ 0xa1,}
+\DoxyCodeLine{00212\ \ \ \ \ if\_icmpge\ =\ 0xa2,}
+\DoxyCodeLine{00213\ \ \ \ \ if\_icmpgt\ =\ 0xa3,}
+\DoxyCodeLine{00214\ \ \ \ \ if\_icmple\ =\ 0xa4,}
+\DoxyCodeLine{00215\ \ \ \ \ if\_acmpeq\ =\ 0xa5,}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \ \ if\_acmpne\ =\ 0xa6,}
+\DoxyCodeLine{00218\ \ \ \ \ inst\_goto\ =\ 0xa7,}
+\DoxyCodeLine{00219\ \ \ \ \ jsr\ =\ 0xa8,}
+\DoxyCodeLine{00220\ \ \ \ \ ret\ =\ 0xa9,}
+\DoxyCodeLine{00221\ \ \ \ \ tableswitch\ =\ 0xaa,}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ lookupswitch\ =\ 0xab,}
+\DoxyCodeLine{00224\ \ \ \ \ ireturn\ =\ 0xac,}
+\DoxyCodeLine{00225\ \ \ \ \ lreturn\ =\ 0xad,}
+\DoxyCodeLine{00226\ \ \ \ \ freturn\ =\ 0xae,}
+\DoxyCodeLine{00227\ \ \ \ \ dreturn\ =\ 0xaf,}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \ \ \ \ areturn\ =\ 0xb0,}
+\DoxyCodeLine{00230\ \ \ \ \ inst\_return\ =\ 0xb1,}
+\DoxyCodeLine{00231\ \ \ \ \ getstatic\ =\ 0xb2,}
+\DoxyCodeLine{00232\ \ \ \ \ putstatic\ =\ 0xb3,}
+\DoxyCodeLine{00233\ \ \ \ \ getfield\ =\ 0xb4,}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \ \ \ \ putfield\ =\ 0xb5,}
+\DoxyCodeLine{00236\ \ \ \ \ invokevirtual\ =\ 0xb6,}
+\DoxyCodeLine{00237\ \ \ \ \ invokespecial\ =\ 0xb7,}
+\DoxyCodeLine{00238\ \ \ \ \ invokestatic\ =\ 0xb8,}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ invokeinterface\ =\ 0xb9,}
+\DoxyCodeLine{00241\ \ \ \ \ invokedynamic\ =\ 0xba,}
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keyword}{new}\ =\ 0xbb,}
+\DoxyCodeLine{00243\ \ \ \ \ newarray\ =\ 0xbc,}
+\DoxyCodeLine{00244\ \ \ \ \ anewarray\ =\ 0xbd,}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \ \ \ \ arraylength\ =\ 0xbe,}
+\DoxyCodeLine{00247\ \ \ \ \ athrow\ =\ 0xbf,}
+\DoxyCodeLine{00248\ \ \ \ \ checkcast\ =\ 0xc0,}
+\DoxyCodeLine{00249\ \ \ \ \ instanceof\ =\ 0xc1,}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ \ \ \ \ monitorenter\ =\ 0xc2,}
+\DoxyCodeLine{00252\ \ \ \ \ monitorexit\ =\ 0xc3,}
+\DoxyCodeLine{00253\ \ \ \ \ wide\ =\ 0xc4,}
+\DoxyCodeLine{00254\ \ \ \ \ multianewarray\ =\ 0xc5,}
+\DoxyCodeLine{00255\ \ \ \ \ ifnull\ =\ 0xc6,}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ \ \ \ \ ifnonnull\ =\ 0xc7,}
+\DoxyCodeLine{00258\ \ \ \ \ goto\_w\ =\ 0xc8,}
+\DoxyCodeLine{00259\ \ \ \ \ jsr\_w\ =\ 0xc9,}
+\DoxyCodeLine{00260\ \}opcode;}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *get\_op\_name(opcode\ op);}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \textcolor{keywordtype}{int}\ get\_op\_type(\textcolor{keywordtype}{int}\ op);}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

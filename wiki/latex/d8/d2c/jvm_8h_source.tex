@@ -1,0 +1,85 @@
+\hypertarget{jvm_8h_source}{}\doxysection{jvm.\+h}
+\label{jvm_8h_source}\index{src/jvm.h@{src/jvm.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}classfile.h"{}}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structstack}{stack}}\{}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \}\mbox{\hyperlink{structstack}{stack}};}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structunion__variables}{union\_variables}}\{}
+\DoxyCodeLine{00008\ \ }
+\DoxyCodeLine{00009\ \}\mbox{\hyperlink{structunion__variables}{union\_variables}};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structlocal__variable__vector}{local\_variable\_vector}}\{}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{structunion__variables}{union\_variables}}\ variavel\_union;}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \}\mbox{\hyperlink{structlocal__variable__vector}{local\_variable\_vector}};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structframe}{frame}}\{}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{structlocal__variable__vector}{local\_variable\_vector}}\ vetor\_de\_variaveis\_locais;}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{structstack}{stack}}\ pilha\_de\_operandos;}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{structcp__info}{cp\_info}}\ *\ constant\_pool\ ;}
+\DoxyCodeLine{00020\ \ \ \ \ }
+\DoxyCodeLine{00021\ \}\mbox{\hyperlink{structframe}{frame}};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00026\ \textcolor{comment}{Class\{}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ \ \ \ field\ a;}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ \ \ \ mehotd(c)\{}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ \ \ \ \ \ \ \ data\ e;}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ \ \ \ \ \ \ \ code}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ \ \ \ \ \ \ \ code}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ \ \ \ \ \ \ \ code}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\}}}
+\DoxyCodeLine{00035\ \textcolor{comment}{}}
+\DoxyCodeLine{00036\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structclassfields}{classfields}}\{}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \}\mbox{\hyperlink{structclassfields}{classfields}};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structclassdata}{classdata}}\{}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \}\mbox{\hyperlink{structclassdata}{classdata}};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structclasscode}{classcode}}\{}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \}\mbox{\hyperlink{structclasscode}{classcode}};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structmethod__area}{method\_area}}\{}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{structcp__info}{cp\_info}}\ constant\_pool;}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{structclassfields}{classfields}}\ fields;}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{structclassdata}{classdata}}\ data;}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{structclasscode}{classcode}}\ code;}
+\DoxyCodeLine{00057\ \}\mbox{\hyperlink{structmethod__area}{method\_area}};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structJvm}{Jvm}}\{}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ *pc;}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{structstack}{stack}}\ pilha\_de\_frames;}
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{structmethod__area}{method\_area}}\ area\_de\_metodos;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \}\mbox{\hyperlink{structJvm}{Jvm}};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{comment}{//\ Union\ Variables}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{keywordtype}{void}\ readmethod\_area(\mbox{\hyperlink{structmethod__area}{method\_area}}\ *,\mbox{\hyperlink{structClassfile}{Classfile}}\ *);}
+\DoxyCodeLine{00070\ \textcolor{comment}{//\ readclassdata\ readclasscode\ readclassfeild}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{keywordtype}{void}\ readframe(\mbox{\hyperlink{structframe}{frame}}\ *,\mbox{\hyperlink{structClassfile}{Classfile}}*);}
+\DoxyCodeLine{00073\ \textcolor{keywordtype}{void}\ readlocal\_variable\_vector(\mbox{\hyperlink{structlocal__variable__vector}{local\_variable\_vector}}\ *,\ \mbox{\hyperlink{structClassfile}{Classfile}}*);}
+\DoxyCodeLine{00074\ \textcolor{comment}{//implementar\ stack}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00077\ \textcolor{keywordtype}{void}\ carregamento(\mbox{\hyperlink{structClassfile}{Classfile}}\ *);}
+\DoxyCodeLine{00078\ \textcolor{keywordtype}{void}\ code\_exec(\mbox{\hyperlink{structJvm}{Jvm}}\ *);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00081\ \textcolor{keywordtype}{void}\ jvm\_exec(\mbox{\hyperlink{structClassfile}{Classfile}}\ *);\ \ \ \ \textcolor{comment}{//Chamada\ pelo\ main}}
+
+\end{DoxyCode}
