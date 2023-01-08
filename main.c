@@ -2,15 +2,26 @@
 #include "src/classfile.h"
 #include "src/leitor.h"
 #include "src/exibidor.h"
+#include "src/jvm.h"
+#include <string.h>
 int main(int argc,char * argv[]){
 	Classfile cf;
 	char * filename;
-	if (argc == 2){
+	if (argc == 3){
 		readFile(&cf,argv[1]);
 
 
 		printf("Leitura Ok\n");
+
+		if(strcmp(argv[2],"1")==0){
+			printf("Execução iniciando\n");
+			// jvmexec(&cf);
+			
+
+		}
+		else{
 		printClassfile(&cf);
+		}
 
 
 	}

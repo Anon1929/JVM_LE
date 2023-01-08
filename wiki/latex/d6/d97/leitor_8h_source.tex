@@ -1,0 +1,30 @@
+\hypertarget{leitor_8h_source}{}\doxysection{leitor.\+h}
+\label{leitor_8h_source}\index{src/leitor.h@{src/leitor.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}classfile.h"{}}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#ifndef\ LEITORH}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ LEITORH}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{static}\ u1\ u1Read();}
+\DoxyCodeLine{00007\ \textcolor{keyword}{static}\ u2\ u2Read();}
+\DoxyCodeLine{00008\ \textcolor{keyword}{static}\ u4\ u4Read();}
+\DoxyCodeLine{00009\ \textcolor{keyword}{static}\ u8\ u8Read();}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keywordtype}{void}\ readClassfile(\mbox{\hyperlink{structClassfile}{Classfile}}\ *,\ FILE\ *);}
+\DoxyCodeLine{00013\ \textcolor{keywordtype}{void}\ readCpinfo(\mbox{\hyperlink{structcp__info}{cp\_info}}\ *,\ FILE\ *);}
+\DoxyCodeLine{00014\ \textcolor{keywordtype}{void}\ readField\_info(\mbox{\hyperlink{structfield__info}{field\_info}}\ *,\ FILE\ *,\mbox{\hyperlink{structcp__info}{cp\_info}}*);}
+\DoxyCodeLine{00015\ \textcolor{keywordtype}{void}\ readMethod\_info(\mbox{\hyperlink{structmethod__info}{method\_info}}\ *,\ FILE\ *,\mbox{\hyperlink{structcp__info}{cp\_info}}\ *);}
+\DoxyCodeLine{00016\ \textcolor{keywordtype}{void}\ readAttribute\_info(\mbox{\hyperlink{structattribute__info}{attribute\_info}}\ *,\ FILE\ *,\mbox{\hyperlink{structcp__info}{cp\_info}}\ *);}
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{void}\ readAttribute\_code(\mbox{\hyperlink{structCode__attribute}{Code\_attribute}}\ *,\ FILE\ *,\mbox{\hyperlink{structcp__info}{cp\_info}}\ *);}
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{void}\ readFile(\mbox{\hyperlink{structClassfile}{Classfile}}\ *,\textcolor{keywordtype}{char}\ *);}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{void}\ readAttrLineNumberTable(\mbox{\hyperlink{structLineNumberTableAttr}{LineNumberTableAttr}}\ *,\ FILE*);}
+\DoxyCodeLine{00020\ \textcolor{keywordtype}{void}\ readAttrInnerClass(\mbox{\hyperlink{structInnerClasses__attribute}{InnerClasses\_attribute}}\ *,\ FILE*);}
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{void}\ readAttrException(\mbox{\hyperlink{structExceptions__attribute}{Exceptions\_attribute}}\ *,\ FILE*);}
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{void}\ readAttrLocalVariableTable(\mbox{\hyperlink{structLocalVariableTableAttr}{LocalVariableTableAttr}}\ *,\ FILE*);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}
