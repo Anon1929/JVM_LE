@@ -7,7 +7,9 @@ typedef unsigned short u2;
 typedef unsigned int u4;
 typedef unsigned long u8;
 
+
 typedef struct cp_info
+/// Struct que define constant pool
 {
     u1 tag;
     union

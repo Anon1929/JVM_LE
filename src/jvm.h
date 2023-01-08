@@ -22,8 +22,38 @@ typedef struct frame{
 
 
 
+/*
+Class{
+    field a;
+    mehotd(c){
+        data e;
+        code
+        code
+        code
+    }
+}
+
+*/
+
+typedef struct classfields{
+
+}classfields;
+
+typedef struct classdata{
+
+}classdata;
+
+typedef struct classcode{
+
+}classcode;
+
+
+
 typedef struct method_area{
     cp_info constant_pool;
+    classfields fields;
+    classdata data;
+    classcode code;
 }method_area;
 
 
@@ -32,9 +62,20 @@ typedef struct Jvm{
     stack pilha_de_frames;
     method_area area_de_metodos;
 
-
-
-
-
-
 }Jvm;
+
+// Union Variables
+
+void readmethod_area(method_area *,Classfile *);
+// readclassdata readclasscode readclassfeild
+
+void readframe(frame *,Classfile*);
+void readlocal_variable_vector(local_variable_vector *, Classfile*);
+//implementar stack
+
+///    Divisões prinicipais, carregamento e execução de classe
+void carregamento(Classfile *);
+void code_exec(Jvm *);
+
+///
+void jvm_exec(Classfile *);    //Chamada pelo main
