@@ -837,3 +837,16 @@ int get_op_type(int op){
     }
     
 }
+//converter ieee754 para double
+void converterIeee754paraDouble(unsigned char *ieee754, double *d){
+    unsigned char *p = (unsigned char *)d;
+    p[0] = ieee754[7];
+    p[1] = ieee754[6];
+    p[2] = ieee754[5];
+    p[3] = ieee754[4];
+    p[4] = ieee754[3];
+    p[5] = ieee754[2];
+    p[6] = ieee754[1];
+    p[7] = ieee754[0];
+    
+}
