@@ -13,6 +13,8 @@ make
 ./exec /path  flag
 
 flags:
+
 0: Leitor Exibidor
+
 1: Execução
 
