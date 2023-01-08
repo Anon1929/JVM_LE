@@ -69,7 +69,6 @@ void printClassfile(Classfile *classfile)
     printf("Major version: %d\n", classfile->major_version);
     printf("Constant pool count: %d\n", classfile->constant_pool_count);
 
-
     // for (int i = 1; i < classfile->constant_pool_count; i++)
     // {
     //     printCpinfo(&classfile->constant_pool[i]);
@@ -79,7 +78,12 @@ void printClassfile(Classfile *classfile)
 
     printf("This class: %d <%s>\n", classfile->this_class, decodeClassInfo(classfile->constant_pool,classfile->this_class));
     printf("This class: %d <%s>\n", classfile->super_class, decodeClassInfo(classfile->constant_pool,classfile->super_class));
+
     printf("Interfaces count: %d\n", classfile->interfaces_count);
+    printf("Fields count: %d\n", classfile->fields_count);
+    printf("Methods count: %d\n", classfile->methods_count);
+    printf("Attributes count: %d\n", classfile->attributes_count);
+    printf("\n");
     printf("EXIB INTERF\n");
      for (int i = 0; i < classfile->interfaces_count; i++)
      {
@@ -87,11 +91,12 @@ void printClassfile(Classfile *classfile)
      }
      printf("FIM EXIB INTERF\n");
 
+    printf("\n");
+
     printf("EXIBIÇÃO DE FIELDS\n");
     printf("=========\n");
     printf("\n");
 
-    printf("Fields count: %d\n", classfile->fields_count);
     
     for (int i = 0; i < classfile->fields_count; i++)
     {
@@ -102,10 +107,10 @@ void printClassfile(Classfile *classfile)
     printf("FIM EXIBIÇÃO DE FIELDS\n");
     printf("\n");
 
+    printf("\n");
 
 
 
-    printf("Methods count: %d\n", classfile->methods_count);
     printf("EXIBIÇÃO DE MÉTODOS\n");
     printf("=========\n");
     
@@ -118,10 +123,11 @@ void printClassfile(Classfile *classfile)
     printf("\n");
     
     
+    printf("\n");
+
     printf("EXIBIÇÃO DE ATRIBUTOS\n");
     printf("=========\n");
     
-    printf("Attributes count: %d\n", classfile->attributes_count);
     
     for (int i = 0; i < classfile->attributes_count; i++){
         printAttribute_info(&classfile->attributes[i], classfile->constant_pool);
@@ -839,5 +845,18 @@ int get_op_type(int op){
         default:
             return 0;
     }
+    
+}
+//converter ieee754 para double
+void converterIeee754paraDouble(unsigned char *ieee754, double *d){
+    unsigned char *p = (unsigned char *)d;
+    p[0] = ieee754[7];
+    p[1] = ieee754[6];
+    p[2] = ieee754[5];
+    p[3] = ieee754[4];
+    p[4] = ieee754[3];
+    p[5] = ieee754[2];
+    p[6] = ieee754[1];
+    p[7] = ieee754[0];
     
 }
