@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <jvm.h>
 #include "leitor.h"
 #include "exibidor.h"
+#include "jvm.h"
 
 void readmethod_area(method_area * method_area, Classfile *classfile){
     method_area->classfile = (Classfile **)malloc(sizeof(Classfile *));
@@ -13,7 +13,7 @@ void readmethod_area(method_area * method_area, Classfile *classfile){
     //falta o caso em que a super classe não é object, ou seja, será necessário carregar todos os classfiles
     //em diante até chegar na object
     while(classfile->super_class != 0){
-        char *nome_da_super_classe = getUtf8(classfile->constant_pool, classfile->super_class);
+        char *nome_da_super_classe = decodeUTF8(classfile->constant_pool);
         Classfile *super_class = (Classfile *)malloc(sizeof(Classfile));
         readFile(super_class, nome_da_super_classe); //lendo o classfile da super classe
         method_area->classfile = (Classfile **)realloc(method_area->classfile, sizeof(Classfile *) * (method_area->tamanho + 1));
@@ -33,9 +33,10 @@ void readlocal_variable_vector(local_variable_vector *local_variable_vector, Cla
     
 }
 
-void carregamento(Classfile * classfile){
+void carregamento(Jvm *jvm, Classfile * classfile){
     method_area area_de_metodos;
     readmethod_area(&area_de_metodos, classfile);
+    jvm->area_de_metodos = area_de_metodos;
 }
 
 void code_exec(Jvm *jvm, Classfile *classfile){
@@ -51,7 +52,7 @@ void code_exec(Jvm *jvm, Classfile *classfile){
 
 void jvm_exec(Classfile *classfile){
     Jvm jvm;
-    code_exec(&jvm, classfile);
-
+    carregamento(&jvm, classfile);
+    //printClassfile(jvm.area_de_metodos.classfile);
 
 }

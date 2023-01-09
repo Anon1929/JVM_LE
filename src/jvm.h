@@ -78,7 +78,7 @@ void readlocal_variable_vector(local_variable_vector *, Classfile*);
 //implementar stack
 
 ///    Divisões prinicipais, carregamento e execução de classe
-void carregamento(Classfile *);
+void carregamento(Jvm *, Classfile *);
 void code_exec(Jvm *, Classfile *);
 
 ///
