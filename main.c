@@ -15,7 +15,7 @@ int main(int argc,char * argv[]){
 
 		if(strcmp(argv[2],"1")==0){
 			printf("Execução iniciando\n");
-			//jvm_exec(&cf);
+			jvm_exec(&cf);
 			
 
 		}

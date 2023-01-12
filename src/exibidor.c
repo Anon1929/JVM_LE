@@ -88,7 +88,7 @@ void printClassfile(Classfile *classfile)
     printf("Access flags: %d [%s]\n", classfile->access_flags , decodeAccFlags(classfile->access_flags));
 
     printf("This class: %d <%s>\n", classfile->this_class, decodeClassInfo(classfile->constant_pool,classfile->this_class));
-    printf("This class: %d <%s>\n", classfile->super_class, decodeClassInfo(classfile->constant_pool,classfile->super_class));
+    printf("Super class: %d <%s>\n", classfile->super_class, decodeClassInfo(classfile->constant_pool,classfile->super_class));
 
     printf("Interfaces count: %d\n", classfile->interfaces_count);
     printf("Fields count: %d\n", classfile->fields_count);

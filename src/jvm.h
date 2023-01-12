@@ -55,7 +55,7 @@ Class{
 */
 
 typedef struct method_area{
-    Classfile ***classfile; //ponteiro para um array de ponteiros para classfile
+    Classfile **classfile; //ponteiro para um array de ponteiros para classfile
     int tamanho;
 
 }method_area;

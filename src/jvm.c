@@ -8,18 +8,13 @@
 #include "jvm.h"
 
 void readmethod_area(method_area * method_area, Classfile *classfile){
+    //o classfile está chegando até aqui.
     method_area->classfile = (Classfile **)malloc(sizeof(Classfile *));
     method_area->classfile[0] = classfile;
-    //falta o caso em que a super classe não é object, ou seja, será necessário carregar todos os classfiles
-    //em diante até chegar na object
-    while(classfile->super_class != 0){
-        char *nome_da_super_classe = decodeUTF8(classfile->constant_pool);
-        Classfile *super_class = (Classfile *)malloc(sizeof(Classfile));
-        readFile(super_class, nome_da_super_classe); //lendo o classfile da super classe
-        method_area->classfile = (Classfile **)realloc(method_area->classfile, sizeof(Classfile *) * (method_area->tamanho + 1));
-        method_area->classfile[method_area->tamanho] = super_class;
-        method_area->tamanho++;
-    }
+    method_area->tamanho = 1;
+    printClassfile(method_area->classfile[0]); //imprime o classfile principal (só um teste)
+    //preciso chegar no utf8 da superclasse para abrir o arquivo :(
+
 }
 
 void readframe(frame *frame, Classfile *classfile){
@@ -53,6 +48,6 @@ void code_exec(Jvm *jvm, Classfile *classfile){
 void jvm_exec(Classfile *classfile){
     Jvm jvm;
     carregamento(&jvm, classfile);
-    //printClassfile(jvm.area_de_metodos.classfile);
+    // printClassfile(jvm.area_de_metodos.classfile[0]);
 
 }
