@@ -9,11 +9,23 @@
 
 void readmethod_area(method_area * method_area, Classfile *classfile){
     //o classfile está chegando até aqui.
-    method_area->classfile = (Classfile **)malloc(sizeof(Classfile *));
+    method_area->classfile = (Classfile **)malloc(sizeof(Classfile *)*2);
     method_area->classfile[0] = classfile;
     method_area->tamanho = 1;
-    printClassfile(method_area->classfile[0]); //imprime o classfile principal (só um teste)
-    //preciso chegar no utf8 da superclasse para abrir o arquivo :(
+    char * super_classe = malloc(sizeof(char)*classfile->constant_pool[classfile->super_class].cp_info_union.utf_8_info.length);
+    for(int i = 0; i < classfile->constant_pool[classfile->super_class].cp_info_union.utf_8_info.length; i++){
+        super_classe[i] = decodeUTF8(classfile->constant_pool[classfile->super_class].cp_info_union.utf_8_info.bytes[i]);
+    }
+    strcat(super_classe, ".class");
+    strcat(super_classe, "\0");
+    strcat("/test/", super_classe);
+    printf("%s", super_classe);
+    FILE *super_class_file = fopen(super_classe, "rb");
+    method_area->classfile[1] = (Classfile *)malloc(sizeof(Classfile));
+    readFile(method_area->classfile[1], super_class_file);
+    method_area->tamanho++;
+    fclose(super_class_file);
+    printClassfile(method_area->classfile[1]);
 
 }
 
