@@ -2,6 +2,8 @@
 #define FRAMEH
 
 #include "classfile.h"
+#include "exibidor.h"
+#include "leitor.h"
 
 typedef struct stack{
     int altura;
@@ -30,6 +32,10 @@ typedef struct frame{
 }frame;
 
 
+typedef struct field_variable {
+    char* name;
+} field_variable;
+
 
 /*
 Class{
@@ -45,24 +51,59 @@ Class{
 */
 
 typedef struct classfields{
-
+    char* name;
+    char* descriptor;
+    u2 flags;
 }classfields;
+
 
 typedef struct classdata{
 
 }classdata;
 
-typedef struct classcode{
 
+typedef struct classcode{
+    u4 tamanho_codigo;
+    u1* code;
 }classcode;
 
+typedef struct classmethod{
+    char* name;
+    char* descriptor;
+    u2 access_flags;
+    classcode codigo;
+} classmethod;
 
 
-typedef struct method_area{
-    cp_info constant_pool;
-    classfields fields;
+
+typedef struct method_area_item method_area_item;
+
+struct method_area_item{
+    char* class_name;
+    method_area_item* father_class;
+
+    Classfile* classfile;
     classdata data;
-    classcode code;
+
+    u2 qtd_fields_estaticos;
+    classfields* info_static_fields;
+
+    u2 qtd_fields_nao_estaticos;
+    classfields* info_non_static_fields;
+
+    u2 qtd_metodos;
+    classmethod* metodos;
+
+    field_variable* static_fields;
+
+};
+
+
+
+typedef struct method_area {
+    method_area_item* classes;
+    int qtd_atual;
+    int tamanho_total;
 }method_area;
 
 
@@ -72,6 +113,7 @@ typedef struct Jvm{
     method_area area_de_metodos;
 
 }Jvm;
+
 
 // Union Variables
 
@@ -83,7 +125,7 @@ void readlocal_variable_vector(local_variable_vector *, Classfile*);
 //implementar stack
 
 ///    Divisões prinicipais, carregamento e execução de classe
-void carregamento(Classfile *);
+void carregamento(Classfile* classfile, method_area* area_metodos);
 void code_exec(Jvm *);
 
 ///

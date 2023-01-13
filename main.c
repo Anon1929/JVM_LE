@@ -4,6 +4,7 @@
 #include "src/exibidor.h"
 #include "src/jvm.h"
 #include <string.h>
+#include <stdlib.h>
 int main(int argc,char * argv[]){
 	Classfile cf;
 	char * filename;
@@ -16,6 +17,14 @@ int main(int argc,char * argv[]){
 		if(strcmp(argv[2],"1")==0){
 			printf("Execução iniciando\n");
 			// jvmexec(&cf);
+			
+			
+			method_area area_metodos;
+
+			area_metodos.tamanho_total = 100;
+			area_metodos.classes = (method_area_item*)malloc(sizeof(method_area_item)*area_metodos.tamanho_total);
+			area_metodos.qtd_atual = 0;
+			carregamento(&cf, &area_metodos);
 			
 
 		}
