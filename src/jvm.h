@@ -1,8 +1,17 @@
+#ifndef FRAMEH
+#define FRAMEH
+
 #include "classfile.h"
 
 typedef struct stack{
+    int altura;
+    int32_t stackarr[99999];
 
 }stack;
+
+void stack_push(stack* pilha, int32_t elem);
+
+int32_t stack_pop(stack* pilha);
 
 typedef struct union_variables{
  
@@ -79,3 +88,5 @@ void code_exec(Jvm *);
 
 ///
 void jvm_exec(Classfile *);    //Chamada pelo main
+
+#endif
