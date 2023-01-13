@@ -60,8 +60,9 @@ void func_lconst_1(Jvm * jvm, frame* frame_atual){
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 1 );
     jvm->pc++;
 }
-
+// começo instrucoes vinicius
 void func_fconst_0(Jvm * jvm, frame* frame_atual){
+
 }
 
 void func_fconst_1(Jvm *, frame*){
@@ -127,6 +128,11 @@ void func_lload_1(Jvm *, frame*){
 void func_lload_2(Jvm *, frame*){
 
 }
+// termina instruct vinicius
+
+
+// isntruções Welliton 
+
 void func_lload_3(Jvm *, frame*){
 
 }
@@ -211,6 +217,9 @@ void func_istore_0(Jvm *, frame*){
 void func_istore_1(Jvm *, frame*){
 
 }
+// Welliton termina
+
+// Arthur Começa
 void func_istore_2(Jvm *, frame*){
 
 }
@@ -292,6 +301,10 @@ void func_sastore(Jvm *, frame*){
 void func_pop(Jvm *, frame*){
 
 }
+// Arthur termina
+
+// Thiago começa
+
 void func_pop2(Jvm *, frame*){
 
 }
@@ -376,6 +389,9 @@ void func_frem(Jvm *, frame*){
 void func_inst_drem(Jvm *, frame*){
 
 }
+// Thiago termina
+
+// Daniel Começa 
 void func__drem(Jvm *, frame*){
 
 }
@@ -487,9 +503,16 @@ void func_fcmpg(Jvm *, frame*){
 void func_dcmpl(Jvm *, frame*){
 
 }
+
+
 void func_dcmpg(Jvm *, frame*){
 
 }
+
+// Termina Daniel
+
+
+//  avançadas depois 
 void func_ifeq(Jvm *, frame*){
 
 }
