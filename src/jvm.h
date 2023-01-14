@@ -18,7 +18,7 @@ typedef struct union_variables{
 }union_variables;
 
 typedef struct local_variable_vector{
-    union_variables variavel_union;
+    int32_t variavel_union[99999];
 
 }local_variable_vector;
 

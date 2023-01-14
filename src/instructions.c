@@ -221,7 +221,7 @@ void func_istore_1(Jvm *, frame*){
 
 // Arthur Começa
 void func_istore_2(Jvm *, frame*){
-    
+
 }
 void func_istore_3(Jvm *, frame*){
 
@@ -878,3 +878,4 @@ void load_instructions( void (*op_func[256])(Jvm*,frame*) ){
 }
 
 //op_func[x](frame_atual,);
+

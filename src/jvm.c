@@ -9,3 +9,4 @@ int32_t stack_pop(stack* pilha){
     --(pilha->altura);
     return pilha->stackarr[pilha->altura];
 }
+
