@@ -325,13 +325,36 @@ void func_astore_0(Jvm * jvm, frame* frame_atual){
     local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),object_ref, index);
     jvm->pc++;
 }
-void func_astore_1(Jvm *, frame*){
+void func_astore_1(Jvm * jvm, frame* frame_atual){
+    //store a object reference into local variable 1
+    //astore_1
+    //Operands: No operands
+    int32_t index = 1;
+    int32_t object_ref = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),object_ref, index);
+    jvm->pc++;
 
 }
-void func_astore_2(Jvm *, frame*){
+void func_astore_2(Jvm * jvm, frame* frame_atual){
+    //store a object reference into local variable 2
+    //astore_2
+    //Operands: No operands
+    int32_t index = 2;
+    int32_t object_ref = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),object_ref, index);
+    jvm->pc++;
+
 
 }
-void func_astore_3(Jvm *, frame*){
+void func_astore_3(Jvm * jvm, frame* frame_atual){
+    //store a object reference into local variable 3
+    //astore_3
+    //Operands: No operands
+    int32_t index = 3;
+    int32_t object_ref = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),object_ref, index);
+    jvm->pc++;
+
 
 }
 void func_iastore(Jvm *, frame*){
