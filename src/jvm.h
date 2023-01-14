@@ -11,6 +11,8 @@ typedef struct stack{
 
 void stack_push(stack* pilha, int32_t elem);
 
+void local_variable_vector_push(local_variable_vector* vetor, int32_t elem, int32_t index);
+
 int32_t stack_pop(stack* pilha);
 
 typedef struct union_variables{

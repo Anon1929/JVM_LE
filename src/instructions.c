@@ -220,50 +220,110 @@ void func_istore_1(Jvm *, frame*){
 // Welliton termina
 
 // Arthur Começa
-void func_istore_2(Jvm *, frame*){
+void func_istore_2(Jvm * jvm, frame* frame_atual){
+    int32_t index = 2;
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
+}
+void func_istore_3(Jvm * jvm, frame* frame_atual){
+    int32_t index = 3;
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
 
 }
-void func_istore_3(Jvm *, frame*){
+void func_lstore_0(Jvm * jvm, frame* frame_atual){
+    int32_t index = 0;
+    long valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
+}
+void func_lstore_1(Jvm * jvm, frame* frame_atual){
+    int32_t index = 1;
+    long valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
+}
+void func_lstore_2(Jvm * jvm, frame* frame_atual){
+    int32_t index = 2;
+    long valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
+}
+void func_lstore_3(Jvm * jvm, frame* frame_atual){
+    int32_t index = 3;
+    long valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
 
 }
-void func_lstore_0(Jvm *, frame*){
+void func_fstore_0(Jvm * jvm, frame* frame_atual){
+    int32_t index = 0;
+    float valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
 
 }
-void func_lstore_1(Jvm *, frame*){
+void func_fstore_1(Jvm * jvm, frame* frame_atual){
+    int32_t index = 1;
+    float valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
 
 }
-void func_lstore_2(Jvm *, frame*){
+void func_fstore_2(Jvm * jvm, frame* frame_atual){
+    int32_t index = 2;
+    float valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
 
 }
-void func_lstore_3(Jvm *, frame*){
+void func_fstore_3(Jvm * jvm, frame* frame_atual){
+    int32_t index = 3;
+    float valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
 
 }
-void func_fstore_0(Jvm *, frame*){
+void func_dstore_0(Jvm * jvm, frame* frame_atual){
+    int32_t index = 0;
+    double valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
+
 
 }
-void func_fstore_1(Jvm *, frame*){
+void func_dstore_1(Jvm * jvm, frame* frame_atual){
+    int32_t index = 1;
+    double valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
+
 
 }
-void func_fstore_2(Jvm *, frame*){
+void func_dstore_2(Jvm * jvm, frame* frame_atual){
+    int32_t index = 2;
+    double valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
 
 }
-void func_fstore_3(Jvm *, frame*){
+void func_dstore_3(Jvm * jvm, frame* frame_atual){
+    int32_t index = 3;
+    double valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),valor, index);
+    jvm->pc++;
 
 }
-void func_dstore_0(Jvm *, frame*){
-
-}
-void func_dstore_1(Jvm *, frame*){
-
-}
-void func_dstore_2(Jvm *, frame*){
-
-}
-void func_dstore_3(Jvm *, frame*){
-
-}
-void func_astore_0(Jvm *, frame*){
-
+void func_astore_0(Jvm * jvm, frame* frame_atual){
+    //store a object reference into local variable 0
+    //astore_0
+    //Operands: No operands
+    int32_t index = 0;
+    int32_t object_ref = stack_pop(&(frame_atual->pilha_de_operandos));
+    local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),object_ref, index);
+    jvm->pc++;
 }
 void func_astore_1(Jvm *, frame*){
 
