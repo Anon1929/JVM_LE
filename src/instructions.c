@@ -355,25 +355,66 @@ void func_astore_3(Jvm * jvm, frame* frame_atual){
     local_variable_vector_push(&(frame_atual->vetor_de_variaveis_locais),object_ref, index);
     jvm->pc++;
 
+    //o tipo do object_ref tem que ser 32 bits para poder entrar no vetor de variáveis locais, então eu não sou louco
 
 }
-void func_iastore(Jvm *, frame*){
+void func_iastore(Jvm * jvm, frame* frame_atual){
+    //store into int array
+    //iastore
+    //Operands: No operands
+    //Description: The arrayref must be of type reference and must refer to an array whose components are of type int. The index must be of type int. The value must be of type int. The arrayref, index, and value are popped from the operand stack. The int value is stored as the component of the array indexed by index.
+    int value = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
+    int * arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
+    *(arrayref + index) = value;
+    jvm->pc++;
+
+    
+}
+void func_lastore(Jvm * jvm, frame* frame_atual){
+    long value = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
+    long * arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
+    *(arrayref + index) = value;
+    jvm->pc++;
+
 
 }
-void func_lastore(Jvm *, frame*){
+void func_fastore(Jvm * jvm, frame* frame_atual){
+    //store into float array
+    //fastore
+    //Operands: No operands
+    //Description: The arrayref must be of type reference and must refer to an array whose components are of type float. The index must be of type int. The value must be of type float. The arrayref, index, and value are popped from the operand stack. The float value is stored as the component of the array indexed by index.
+    float value = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
+    float * arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
+    *(arrayref + index) = value;
+    jvm->pc++;
+}
+void func_dastore(Jvm * jvm, frame* frame_atual){
+    double value = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
+    double * arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
+    *(arrayref + index) = value;
+    jvm->pc++;
 
 }
-void func_fastore(Jvm *, frame*){
+void func_aastore(Jvm * jvm, frame* frame_atual){
+    //store into reference array
+    //aastore
+    //Operands: No operands
+    //Description: The arrayref must be of type reference and must refer to an array whose components are of type reference. The index must be of type int. The value must be of type reference. The arrayref, index, and value are popped from the operand stack. The reference value is stored as the component of the array indexed by index.
+    int32_t * value = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t * arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
+    *(arrayref + index) = value;
+    jvm->pc++;
+    //supondo que o tipo do value seja 32 bits.
+
 
 }
-void func_dastore(Jvm *, frame*){
-
-}
-void func_aastore(Jvm *, frame*){
-
-}
-void func_bastore(Jvm *, frame*){
-
+void func_bastore(Jvm * jvm, frame* frame_atual){
+    
 }
 void func_castore(Jvm *, frame*){
 
@@ -381,7 +422,9 @@ void func_castore(Jvm *, frame*){
 void func_sastore(Jvm *, frame*){
 
 }
-void func_pop(Jvm *, frame*){
+void func_pop(Jvm * jvm, frame* frame){
+    //pop no valor no topo da pilha de operandos
+    stack_pop(&(frame->pilha_de_operandos));
 
 }
 // Arthur termina
