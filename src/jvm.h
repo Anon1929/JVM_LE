@@ -12,6 +12,9 @@ typedef struct stack{
 }stack;
 
 void stack_push(stack* pilha, int32_t elem);
+void push_float_in_stack(stack* pilha, float valor_f);
+void push_double_in_stack(stack* pilha, double valor_d);
+
 
 int32_t stack_pop(stack* pilha);
 

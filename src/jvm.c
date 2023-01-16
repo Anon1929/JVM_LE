@@ -8,6 +8,29 @@ void stack_push(stack* pilha, int32_t elem){
     pilha->stackarr[pilha->altura-1]=elem;
 }
 
+
+void push_float_in_stack(stack* pilha, float valor_f) {
+    int32_t valor;
+
+    memcpy(&valor, &valor_f, 4);
+    stack_push(pilha, valor);
+}
+
+void push_double_in_stack(stack* pilha, double valor_d) {
+    u1 buffer[8];
+    memcpy(&buffer, &valor_d, 8);
+
+    int32_t first_half;
+    int32_t second_half;
+
+    memcpy(&first_half, buffer+4, 4);
+    memcpy(&second_half, buffer, 4);
+
+    stack_push(pilha, first_half);
+    stack_push(pilha, second_half);
+}
+
+
 int32_t stack_pop(stack* pilha){
     --(pilha->altura);
     return pilha->stackarr[pilha->altura];
