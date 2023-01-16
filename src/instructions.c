@@ -136,7 +136,7 @@ void func_lload_2(Jvm *, frame*){
 void func_lload_3(Jvm * jvm,frame* frame_atual){
     stack_push(&(frame_atual->pilha_de_operandos), 0);
     stack_push(&(frame_atual->pilha_de_operandos), 3);
-    jvm->pc += 2;
+    jvm->pc++;
 }
 
 void func_fload_0(Jvm * jvm,frame* frame_atual){
@@ -161,21 +161,21 @@ void func_fload_3(Jvm * jvm,frame* frame_atual){
 
 void func_dload_0(Jvm * jvm,frame* frame_atual){
     push_double_in_stack(&(frame_atual->pilha_de_operandos), 0);
-    jvm->pc += 2;
+    jvm->pc++;
 }
 
 void func_dload_1(Jvm * jvm,frame* frame_atual){
     push_double_in_stack(&(frame_atual->pilha_de_operandos), 1);
-    jvm->pc += 2;
+    jvm->pc++;
 }
 void func_dload_2(Jvm * jvm,frame* frame_atual){
     push_double_in_stack(&(frame_atual->pilha_de_operandos), 2);
-    jvm->pc += 2;
+    jvm->pc++;
 }
 
 void func_dload_3(Jvm * jvm,frame* frame_atual){
     push_double_in_stack(&(frame_atual->pilha_de_operandos), 3);
-    jvm->pc += 2;
+    jvm->pc++;
 }
 
 void func_aload_0(Jvm *, frame*){
