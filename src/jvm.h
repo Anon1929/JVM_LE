@@ -14,18 +14,23 @@ typedef struct stack{
 void stack_push(stack* pilha, int32_t elem);
 void push_float_in_stack(stack* pilha, float valor_f);
 void push_double_in_stack(stack* pilha, double valor_d);
-
-
 int32_t stack_pop(stack* pilha);
+
 
 typedef struct union_variables{
  
 }union_variables;
 
 typedef struct local_variable_vector{
-    union_variables variavel_union;
-
+    int tamanho;
+    int32_t vetor[99999];
 }local_variable_vector;
+
+
+void insert_in_local_var_array(local_variable_vector* variaveis_vetor, int32_t elem, int indice);
+int32_t get_from_array(local_variable_vector* variaveis_vetor, int indice);
+
+
 
 typedef struct frame{
     local_variable_vector vetor_de_variaveis_locais;

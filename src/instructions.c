@@ -229,11 +229,15 @@ void func_dstore(Jvm *, frame*){
 void func_astore(Jvm *, frame*){
 
 }
-void func_istore_0(Jvm *, frame*){
-
+void func_istore_0(Jvm * jvm,frame* frame_atual){
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array(&(frame_atual->vetor_de_variaveis_locais),valor,0);
+    jvm->pc++;
 }
-void func_istore_1(Jvm *, frame*){
-
+void func_istore_1(Jvm * jvm,frame* frame_atual){
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array(&(frame_atual->vetor_de_variaveis_locais),valor,1);
+    jvm->pc++;
 }
 // Welliton termina
 

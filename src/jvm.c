@@ -37,6 +37,13 @@ int32_t stack_pop(stack* pilha){
 }
 
 
+void insert_in_local_var_array(local_variable_vector* vetor_variaveis, int32_t elem, int indice) {
+    vetor_variaveis->vetor[indice] = elem;
+}
+
+int32_t get_from_array(local_variable_vector* vetor_variaveis, int indice) {
+    return vetor_variaveis->vetor[indice];
+}
 
 char *concatena_strings(char str1[], char str2[]) { 
     char* result = (char*)malloc(sizeof(strlen(str1) + strlen(str2) + 1));   
