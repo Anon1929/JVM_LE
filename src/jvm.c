@@ -5,9 +5,40 @@
 
 void stack_push(stack* pilha, int32_t elem){
     pilha->altura++;
-    pilha->stackarr[pilha->altura-1]=elem;
+    pilha->stackarr[pilha->altura-1].info.valor = elem;
 }
 
+int32_t stack_pop(stack* pilha){
+    --(pilha->altura);
+    return pilha->stackarr[pilha->altura].info.valor;
+}
+
+
+void stack_push_reference(stack* pilha, void * referencia) {
+    pilha->altura++;
+    pilha->stackarr[pilha->altura-1].info.referencia = referencia;
+}
+
+
+void *stack_pop_reference(stack* pilha){
+    --(pilha->altura);
+    return pilha->stackarr[pilha->altura].info.referencia;
+}
+
+
+void push_long_in_stack(stack* pilha, long valor_l) {
+    u1 buffer[8];
+    memcpy(&buffer, &valor_l, 8);
+
+    int32_t first_half;
+    int32_t second_half;
+
+    memcpy(&first_half, buffer+4, 4);
+    memcpy(&second_half, buffer, 4);
+
+    stack_push(pilha, first_half);
+    stack_push(pilha, second_half);
+}
 
 void push_float_in_stack(stack* pilha, float valor_f) {
     int32_t valor;
@@ -30,19 +61,20 @@ void push_double_in_stack(stack* pilha, double valor_d) {
     stack_push(pilha, second_half);
 }
 
-
-int32_t stack_pop(stack* pilha){
-    --(pilha->altura);
-    return pilha->stackarr[pilha->altura];
-}
-
-
 void insert_in_local_var_array(local_variable_vector* vetor_variaveis, int32_t elem, int indice) {
-    vetor_variaveis->vetor[indice] = elem;
+    vetor_variaveis->vetor[indice].info.valor = elem;
 }
 
-int32_t get_from_array(local_variable_vector* vetor_variaveis, int indice) {
-    return vetor_variaveis->vetor[indice];
+void insert_reference_in_local_var_array(local_variable_vector* vetor_variaveis, void* reference, int indice) {
+    vetor_variaveis->vetor[indice].info.referencia = reference;
+}
+
+void *get_reference_from_local_var_array(local_variable_vector* vetor_variaveis, int32_t indice){
+    return vetor_variaveis->vetor[indice].info.referencia;
+}
+
+int32_t get_from_array(local_variable_vector* vetor_variaveis, int32_t indice) {
+    return vetor_variaveis->vetor[indice].info.valor;
 }
 
 char *concatena_strings(char str1[], char str2[]) { 

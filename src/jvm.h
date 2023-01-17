@@ -5,31 +5,45 @@
 #include "exibidor.h"
 #include "leitor.h"
 
+typedef struct Array {
+    int32_t arraylength;
+    void * vetor;
+} Array;
+
+typedef struct Numero {
+	union {
+        void * referencia;
+	    int32_t valor;
+    } info;
+} Numero;
+
+
 typedef struct stack{
     int altura;
-    int32_t stackarr[99999];
+    Numero stackarr[99999];
 
 }stack;
 
 void stack_push(stack* pilha, int32_t elem);
 void push_float_in_stack(stack* pilha, float valor_f);
+void push_long_in_stack(stack* pilha, long valor_l);
 void push_double_in_stack(stack* pilha, double valor_d);
+void stack_push_reference(stack* pilha, void * referencia);
+void *stack_pop_reference(stack* pilha);
 int32_t stack_pop(stack* pilha);
 
 
-typedef struct union_variables{
- 
-}union_variables;
-
 typedef struct local_variable_vector{
     int tamanho;
-    int32_t vetor[99999];
+    Numero vetor[99999];
 }local_variable_vector;
 
 
 void insert_in_local_var_array(local_variable_vector* variaveis_vetor, int32_t elem, int indice);
 int32_t get_from_array(local_variable_vector* variaveis_vetor, int indice);
 
+void insert_reference_in_local_var_array(local_variable_vector* vetor_variaveis, void* reference, int indice);
+void *get_reference_from_local_var_array(local_variable_vector* vetor_variaveis, int32_t indice);
 
 
 typedef struct frame{
