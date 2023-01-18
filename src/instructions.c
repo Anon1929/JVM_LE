@@ -421,7 +421,8 @@ void func_bastore(Jvm * jvm, frame* frame_atual){
     int32_t value = stack_pop(&(frame_atual->pilha_de_operandos));
     int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
     int8_t * arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
-    *(arrayref + index) = value;  
+    *(arrayref + index) = value;
+    jvm->pc++;  
 
 }
 void func_castore(Jvm * jvm, frame* frame_atual){
@@ -432,11 +433,12 @@ void func_castore(Jvm * jvm, frame* frame_atual){
     int32_t value = stack_pop(&(frame_atual->pilha_de_operandos));
     int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
     int16_t * arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
-    *(arrayref + index) = value;  
+    *(arrayref + index) = value;
+    jvm->pc++;
 
 
 }
-void func_sastore(Jvm * jvm, frame* fram_atual){
+void func_sastore(Jvm * jvm, frame* frame_atual){
     //store into short array
     //sastore
     //Operands: No operands
@@ -444,13 +446,16 @@ void func_sastore(Jvm * jvm, frame* fram_atual){
     int32_t value = stack_pop(&(frame_atual->pilha_de_operandos));
     int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
     int16_t * arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
-    *(arrayref + index) = value;  
+    *(arrayref + index) = value;
+    jvm->pc++;
+    
 
 
 }
 void func_pop(Jvm * jvm, frame* frame){
     //pop no valor no topo da pilha de operandos
     stack_pop(&(frame->pilha_de_operandos));
+    jvm->pc++;
 
 }
 // Arthur termina
