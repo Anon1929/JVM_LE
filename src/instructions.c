@@ -414,12 +414,38 @@ void func_aastore(Jvm * jvm, frame* frame_atual){
 
 }
 void func_bastore(Jvm * jvm, frame* frame_atual){
-    
-}
-void func_castore(Jvm *, frame*){
+    //store into byte or boolean array
+    //bastore
+    //Operands: No operands
+    //Description: The arrayref must be of type reference and must refer to an array whose components are of type byte or of type boolean. The index must be of type int. The value must be of type int. It is popped from the operand stack. The arrayref and index are also popped from the operand stack. The int value is truncated to a byte. The resulting value is stored as the component of the array indexed by index.
+    int32_t value = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
+    int8_t * arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
+    *(arrayref + index) = value;  
 
 }
-void func_sastore(Jvm *, frame*){
+void func_castore(Jvm * jvm, frame* frame_atual){
+    //store into char array
+    //castore
+    //Operands: No operands
+    //Description: The arrayref must be of type reference and must refer to an array whose components are of type char. The index must be of type int. The value must be of type int. It is popped from the operand stack. The arrayref and index are also popped from the operand stack. The int value is truncated to a char. The resulting value is stored as the component of the array indexed by index.
+    int32_t value = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
+    int16_t * arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
+    *(arrayref + index) = value;  
+
+
+}
+void func_sastore(Jvm * jvm, frame* fram_atual){
+    //store into short array
+    //sastore
+    //Operands: No operands
+    //Description: The arrayref must be of type reference and must refer to an array whose components are of type short. The index must be of type int. The value must be of type int. It is popped from the operand stack. The arrayref and index are also popped from the operand stack. The int value is truncated to a short. The resulting value is stored as the component of the array indexed by index.
+    int32_t value = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
+    int16_t * arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
+    *(arrayref + index) = value;  
+
 
 }
 void func_pop(Jvm * jvm, frame* frame){
