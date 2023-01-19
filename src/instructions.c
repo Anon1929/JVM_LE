@@ -1,5 +1,7 @@
 #include "instructions.h"
 #include "jvm.h"
+#include <string.h>
+#include <stdlib.h>
 #include <stddef.h>
 #include "exibidor.h"
 
@@ -62,70 +64,79 @@ void func_lconst_1(Jvm * jvm, frame* frame_atual){
 }
 // começo instrucoes vinicius
 void func_fconst_0(Jvm * jvm, frame* frame_atual){
+    float temp_float = 0.0;
+    int32_t* valor_pilha;   //Ponteiro é utilizado para o memcpy ser feito corretamente sem problemas de casting
+    valor_pilha = (int32_t*) malloc(sizeof(int32_t));
+    memcpy(valor_pilha, &temp_float, sizeof(int32_t));    
+    stack_push(&(frame_atual->pilha_de_operandos),*valor_pilha);
 
 }
 
-void func_fconst_1(Jvm *, frame*){
+void func_fconst_1(Jvm * jvm, frame* frame_atual){
+    float temp_float = 1.0;
+    int32_t* valor_pilha; 
+    valor_pilha = (int32_t*) malloc(sizeof(int32_t));
+    memcpy(valor_pilha, &temp_float, sizeof(int32_t));    
+    stack_push(&(frame_atual->pilha_de_operandos),*valor_pilha);
+}
+void func_fconst_2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fconst_2(Jvm *, frame*){
+void func_dconst_0(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dconst_0(Jvm *, frame*){
+void func_dconst_1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dconst_1(Jvm *, frame*){
+void func_bipush(Jvm * jvm, frame* frame_atual){
 
 }
-void func_bipush(Jvm *, frame*){
+void func_sipush(Jvm * jvm, frame* frame_atual){
 
 }
-void func_sipush(Jvm *, frame*){
+void func_ldc(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ldc(Jvm *, frame*){
+void func_ldc_w(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ldc_w(Jvm *, frame*){
+void func_ldc2_w(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ldc2_w(Jvm *, frame*){
+void func_iload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iload(Jvm *, frame*){
+void func_lload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lload(Jvm *, frame*){
+void func_fload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fload(Jvm *, frame*){
+void func_dload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dload(Jvm *, frame*){
+void func_aload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_aload(Jvm *, frame*){
+void func_iload_0(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iload_0(Jvm *, frame*){
+void func_iload_1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iload_1(Jvm *, frame*){
+void func_iload_2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iload_2(Jvm *, frame*){
+void func_iload_3(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iload_3(Jvm *, frame*){
+void func_lload_0(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lload_0(Jvm *, frame*){
+void func_lload_1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lload_1(Jvm *, frame*){
-
-}
-void func_lload_2(Jvm *, frame*){
+void func_lload_2(Jvm * jvm, frame* frame_atual){
 
 }
 // termina instruct vinicius
@@ -133,379 +144,379 @@ void func_lload_2(Jvm *, frame*){
 
 // isntruções Welliton 
 
-void func_lload_3(Jvm *, frame*){
+void func_lload_3(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fload_0(Jvm *, frame*){
+void func_fload_0(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fload_1(Jvm *, frame*){
+void func_fload_1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fload_2(Jvm *, frame*){
+void func_fload_2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fload_3(Jvm *, frame*){
+void func_fload_3(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dload_0(Jvm *, frame*){
+void func_dload_0(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dload_1(Jvm *, frame*){
+void func_dload_1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dload_2(Jvm *, frame*){
+void func_dload_2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dload_3(Jvm *, frame*){
+void func_dload_3(Jvm * jvm, frame* frame_atual){
 
 }
-void func_aload_0(Jvm *, frame*){
+void func_aload_0(Jvm * jvm, frame* frame_atual){
 
 }
-void func_aload_1(Jvm *, frame*){
+void func_aload_1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_aload_2(Jvm *, frame*){
+void func_aload_2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_aload_3(Jvm *, frame*){
+void func_aload_3(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iaload(Jvm *, frame*){
+void func_iaload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_laload(Jvm *, frame*){
+void func_laload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_faload(Jvm *, frame*){
+void func_faload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_daload(Jvm *, frame*){
+void func_daload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_aaload(Jvm *, frame*){
+void func_aaload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_baload(Jvm *, frame*){
+void func_baload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_caload(Jvm *, frame*){
+void func_caload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_saload(Jvm *, frame*){
+void func_saload(Jvm * jvm, frame* frame_atual){
 
 }
-void func_istore(Jvm *, frame*){
+void func_istore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lstore(Jvm *, frame*){
+void func_lstore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fstore(Jvm *, frame*){
+void func_fstore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dstore(Jvm *, frame*){
+void func_dstore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_astore(Jvm *, frame*){
+void func_astore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_istore_0(Jvm *, frame*){
+void func_istore_0(Jvm * jvm, frame* frame_atual){
 
 }
-void func_istore_1(Jvm *, frame*){
+void func_istore_1(Jvm * jvm, frame* frame_atual){
 
 }
 // Welliton termina
 
 // Arthur Começa
-void func_istore_2(Jvm *, frame*){
+void func_istore_2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_istore_3(Jvm *, frame*){
+void func_istore_3(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lstore_0(Jvm *, frame*){
+void func_lstore_0(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lstore_1(Jvm *, frame*){
+void func_lstore_1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lstore_2(Jvm *, frame*){
+void func_lstore_2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lstore_3(Jvm *, frame*){
+void func_lstore_3(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fstore_0(Jvm *, frame*){
+void func_fstore_0(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fstore_1(Jvm *, frame*){
+void func_fstore_1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fstore_2(Jvm *, frame*){
+void func_fstore_2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fstore_3(Jvm *, frame*){
+void func_fstore_3(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dstore_0(Jvm *, frame*){
+void func_dstore_0(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dstore_1(Jvm *, frame*){
+void func_dstore_1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dstore_2(Jvm *, frame*){
+void func_dstore_2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dstore_3(Jvm *, frame*){
+void func_dstore_3(Jvm * jvm, frame* frame_atual){
 
 }
-void func_astore_0(Jvm *, frame*){
+void func_astore_0(Jvm * jvm, frame* frame_atual){
 
 }
-void func_astore_1(Jvm *, frame*){
+void func_astore_1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_astore_2(Jvm *, frame*){
+void func_astore_2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_astore_3(Jvm *, frame*){
+void func_astore_3(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iastore(Jvm *, frame*){
+void func_iastore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lastore(Jvm *, frame*){
+void func_lastore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fastore(Jvm *, frame*){
+void func_fastore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dastore(Jvm *, frame*){
+void func_dastore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_aastore(Jvm *, frame*){
+void func_aastore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_bastore(Jvm *, frame*){
+void func_bastore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_castore(Jvm *, frame*){
+void func_castore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_sastore(Jvm *, frame*){
+void func_sastore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_pop(Jvm *, frame*){
+void func_pop(Jvm * jvm, frame* frame_atual){
 
 }
 // Arthur termina
 
 // Thiago começa
 
-void func_pop2(Jvm *, frame*){
+void func_pop2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dup(Jvm *, frame*){
+void func_dup(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dup_x1(Jvm *, frame*){
+void func_dup_x1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dup_x2(Jvm *, frame*){
+void func_dup_x2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dup2(Jvm *, frame*){
+void func_dup2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dup2_x1(Jvm *, frame*){
+void func_dup2_x1(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dup2_x2(Jvm *, frame*){
+void func_dup2_x2(Jvm * jvm, frame* frame_atual){
 
 }
-void func_swap(Jvm *, frame*){
+void func_swap(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iadd(Jvm *, frame*){
+void func_iadd(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ladd(Jvm *, frame*){
+void func_ladd(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fadd(Jvm *, frame*){
+void func_fadd(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dadd(Jvm *, frame*){
+void func_dadd(Jvm * jvm, frame* frame_atual){
 
 }
-void func_isub(Jvm *, frame*){
+void func_isub(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lsub(Jvm *, frame*){
+void func_lsub(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fsub(Jvm *, frame*){
+void func_fsub(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dsub(Jvm *, frame*){
+void func_dsub(Jvm * jvm, frame* frame_atual){
 
 }
-void func_imul(Jvm *, frame*){
+void func_imul(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lmul(Jvm *, frame*){
+void func_lmul(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fmul(Jvm *, frame*){
+void func_fmul(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dmul(Jvm *, frame*){
+void func_dmul(Jvm * jvm, frame* frame_atual){
 
 }
-void func_idiv(Jvm *, frame*){
+void func_idiv(Jvm * jvm, frame* frame_atual){
 
 }
-void func_inst_ldiv(Jvm *, frame*){
+void func_inst_ldiv(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fdiv(Jvm *, frame*){
+void func_fdiv(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ddiv(Jvm *, frame*){
+void func_ddiv(Jvm * jvm, frame* frame_atual){
 
 }
-void func_irem(Jvm *, frame*){
+void func_irem(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lrem(Jvm *, frame*){
+void func_lrem(Jvm * jvm, frame* frame_atual){
 
 }
-void func_frem(Jvm *, frame*){
+void func_frem(Jvm * jvm, frame* frame_atual){
 
 }
-void func_inst_drem(Jvm *, frame*){
+void func_inst_drem(Jvm * jvm, frame* frame_atual){
 
 }
 // Thiago termina
 
 // Daniel Começa 
-void func__drem(Jvm *, frame*){
+void func__drem(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ineg(Jvm *, frame*){
+void func_ineg(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lneg(Jvm *, frame*){
+void func_lneg(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fneg(Jvm *, frame*){
+void func_fneg(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dneg(Jvm *, frame*){
+void func_dneg(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ishl(Jvm *, frame*){
+void func_ishl(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lshl(Jvm *, frame*){
+void func_lshl(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ishr(Jvm *, frame*){
+void func_ishr(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lshr(Jvm *, frame*){
+void func_lshr(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iushr(Jvm *, frame*){
+void func_iushr(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lushr(Jvm *, frame*){
+void func_lushr(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iand(Jvm *, frame*){
+void func_iand(Jvm * jvm, frame* frame_atual){
 
 }
-void func_land(Jvm *, frame*){
+void func_land(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ior(Jvm *, frame*){
+void func_ior(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lor(Jvm *, frame*){
+void func_lor(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ixor(Jvm *, frame*){
+void func_ixor(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lxor(Jvm *, frame*){
+void func_lxor(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iinc(Jvm *, frame*){
+void func_iinc(Jvm * jvm, frame* frame_atual){
 
 }
-void func_i2l(Jvm *, frame*){
+void func_i2l(Jvm * jvm, frame* frame_atual){
 
 }
-void func_i2f(Jvm *, frame*){
+void func_i2f(Jvm * jvm, frame* frame_atual){
 
 }
-void func_i2d(Jvm *, frame*){
+void func_i2d(Jvm * jvm, frame* frame_atual){
 
 }
-void func_l2i(Jvm *, frame*){
+void func_l2i(Jvm * jvm, frame* frame_atual){
 
 }
-void func_l2f(Jvm *, frame*){
+void func_l2f(Jvm * jvm, frame* frame_atual){
 
 }
-void func_l2d(Jvm *, frame*){
+void func_l2d(Jvm * jvm, frame* frame_atual){
 
 }
-void func_f2i(Jvm *, frame*){
+void func_f2i(Jvm * jvm, frame* frame_atual){
 
 }
-void func_f2l(Jvm *, frame*){
+void func_f2l(Jvm * jvm, frame* frame_atual){
 
 }
-void func_f2d(Jvm *, frame*){
+void func_f2d(Jvm * jvm, frame* frame_atual){
 
 }
-void func_d2i(Jvm *, frame*){
+void func_d2i(Jvm * jvm, frame* frame_atual){
 
 }
-void func_d2l(Jvm *, frame*){
+void func_d2l(Jvm * jvm, frame* frame_atual){
 
 }
-void func_d2f(Jvm *, frame*){
+void func_d2f(Jvm * jvm, frame* frame_atual){
 
 }
-void func_i2b(Jvm *, frame*){
+void func_i2b(Jvm * jvm, frame* frame_atual){
 
 }
-void func_i2c(Jvm *, frame*){
+void func_i2c(Jvm * jvm, frame* frame_atual){
 
 }
-void func_i2s(Jvm *, frame*){
+void func_i2s(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lcmp(Jvm *, frame*){
+void func_lcmp(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fcmpl(Jvm *, frame*){
+void func_fcmpl(Jvm * jvm, frame* frame_atual){
 
 }
-void func_fcmpg(Jvm *, frame*){
+void func_fcmpg(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dcmpl(Jvm *, frame*){
+void func_dcmpl(Jvm * jvm, frame* frame_atual){
 
 }
 
 
-void func_dcmpg(Jvm *, frame*){
+void func_dcmpg(Jvm * jvm, frame* frame_atual){
 
 }
 
@@ -513,161 +524,161 @@ void func_dcmpg(Jvm *, frame*){
 
 
 //  avançadas depois 
-void func_ifeq(Jvm *, frame*){
+void func_ifeq(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ifne(Jvm *, frame*){
+void func_ifne(Jvm * jvm, frame* frame_atual){
 
 }
-void func_iflt(Jvm *, frame*){
+void func_iflt(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ifge(Jvm *, frame*){
+void func_ifge(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ifgt(Jvm *, frame*){
+void func_ifgt(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ifle(Jvm *, frame*){
+void func_ifle(Jvm * jvm, frame* frame_atual){
 
 }
-void func_if_icmpeq(Jvm *, frame*){
+void func_if_icmpeq(Jvm * jvm, frame* frame_atual){
 
 }
-void func_if_icmpne(Jvm *, frame*){
+void func_if_icmpne(Jvm * jvm, frame* frame_atual){
 
 }
-void func_if_icmplt(Jvm *, frame*){
+void func_if_icmplt(Jvm * jvm, frame* frame_atual){
 
 }
-void func_if_icmpge(Jvm *, frame*){
+void func_if_icmpge(Jvm * jvm, frame* frame_atual){
 
 }
-void func_if_icmpgt(Jvm *, frame*){
+void func_if_icmpgt(Jvm * jvm, frame* frame_atual){
 
 }
-void func_if_icmple(Jvm *, frame*){
+void func_if_icmple(Jvm * jvm, frame* frame_atual){
 
 }
-void func_if_acmpeq(Jvm *, frame*){
+void func_if_acmpeq(Jvm * jvm, frame* frame_atual){
 
 }
-void func_if_acmpne(Jvm *, frame*){
+void func_if_acmpne(Jvm * jvm, frame* frame_atual){
 
 }
-void func_inst_goto(Jvm *, frame*){
+void func_inst_goto(Jvm * jvm, frame* frame_atual){
 
 }
-void func_jsr(Jvm *, frame*){
+void func_jsr(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ret(Jvm *, frame*){
+void func_ret(Jvm * jvm, frame* frame_atual){
 
 }
-void func_tableswitch(Jvm *, frame*){
+void func_tableswitch(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lookupswitch(Jvm *, frame*){
+void func_lookupswitch(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ireturn(Jvm *, frame*){
+void func_ireturn(Jvm * jvm, frame* frame_atual){
 
 }
-void func_lreturn(Jvm *, frame*){
+void func_lreturn(Jvm * jvm, frame* frame_atual){
 
 }
-void func_freturn(Jvm *, frame*){
+void func_freturn(Jvm * jvm, frame* frame_atual){
 
 }
-void func_dreturn(Jvm *, frame*){
+void func_dreturn(Jvm * jvm, frame* frame_atual){
 
 }
-void func_areturn(Jvm *, frame*){
+void func_areturn(Jvm * jvm, frame* frame_atual){
 
 }
-void func_inst_return(Jvm *, frame*){
+void func_inst_return(Jvm * jvm, frame* frame_atual){
 
 }
-void func_getstatic(Jvm *, frame*){
+void func_getstatic(Jvm * jvm, frame* frame_atual){
 
 }
-void func_putstatic(Jvm *, frame*){
+void func_putstatic(Jvm * jvm, frame* frame_atual){
 
 }
-void func_getfield(Jvm *, frame*){
+void func_getfield(Jvm * jvm, frame* frame_atual){
 
 }
-void func_putfield(Jvm *, frame*){
+void func_putfield(Jvm * jvm, frame* frame_atual){
 
 }
-void func_invokevirtual(Jvm *, frame*){
+void func_invokevirtual(Jvm * jvm, frame* frame_atual){
 
 }
-void func_invokespecial(Jvm *, frame*){
+void func_invokespecial(Jvm * jvm, frame* frame_atual){
 
 }
-void func_invokestatic(Jvm *, frame*){
+void func_invokestatic(Jvm * jvm, frame* frame_atual){
 
 }
-void func_invokeinterface(Jvm *, frame*){
+void func_invokeinterface(Jvm * jvm, frame* frame_atual){
 
 }
-void func_invokedynamic(Jvm *, frame*){
+void func_invokedynamic(Jvm * jvm, frame* frame_atual){
 
 }
-void func_inst_new(Jvm *, frame*){
+void func_inst_new(Jvm * jvm, frame* frame_atual){
 
 }
-void func_new(Jvm *, frame*){
+void func_new(Jvm * jvm, frame* frame_atual){
 
 }
-void func_newarray(Jvm *, frame*){
+void func_newarray(Jvm * jvm, frame* frame_atual){
 
 }
-void func_anewarray(Jvm *, frame*){
+void func_anewarray(Jvm * jvm, frame* frame_atual){
 
 }
-void func_athrow(Jvm *, frame*){
+void func_athrow(Jvm * jvm, frame* frame_atual){
 
 }
-void func_arraylength(Jvm *, frame*){
+void func_arraylength(Jvm * jvm, frame* frame_atual){
 
 }
-void func_checkcast(Jvm *, frame*){
+void func_checkcast(Jvm * jvm, frame* frame_atual){
 
 }
-void func_instanceof(Jvm *, frame*){
+void func_instanceof(Jvm * jvm, frame* frame_atual){
 
 }
-void func_monitorenter(Jvm *, frame*){
+void func_monitorenter(Jvm * jvm, frame* frame_atual){
 
 }
-void func_monitorexit(Jvm *, frame*){
+void func_monitorexit(Jvm * jvm, frame* frame_atual){
 
 }
-void func_wide(Jvm *, frame*){
+void func_wide(Jvm * jvm, frame* frame_atual){
 
 }
-void func_multianewarray(Jvm *, frame*){
+void func_multianewarray(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ifnull(Jvm *, frame*){
+void func_ifnull(Jvm * jvm, frame* frame_atual){
 
 }
-void func_ifnonnull(Jvm *, frame*){
+void func_ifnonnull(Jvm * jvm, frame* frame_atual){
 
 }
-void func_goto_w(Jvm *, frame*){
+void func_goto_w(Jvm * jvm, frame* frame_atual){
 
 }
-void func_jsr_w(Jvm *, frame*){
+void func_jsr_w(Jvm * jvm, frame* frame_atual){
 
 }
 
 
 
 
-void load_instructions( void (*op_func[256])(Jvm*,frame*) ){
+void load_instructions( void (*op_func[256])(Jvm*,frame* frame_atual) ){
    op_func[nop] = func_nop;
    op_func[aconst_null] = func_aconst_null;
    op_func[iconst_m1] = func_iconst_m1;
