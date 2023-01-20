@@ -6,89 +6,89 @@
 #include "exibidor.h"
 #include <string.h>
 
-void func_nop(Jvm * jvm,frame* frame_atual){
+void func_nop(Jvm * jvm,frame* frame_atual){/*
     jvm->pc++; 
-}
+*/}
 
-void func_aconst_null(Jvm * jvm,frame* frame_atual){
+void func_aconst_null(Jvm * jvm,frame* frame_atual){/*
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) NULL);
     jvm->pc++;
-}
+*/}
 
-void func_iconst_m1(Jvm * jvm,frame* frame_atual){
+void func_iconst_m1(Jvm * jvm,frame* frame_atual){/*
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) -1 );
     jvm->pc++;
-}
+*/}
 
-void func_iconst_0(Jvm * jvm,frame* frame_atual){
+void func_iconst_0(Jvm * jvm,frame* frame_atual){/*
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 0 );
     jvm->pc++;
-}
+*/}
 
-void func_iconst_1(Jvm * jvm,frame* frame_atual){
+void func_iconst_1(Jvm * jvm,frame* frame_atual){/*
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 1 );
     jvm->pc++;
-}
+*/}
 
-void func_iconst_2(Jvm * jvm,frame* frame_atual){
+void func_iconst_2(Jvm * jvm,frame* frame_atual){/*
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 2 );
     jvm->pc++;
-}
+*/}
 
-void func_iconst_3(Jvm * jvm,frame* frame_atual){
+void func_iconst_3(Jvm * jvm,frame* frame_atual){/*
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 3 );
     jvm->pc++;
-}
+*/}
 
 
-void func_iconst_4(Jvm * jvm,frame* frame_atual){
+void func_iconst_4(Jvm * jvm,frame* frame_atual){/*
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 4 );
     jvm->pc++;
-}
+*/}
 
 
-void func_iconst_5(Jvm * jvm,frame* frame_atual){
+void func_iconst_5(Jvm * jvm,frame* frame_atual){/*
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 5 );
     jvm->pc++;
-}
+*/}
 
-void func_lconst_0(Jvm * jvm, frame* frame_atual){
+void func_lconst_0(Jvm * jvm, frame* frame_atual){/*
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 0 );
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 0 );
     jvm->pc++;
-}
+*/}
 
-void func_lconst_1(Jvm * jvm, frame* frame_atual){
+void func_lconst_1(Jvm * jvm, frame* frame_atual){/*
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 0 );
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 1 );
     jvm->pc++;
-}
+*/}
 // começo instrucoes vinicius
-void func_fconst_0(Jvm * jvm, frame* frame_atual){
+void func_fconst_0(Jvm * jvm, frame* frame_atual){/*
     float temp_float = 0.0;
     int32_t* valor_pilha;   //Ponteiro é utilizado para o memcpy ser feito corretamente sem problemas de casting
     valor_pilha = (int32_t*) malloc(sizeof(int32_t));
     memcpy(valor_pilha, &temp_float, sizeof(int32_t));    
     stack_push(&(frame_atual->pilha_de_operandos),*valor_pilha);
 
-}
+*/}
 
-void func_fconst_1(Jvm * jvm, frame* frame_atual){
+void func_fconst_1(Jvm * jvm, frame* frame_atual){/*
     float temp_float = 1.0;
     int32_t* valor_pilha; 
     valor_pilha = (int32_t*) malloc(sizeof(int32_t));
     memcpy(valor_pilha, &temp_float, sizeof(int32_t));    
     stack_push(&(frame_atual->pilha_de_operandos),*valor_pilha);
-}
-void func_fconst_2(Jvm * jvm, frame* frame_atual){
+*/}
+void func_fconst_2(Jvm * jvm, frame* frame_atual){/*
     float temp_float = 2.0;
     int32_t* valor_pilha; 
     valor_pilha = (int32_t*) malloc(sizeof(int32_t));
     memcpy(valor_pilha, &temp_float, sizeof(int32_t));    
     stack_push(&(frame_atual->pilha_de_operandos),*valor_pilha);
 
-}
-void func_dconst_0(Jvm * jvm, frame* frame_atual){
+*/}
+void func_dconst_0(Jvm * jvm, frame* frame_atual){/*
     double temp_double = 0.0; 
     int64_t *temp_int; 
     int32_t high_bits;
@@ -100,8 +100,8 @@ void func_dconst_0(Jvm * jvm, frame* frame_atual){
     stack_push(&(frame_atual->pilha_de_operandos),high_bits);
     stack_push(&(frame_atual->pilha_de_operandos),low_bits);
 
-}
-void func_dconst_1(Jvm * jvm, frame* frame_atual){
+*/}
+void func_dconst_1(Jvm * jvm, frame* frame_atual){/*
     double temp_double = 1.0; 
     int64_t *temp_int; 
     int32_t high_bits;
@@ -113,16 +113,16 @@ void func_dconst_1(Jvm * jvm, frame* frame_atual){
     stack_push(&(frame_atual->pilha_de_operandos),high_bits);
     stack_push(&(frame_atual->pilha_de_operandos),low_bits);
 
-}
-void func_bipush(Jvm * jvm, frame* frame_atual){
+*/}
+void func_bipush(Jvm * jvm, frame* frame_atual){/*
 
     int8_t *argumento_operando = (int8_t) (jvm->pc);
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) *(argumento_operando+1));
     jvm->pc++;
     jvm->pc++;
 
-}
-void func_sipush(Jvm * jvm, frame* frame_atual){
+*/}
+void func_sipush(Jvm * jvm, frame* frame_atual){/*
 
     int8_t *argumento_operando = (int8_t) (jvm->pc);
     int32_t valor = (*(argumento_operando+1)) << 8 + *(argumento_operando+2);
@@ -131,64 +131,64 @@ void func_sipush(Jvm * jvm, frame* frame_atual){
     jvm->pc++;
     jvm->pc++;
 
-}
-void func_ldc(Jvm * jvm, frame* frame_atual){
+*/}
+void func_ldc(Jvm * jvm, frame* frame_atual){/*
 
-}
-void func_ldc_w(Jvm * jvm, frame* frame_atual){
+*/}
+void func_ldc_w(Jvm * jvm, frame* frame_atual){/*
 
-}
-void func_ldc2_w(Jvm * jvm, frame* frame_atual){
+*/}
+void func_ldc2_w(Jvm * jvm, frame* frame_atual){/*
 
-}
-void func_iload(Jvm * jvm, frame* frame_atual){
+*/}
+void func_iload(Jvm * jvm, frame* frame_atual){/*
 
-}
-void func_lload(Jvm * jvm, frame* frame_atual){
+*/}
+void func_lload(Jvm * jvm, frame* frame_atual){/*
 
-}
-void func_fload(Jvm * jvm, frame* frame_atual){
+*/}
+void func_fload(Jvm * jvm, frame* frame_atual){/*
 
-}
-void func_dload(Jvm * jvm, frame* frame_atual){
+*/}
+void func_dload(Jvm * jvm, frame* frame_atual){/*
 
-}
-void func_aload(Jvm * jvm, frame* frame_atual){
+*/}
+void func_aload(Jvm * jvm, frame* frame_atual){/*
     int8_t *argumento_operando = (int8_t) (jvm->pc);
     int32_t index = *(argumento_operando+1);
-    stack_push(&(frame_atual->pilha_de_operandos),frame_atual->vetor_de_variaveis_locais[index]);
-}
-void func_iload_0(Jvm * jvm, frame* frame_atual){
+    //stack_push(&(frame_atual->pilha_de_operandos),frame_atual->vetor_de_variaveis_locais[index]);
+*/}
+void func_iload_0(Jvm * jvm, frame* frame_atual){/*
     int32_t valor = frame_atual->vetor_de_variaveis_locais[0];
     stack_push(&(frame_atual->pilha_de_operandos),valor);
     jvm->pc++;
-}
-void func_iload_1(Jvm * jvm, frame* frame_atual){
+*/}
+void func_iload_1(Jvm * jvm, frame* frame_atual){/*
     int32_t valor = frame_atual->vetor_de_variaveis_locais[1];
     stack_push(&(frame_atual->pilha_de_operandos),valor);
     jvm->pc++;
-}
-void func_iload_2(Jvm * jvm, frame* frame_atual){
+*/}
+void func_iload_2(Jvm * jvm, frame* frame_atual){/*
     int32_t valor = frame_atual->vetor_de_variaveis_locais[2];
     stack_push(&(frame_atual->pilha_de_operandos),valor);
     jvm->pc++;
 
-}
-void func_iload_3(Jvm * jvm, frame* frame_atual){
+*/}
+void func_iload_3(Jvm * jvm, frame* frame_atual){/*
     int32_t valor = frame_atual->vetor_de_variaveis_locais[3];
     stack_push(&(frame_atual->pilha_de_operandos),valor);
     jvm->pc++;
-}
-void func_lload_0(Jvm * jvm, frame* frame_atual){
+*/}
+void func_lload_0(Jvm * jvm, frame* frame_atual){/*
     int32_t high_bits, low_bits;
     high_bits = frame_atual->vetor_de_variaveis_locais[0];
     low_bits  = frame_atual->vetor_de_variaveis_locais[1]; 
     stack_push(&(frame_atual->pilha_de_operandos),high_bits);
     stack_push(&(frame_atual->pilha_de_operandos),low_bits);
     jvm->pc++;
-}
+*/}
 
-void func_lload_1(Jvm * jvm, frame* frame_atual){
+void func_lload_1(Jvm * jvm, frame* frame_atual){/*
     int32_t high_bits, low_bits;
     high_bits = frame_atual->vetor_de_variaveis_locais[1];
     low_bits  = frame_atual->vetor_de_variaveis_locais[2]; 
@@ -196,15 +196,16 @@ void func_lload_1(Jvm * jvm, frame* frame_atual){
     stack_push(&(frame_atual->pilha_de_operandos),low_bits);
     jvm->pc++;
 
-}
-void func_lload_2(Jvm * jvm, frame* frame_atual){ 
+*/}
+
+void func_lload_2(Jvm * jvm, frame* frame_atual){/* 
     int32_t high_bits, low_bits;
     high_bits = frame_atual->vetor_de_variaveis_locais[2];
     low_bits  = frame_atual->vetor_de_variaveis_locais[3]; 
     stack_push(&(frame_atual->pilha_de_operandos),high_bits);
     stack_push(&(frame_atual->pilha_de_operandos),low_bits);
     jvm->pc++;
-}
+*/}
 // termina instruct vinicius
 
 
@@ -256,22 +257,22 @@ void func_dload_3(Jvm * jvm,frame* frame_atual){
 }
 
 void func_aload_0(Jvm * jvm,frame* frame_atual){
-    void* referencia = get_reference_from_local_var_array(&(frame_atual->vetor_de_variaveis_locais), 0);
+    void* referencia = get_reference_from_local_var_array((frame_atual->vetor_de_variaveis_locais), 0);
     stack_push_reference(&(frame_atual->pilha_de_operandos), referencia);
     jvm->pc++;
 }
 void func_aload_1(Jvm * jvm,frame* frame_atual){
-    void* referencia = get_reference_from_local_var_array(&(frame_atual->vetor_de_variaveis_locais), 1);
+    void* referencia = get_reference_from_local_var_array((frame_atual->vetor_de_variaveis_locais), 1);
     stack_push_reference(&(frame_atual->pilha_de_operandos), referencia);
     jvm->pc++;
 }
 void func_aload_2(Jvm * jvm,frame* frame_atual){
-    void* referencia = get_reference_from_local_var_array(&(frame_atual->vetor_de_variaveis_locais), 2);
+    void* referencia = get_reference_from_local_var_array((frame_atual->vetor_de_variaveis_locais), 2);
     stack_push_reference(&(frame_atual->pilha_de_operandos), referencia);
     jvm->pc++;
 }
 void func_aload_3(Jvm * jvm,frame* frame_atual){
-    void* referencia = get_reference_from_local_var_array(&(frame_atual->vetor_de_variaveis_locais), 3);
+    void* referencia = get_reference_from_local_var_array((frame_atual->vetor_de_variaveis_locais), 3);
     stack_push_reference(&(frame_atual->pilha_de_operandos), referencia);
     jvm->pc++;
 }
@@ -383,12 +384,12 @@ void func_astore(Jvm * jvm, frame* frame_atual){
 }
 void func_istore_0(Jvm * jvm,frame* frame_atual){
     int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
-    insert_in_local_var_array(&(frame_atual->vetor_de_variaveis_locais),valor,0);
+    insert_in_local_var_array((frame_atual->vetor_de_variaveis_locais),valor,0);
     jvm->pc++;
 }
 void func_istore_1(Jvm * jvm,frame* frame_atual){
     int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
-    insert_in_local_var_array(&(frame_atual->vetor_de_variaveis_locais),valor,1);
+    insert_in_local_var_array((frame_atual->vetor_de_variaveis_locais),valor,1);
     jvm->pc++;
 }
 // Welliton termina
