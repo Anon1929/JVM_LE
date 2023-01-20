@@ -76,7 +76,7 @@ void printClassfile(Classfile *classfile)
      for (int i = 1; i < classfile->constant_pool_count; i++)
      {
         printf("[%d] ",i);
-         printCpinfo(&classfile->constant_pool[i]);
+         printCpinfo(&classfile->constant_pool[i],classfile->constant_pool);   //primeiro é a entrada, segundo é o array em si de cpinfo
      }
     //Acho que não precisa imprimir o constant pool diretamente
     
@@ -473,7 +473,7 @@ void treatoperand(Code_attribute ca, cp_info* cp, int * indice, int type){
 
 
 
-void printCpinfo(cp_info *cpinfo)
+void printCpinfo(cp_info *cpinfo, cp_info * arraycpinfo)
 {
     switch (cpinfo->tag){
         case 1:
@@ -503,8 +503,9 @@ void printCpinfo(cp_info *cpinfo)
             printf("Fieldref_2: %d\n", cpinfo->cp_info_union.field_ref.name_and_type_index);
             break;
         case 10:
-            printf("Methodref Class name: #%d \n", cpinfo->cp_info_union.method_ref.class_index);
-            printf("Name and type: %d %d\n", cpinfo->cp_info_union.method_ref.name_and_type_index);
+            printf("Methodref Class name: #%d <%s>\n", cpinfo->cp_info_union.method_ref.class_index, decodeClassInfo(arraycpinfo,cpinfo->cp_info_union.method_ref.class_index ));
+            printf("%d\n", arraycpinfo[cpinfo->cp_info_union.method_ref.class_index].cp_info_union.class_info.name_index);
+            printf("Name and type: %d\n", cpinfo->cp_info_union.method_ref.name_and_type_index);
             break;
         case 11:
             printf("InterfaceMethodref_1: %d\n", cpinfo->cp_info_union.interface_method_ref.class_index);

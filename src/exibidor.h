@@ -6,7 +6,7 @@
 #define xstr(x) str(x)
 
 void printClassfile(Classfile *);
-void printCpinfo(cp_info *);
+void printCpinfo(cp_info *, cp_info *);
 void printField_info(field_info *,cp_info *);
 void printMethod_info(method_info *,cp_info *);
 void printAttribute_info(attribute_info *,cp_info *);
