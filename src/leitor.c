@@ -120,11 +120,11 @@ void readField_info(field_info* fi, FILE* fd,cp_info* cp)
 
 // lendo method_info
 void readMethod_info(method_info *mi, FILE *fd,cp_info* cp){
+    
     mi->access_flags = u2Read(fd);
     mi->name_index = u2Read(fd);
     mi->descriptor_index = u2Read(fd);
     mi->attributes_count = u2Read(fd);
-    
     if (mi->attributes_count > 0){
         mi->attributes = (attribute_info **)malloc(mi->attributes_count * sizeof(attribute_info *));
         for (int i = 0; i < mi->attributes_count; i++){
@@ -175,9 +175,12 @@ void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp){
         else if (strcmp(string_comp, "LocalVariableTable") == 0){
             readAttrLocalVariableTable(&(ai->attr_info_union.LocalVariableTable_attr),fd);
         }
-        
+        else{
+            for (int i = 0; i < ai->attribute_length; i++){
+                u1Read(fd);
+                }
+        }
     }
-
 
       
       }
@@ -278,18 +281,24 @@ void readClassfile(Classfile *cf, FILE *fd)
     {
         readField_info(&cf->fields[i], fd, cf->constant_pool);
     }
+
+
     cf->methods_count = u2Read(fd);
+    
     cf->methods = (method_info *)malloc(cf->methods_count * sizeof(method_info));
     for (int i = 0; i < cf->methods_count; i++)
     {
         readMethod_info(&cf->methods[i], fd,cf->constant_pool);
     }
+
+
     cf->attributes_count = u2Read(fd);
     cf->attributes = (attribute_info *)malloc(cf->attributes_count * sizeof(attribute_info));
     for (int i = 0; i < cf->attributes_count; i++)
     {
         readAttribute_info(&cf->attributes[i], fd,cf->constant_pool);
     }
+    //*/
 }
 
 void readFile(Classfile * cf, char *nome){

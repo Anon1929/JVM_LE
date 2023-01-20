@@ -80,18 +80,54 @@ void func_fconst_1(Jvm * jvm, frame* frame_atual){
     stack_push(&(frame_atual->pilha_de_operandos),*valor_pilha);
 }
 void func_fconst_2(Jvm * jvm, frame* frame_atual){
+    float temp_float = 2.0;
+    int32_t* valor_pilha; 
+    valor_pilha = (int32_t*) malloc(sizeof(int32_t));
+    memcpy(valor_pilha, &temp_float, sizeof(int32_t));    
+    stack_push(&(frame_atual->pilha_de_operandos),*valor_pilha);
 
 }
 void func_dconst_0(Jvm * jvm, frame* frame_atual){
+    double temp_double = 0.0; 
+    int64_t *temp_int; 
+    int32_t high_bits;
+    int32_t low_bits;
+    temp_int = (int64_t*) malloc(sizeof(int64_t));
+    memcpy(temp_int, &temp_double, sizeof(int64_t));  // procedimento parecido com o de float, porém divido em duas partes
+    high_bits = (*temp_int) >>32;
+    low_bits = (*temp_int) & 0xffffffff;
+    stack_push(&(frame_atual->pilha_de_operandos),high_bits);
+    stack_push(&(frame_atual->pilha_de_operandos),low_bits);
 
 }
 void func_dconst_1(Jvm * jvm, frame* frame_atual){
+    double temp_double = 1.0; 
+    int64_t *temp_int; 
+    int32_t high_bits;
+    int32_t low_bits;
+    temp_int = (int64_t*) malloc(sizeof(int64_t));
+    memcpy(temp_int, &temp_double, sizeof(int64_t));  
+    high_bits = (*temp_int) >>32;
+    low_bits = (*temp_int) & 0xffffffff;
+    stack_push(&(frame_atual->pilha_de_operandos),high_bits);
+    stack_push(&(frame_atual->pilha_de_operandos),low_bits);
 
 }
 void func_bipush(Jvm * jvm, frame* frame_atual){
 
+    int8_t *argumento_operando = (int8_t) (jvm->pc+1);
+    stack_push(&(frame_atual->pilha_de_operandos),(int32_t) *argumento_operando);
+    jvm->pc++;
+    jvm->pc++;
+
 }
 void func_sipush(Jvm * jvm, frame* frame_atual){
+
+    int16_t *argumento_operando = (int16_t) (jvm->pc+1);
+    stack_push(&(frame_atual->pilha_de_operandos),(int32_t)*argumento_operando);
+    jvm->pc++;
+    jvm->pc++;
+    jvm->pc++;
 
 }
 void func_ldc(Jvm * jvm, frame* frame_atual){
