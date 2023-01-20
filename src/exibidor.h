@@ -15,6 +15,7 @@ void printCodeAttr(Code_attribute,cp_info *);
 char *decodeUTF8(cp_info *);
 char *decodeAccFlags(u2);
 char *decodeClassInfo(cp_info* cp,int classnumber);
+char **decodeNameandType(cp_info*, int );
 
 void treatoperand(Code_attribute, cp_info*, int *,int type);
 

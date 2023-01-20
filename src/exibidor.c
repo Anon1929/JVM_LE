@@ -23,6 +23,11 @@ char * decodeClassInfo(cp_info* cp,int classnumber){
 }
 
 
+char **decodeNameandType(cp_info* cp, int indexnum){
+    char ** name_and_type;
+    return name_and_type;
+}
+
 char *decodeAccFlags(u2 flag){
     char *decode = malloc(sizeof(char)*100);
     if(flag & 0x0001){
@@ -493,10 +498,10 @@ void printCpinfo(cp_info *cpinfo, cp_info * arraycpinfo)
             printf("Double_2: %lf\n", cpinfo->cp_info_union.double_info.low_bytes);
             break;
         case 7:
-            printf("Class: %d\n", cpinfo->cp_info_union.class_info.name_index);
+            printf("Class: #%d <%s>\n", cpinfo->cp_info_union.class_info.name_index, decodeUTF8(arraycpinfo+cpinfo->cp_info_union.class_info.name_index));
             break;
         case 8:
-            printf("String: %d\n", cpinfo->cp_info_union.string_info.string_index);
+            printf("String: #%d <%s> \n", cpinfo->cp_info_union.string_info.string_index, decodeUTF8(arraycpinfo+cpinfo->cp_info_union.string_info.string_index));
             break;
         case 9:
             printf("Fieldref_1: %d\n", cpinfo->cp_info_union.field_ref.class_index);
@@ -504,7 +509,6 @@ void printCpinfo(cp_info *cpinfo, cp_info * arraycpinfo)
             break;
         case 10:
             printf("Methodref Class name: #%d <%s>\n", cpinfo->cp_info_union.method_ref.class_index, decodeClassInfo(arraycpinfo,cpinfo->cp_info_union.method_ref.class_index ));
-            printf("%d\n", arraycpinfo[cpinfo->cp_info_union.method_ref.class_index].cp_info_union.class_info.name_index);
             printf("Name and type: %d\n", cpinfo->cp_info_union.method_ref.name_and_type_index);
             break;
         case 11:
