@@ -204,7 +204,7 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
     else if (strcmp(string_name, "Exceptions") == 0){
         printf("Number of Exceptions: %d\n", attribute->attr_info_union.Exception.number_of_exceptions);
         for (int i = 0; i < attribute->attr_info_union.Exception.number_of_exceptions; i++){
-            printf("Exception Index: %d <%s>\n", attribute->attr_info_union.Exception.exception_index_table[i], decodeUTF8(cp + attribute->attr_info_union.Exception.exception_index_table[i]));
+           // printf("Exception Index: %d <%s>\n", attribute->attr_info_union.Exception.exception_index_table[i], decodeUTF8(cp + attribute->attr_info_union.Exception.exception_index_table[i]));
         }
     }
     else if (strcmp(string_name, "SourceFile") == 0){
