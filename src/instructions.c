@@ -155,25 +155,44 @@ void func_aload(Jvm * jvm, frame* frame_atual){
 
 }
 void func_iload_0(Jvm * jvm, frame* frame_atual){
-
+    int32_t valor = frame_atual->vetor_de_variaveis_locais[1];
+    stack_push(&(frame_atual->pilha_de_operandos),valor);
 }
 void func_iload_1(Jvm * jvm, frame* frame_atual){
+    int32_t valor = frame_atual->vetor_de_variaveis_locais[1];
+    stack_push(&(frame_atual->pilha_de_operandos),valor);
 
 }
 void func_iload_2(Jvm * jvm, frame* frame_atual){
+    int32_t valor = frame_atual->vetor_de_variaveis_locais[2];
+    stack_push(&(frame_atual->pilha_de_operandos),valor);
 
 }
 void func_iload_3(Jvm * jvm, frame* frame_atual){
-
+    int32_t valor = frame_atual->vetor_de_variaveis_locais[3];
+    stack_push(&(frame_atual->pilha_de_operandos),valor);
 }
 void func_lload_0(Jvm * jvm, frame* frame_atual){
-
+    int32_t high_bits, low_bits;
+    high_bits = frame_atual->vetor_de_variaveis_locais[0];
+    low_bits  = frame_atual->vetor_de_variaveis_locais[1]; 
+    stack_push(&(frame_atual->pilha_de_operandos),high_bits);
+    stack_push(&(frame_atual->pilha_de_operandos),low_bits);
 }
+
 void func_lload_1(Jvm * jvm, frame* frame_atual){
-
+    int32_t high_bits, low_bits;
+    high_bits = frame_atual->vetor_de_variaveis_locais[1];
+    low_bits  = frame_atual->vetor_de_variaveis_locais[2]; 
+    stack_push(&(frame_atual->pilha_de_operandos),high_bits);
+    stack_push(&(frame_atual->pilha_de_operandos),low_bits);
 }
-void func_lload_2(Jvm * jvm, frame* frame_atual){
-
+void func_lload_2(Jvm * jvm, frame* frame_atual){ 
+    int32_t high_bits, low_bits;
+    high_bits = frame_atual->vetor_de_variaveis_locais[2];
+    low_bits  = frame_atual->vetor_de_variaveis_locais[3]; 
+    stack_push(&(frame_atual->pilha_de_operandos),high_bits);
+    stack_push(&(frame_atual->pilha_de_operandos),low_bits);
 }
 // termina instruct vinicius
 

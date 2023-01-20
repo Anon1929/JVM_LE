@@ -13,17 +13,8 @@ void stack_push(stack* pilha, int32_t elem);
 
 int32_t stack_pop(stack* pilha);
 
-typedef struct union_variables{
- 
-}union_variables;
-
-typedef struct local_variable_vector{
-    union_variables variavel_union;
-
-}local_variable_vector;
-
 typedef struct frame{
-    local_variable_vector vetor_de_variaveis_locais;
+    int32_t vetor_de_variaveis_locais[99999];
     stack pilha_de_operandos;
     cp_info * constant_pool ;
     
@@ -79,7 +70,7 @@ void readmethod_area(method_area *,Classfile *);
 // readclassdata readclasscode readclassfeild
 
 void readframe(frame *,Classfile*);
-void readlocal_variable_vector(local_variable_vector *, Classfile*);
+void readlocal_variable_vector(int32_t vetor[], Classfile*);
 //implementar stack
 
 ///    Divisões prinicipais, carregamento e execução de classe

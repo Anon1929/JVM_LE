@@ -3,6 +3,7 @@
 #include "src/leitor.h"
 #include "src/exibidor.h"
 #include "src/jvm.h"
+#include "src/instructions.h"
 #include <string.h>
 int main(int argc,char * argv[]){
 	Classfile cf;
