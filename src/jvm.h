@@ -32,8 +32,6 @@ void stack_push_reference(stack* pilha, void * referencia);
 void *stack_pop_reference(stack* pilha);
 int32_t stack_pop(stack* pilha);
 
-<<<<<<< HEAD
-=======
 
 typedef struct local_variable_vector{
     int tamanho;
@@ -48,7 +46,6 @@ void insert_reference_in_local_var_array(local_variable_vector* vetor_variaveis,
 void *get_reference_from_local_var_array(local_variable_vector* vetor_variaveis, int32_t indice);
 
 
->>>>>>> weliton
 typedef struct frame{
     int32_t vetor_de_variaveis_locais[99999];
     stack pilha_de_operandos;
