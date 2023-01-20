@@ -273,7 +273,7 @@ void readClassfile(Classfile *cf, FILE *fd)
     cf->interfaces = (u2 *)malloc(cf->interfaces_count * sizeof(u2));
     for (int i = 0; i < cf->interfaces_count; i++)
     {
-        u2Read(fd);
+        cf->interfaces[i] = u2Read(fd);
     }
     cf->fields_count = u2Read(fd);
     cf->fields = (field_info *)malloc(cf->fields_count * sizeof(field_info));

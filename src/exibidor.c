@@ -98,7 +98,7 @@ void printClassfile(Classfile *classfile)
     printf("EXIB INTERF\n");
      for (int i = 0; i < classfile->interfaces_count; i++)
      {
-         printf("Interfaces: %s\n", decodeUTF8(classfile->constant_pool + classfile->interfaces[i]));
+         printf("Interface %d: %s\n",classfile->interfaces[i], decodeClassInfo(classfile->constant_pool, classfile->interfaces[i]));
      }
      printf("FIM EXIB INTERF\n");
 
