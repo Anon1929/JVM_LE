@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include "exibidor.h"
+#include <string.h>
 
 void func_nop(Jvm * jvm,frame* frame_atual){
     jvm->pc++; 
@@ -209,68 +210,161 @@ void func_lload_2(Jvm * jvm, frame* frame_atual){
 
 // isntruções Welliton 
 
-void func_lload_3(Jvm * jvm, frame* frame_atual){
+void func_lload_3(Jvm * jvm,frame* frame_atual){
+    stack_push(&(frame_atual->pilha_de_operandos), 0);
+    stack_push(&(frame_atual->pilha_de_operandos), 3);
+    jvm->pc++;
+}
+
+void func_fload_0(Jvm * jvm,frame* frame_atual){
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), 0);
+    jvm->pc++;
+}
+
+void func_fload_1(Jvm * jvm,frame* frame_atual){
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), 1);
+    jvm->pc++;
+}
+
+void func_fload_2(Jvm * jvm,frame* frame_atual){
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), 2);
+    jvm->pc++;
+}
+
+void func_fload_3(Jvm * jvm,frame* frame_atual){
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), 3);
+    jvm->pc++;
+}
+
+void func_dload_0(Jvm * jvm,frame* frame_atual){
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), 0);
+    jvm->pc++;
+}
+
+void func_dload_1(Jvm * jvm,frame* frame_atual){
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), 1);
+    jvm->pc++;
+}
+void func_dload_2(Jvm * jvm,frame* frame_atual){
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), 2);
+    jvm->pc++;
+}
+
+void func_dload_3(Jvm * jvm,frame* frame_atual){
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), 3);
+    jvm->pc++;
+}
+
+void func_aload_0(Jvm * jvm,frame* frame_atual){
+    void* referencia = get_reference_from_local_var_array(&(frame_atual->vetor_de_variaveis_locais), 0);
+    stack_push_reference(&(frame_atual->pilha_de_operandos), referencia);
+    jvm->pc++;
+}
+void func_aload_1(Jvm * jvm,frame* frame_atual){
+    void* referencia = get_reference_from_local_var_array(&(frame_atual->vetor_de_variaveis_locais), 1);
+    stack_push_reference(&(frame_atual->pilha_de_operandos), referencia);
+    jvm->pc++;
+}
+void func_aload_2(Jvm * jvm,frame* frame_atual){
+    void* referencia = get_reference_from_local_var_array(&(frame_atual->vetor_de_variaveis_locais), 2);
+    stack_push_reference(&(frame_atual->pilha_de_operandos), referencia);
+    jvm->pc++;
+}
+void func_aload_3(Jvm * jvm,frame* frame_atual){
+    void* referencia = get_reference_from_local_var_array(&(frame_atual->vetor_de_variaveis_locais), 3);
+    stack_push_reference(&(frame_atual->pilha_de_operandos), referencia);
+    jvm->pc++;
+}
+
+void func_iaload(Jvm * jvm,frame* frame_atual){
+    int32_t aux =  stack_pop(&(frame_atual->pilha_de_operandos));
+    uint32_t indice;
+    memcpy(&indice,&aux,4);
+
+    Array* arrayref = stack_pop_reference(&(frame_atual->pilha_de_operandos));
+    int32_t* vetor_int = arrayref->vetor;
+    stack_push(&(frame_atual->pilha_de_operandos), vetor_int[indice]);
+    jvm->pc++;
+}
+
+
+void func_laload(Jvm * jvm,frame* frame_atual){
+    int32_t aux =  stack_pop(&(frame_atual->pilha_de_operandos));
+    uint32_t indice;
+    memcpy(&indice,&aux,4);
+
+    Array* arrayref = stack_pop_reference(&(frame_atual->pilha_de_operandos));
+    int64_t* vetor_long = arrayref->vetor;
+    push_long_in_stack(&(frame_atual->pilha_de_operandos), vetor_long[indice]);
+    jvm->pc++;
+}
+
+
+void func_faload(Jvm * jvm,frame* frame_atual){
+    int32_t aux =  stack_pop(&(frame_atual->pilha_de_operandos));
+    uint32_t indice;
+    memcpy(&indice,&aux,4);
+
+    Array* arrayref = stack_pop_reference(&(frame_atual->pilha_de_operandos));
+    float* vetor_float = arrayref->vetor;
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), vetor_float[indice]);
+    jvm->pc++;
+}
+
+
+void func_daload(Jvm * jvm,frame* frame_atual){
+    int32_t aux =  stack_pop(&(frame_atual->pilha_de_operandos));
+    uint32_t indice;
+    memcpy(&indice,&aux,4);
+
+    Array* arrayref = stack_pop_reference(&(frame_atual->pilha_de_operandos));
+    double* vetor_double = arrayref->vetor;
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), vetor_double[indice]);
+    jvm->pc++;
+}
+
+void func_aaload(Jvm * jvm,frame* frame_atual){
+    int32_t aux =  stack_pop(&(frame_atual->pilha_de_operandos));
+    uint32_t indice;
+    memcpy(&indice,&aux,4);
+
+    Array* arrayref = stack_pop_reference(&(frame_atual->pilha_de_operandos));
+    void** vetor_referencias = arrayref->vetor;
+    stack_push_reference(&(frame_atual->pilha_de_operandos), vetor_referencias[indice]);
+    jvm->pc++;
 
 }
-void func_fload_0(Jvm * jvm, frame* frame_atual){
+void func_baload(Jvm * jvm,frame* frame_atual){
+    int32_t aux =  stack_pop(&(frame_atual->pilha_de_operandos));
+    uint32_t indice;
+    memcpy(&indice,&aux,4);
 
+    Array* arrayref = stack_pop_reference(&(frame_atual->pilha_de_operandos));
+    int8_t* vetor_bytes = arrayref->vetor;
+    stack_push(&(frame_atual->pilha_de_operandos), (int32_t)vetor_bytes[indice]);
+    jvm->pc++;
 }
-void func_fload_1(Jvm * jvm, frame* frame_atual){
 
+void func_caload(Jvm * jvm,frame* frame_atual){
+    int32_t aux =  stack_pop(&(frame_atual->pilha_de_operandos));
+    uint32_t indice;
+    memcpy(&indice,&aux,4);
+
+    Array* arrayref = stack_pop_reference(&(frame_atual->pilha_de_operandos));
+    uint16_t* vetor_char = arrayref->vetor;
+    stack_push(&(frame_atual->pilha_de_operandos), (int32_t)vetor_char[indice]);
+    jvm->pc++;
 }
-void func_fload_2(Jvm * jvm, frame* frame_atual){
 
-}
-void func_fload_3(Jvm * jvm, frame* frame_atual){
+void func_saload(Jvm * jvm,frame* frame_atual){
+    int32_t aux =  stack_pop(&(frame_atual->pilha_de_operandos));
+    uint32_t indice;
+    memcpy(&indice,&aux,4);
 
-}
-void func_dload_0(Jvm * jvm, frame* frame_atual){
-
-}
-void func_dload_1(Jvm * jvm, frame* frame_atual){
-
-}
-void func_dload_2(Jvm * jvm, frame* frame_atual){
-
-}
-void func_dload_3(Jvm * jvm, frame* frame_atual){
-
-}
-void func_aload_0(Jvm * jvm, frame* frame_atual){
-
-}
-void func_aload_1(Jvm * jvm, frame* frame_atual){
-
-}
-void func_aload_2(Jvm * jvm, frame* frame_atual){
-
-}
-void func_aload_3(Jvm * jvm, frame* frame_atual){
-
-}
-void func_iaload(Jvm * jvm, frame* frame_atual){
-
-}
-void func_laload(Jvm * jvm, frame* frame_atual){
-
-}
-void func_faload(Jvm * jvm, frame* frame_atual){
-
-}
-void func_daload(Jvm * jvm, frame* frame_atual){
-
-}
-void func_aaload(Jvm * jvm, frame* frame_atual){
-
-}
-void func_baload(Jvm * jvm, frame* frame_atual){
-
-}
-void func_caload(Jvm * jvm, frame* frame_atual){
-
-}
-void func_saload(Jvm * jvm, frame* frame_atual){
-
+    Array* arrayref = stack_pop_reference(&(frame_atual->pilha_de_operandos));
+    int16_t* vetor_short = arrayref->vetor;
+    stack_push(&(frame_atual->pilha_de_operandos), (int32_t)vetor_short[indice]);
+    jvm->pc++;
 }
 void func_istore(Jvm * jvm, frame* frame_atual){
 
@@ -287,11 +381,15 @@ void func_dstore(Jvm * jvm, frame* frame_atual){
 void func_astore(Jvm * jvm, frame* frame_atual){
 
 }
-void func_istore_0(Jvm * jvm, frame* frame_atual){
-
+void func_istore_0(Jvm * jvm,frame* frame_atual){
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array(&(frame_atual->vetor_de_variaveis_locais),valor,0);
+    jvm->pc++;
 }
-void func_istore_1(Jvm * jvm, frame* frame_atual){
-
+void func_istore_1(Jvm * jvm,frame* frame_atual){
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array(&(frame_atual->vetor_de_variaveis_locais),valor,1);
+    jvm->pc++;
 }
 // Welliton termina
 
