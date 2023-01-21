@@ -49,6 +49,7 @@ void *get_reference_from_local_var_array(local_variable_vector* vetor_variaveis,
 
 
 typedef struct frame{
+    //int32_t *vetor_de_variaveis_locais;
     local_variable_vector* vetor_de_variaveis_locais;
     stack pilha_de_operandos;
     cp_info * constant_pool ;
