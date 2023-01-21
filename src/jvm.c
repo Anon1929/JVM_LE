@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+
+void (*vetorfuncs[256])(Jvm *, frame*, classcode*);
+
+
 void stack_push(stack* pilha, int32_t elem){
     pilha->altura++;
     pilha->stackarr[pilha->altura-1].info.valor = elem;
@@ -105,8 +110,8 @@ char *ponto_class(char name_class[]) {
 int ja_foi_carregada(char nome_classe[],method_area* area_metodos) {
     
     for(int i = 0;i < area_metodos->qtd_atual;i++){
-        method_area_item  m = area_metodos->classes[i];
-        if(strcmp(nome_classe, m.class_name) == 0) {
+        method_area_item  ma = area_metodos->classes[i];
+        if(strcmp(nome_classe, ma.class_name) == 0) {
             return 1;
         }
     }
@@ -198,9 +203,9 @@ field_variable* gera_field_variables(classfields* info_fields, u2 qtd) {
 
 method_area_item* busca_endereco_class_in_method_area(method_area* area_metodos, char class_name[]) {    
     for(int i = 0; i < area_metodos->qtd_atual;i++) {
-        method_area_item m = area_metodos->classes[i];
+        method_area_item ma = area_metodos->classes[i];
 
-        if(strcmp(class_name, m.class_name) == 0) {
+        if(strcmp(class_name, ma.class_name) == 0) {
             return area_metodos->classes+i;
         }
     }
@@ -227,19 +232,19 @@ void imprime_metodos(classmethod* vetor_metodos, u2 length) {
     printf("\n");
 }
 
-void insere_class_in_method_area(method_area_item* m, method_area* area_metodos) {
-    area_metodos->classes[area_metodos->qtd_atual] = (*m);
+void insere_class_in_method_area(method_area_item* ma, method_area* area_metodos) {
+    area_metodos->classes[area_metodos->qtd_atual] = (*ma);
     area_metodos->qtd_atual++;
 }
 
-void preenche_fields_in_class(method_area_item* m, Classfile* classfile) {
-    m->qtd_fields_estaticos = get_qtd_fields_estaticos(classfile);
-    m->qtd_fields_nao_estaticos = get_qtd_fields_nao_estaticos(classfile);
+void preenche_fields_in_class(method_area_item* ma, Classfile* classfile) {
+    ma->qtd_fields_estaticos = get_qtd_fields_estaticos(classfile);
+    ma->qtd_fields_nao_estaticos = get_qtd_fields_nao_estaticos(classfile);
 
-    m->info_static_fields =  get_info_statics(classfile);
-    m->info_non_static_fields =  get_info_non_statics(classfile);
+    ma->info_static_fields =  get_info_statics(classfile);
+    ma->info_non_static_fields =  get_info_non_statics(classfile);
 
-    m->static_fields = gera_field_variables(m->info_static_fields, m->qtd_fields_estaticos); // criando fields estáticos
+    ma->static_fields = gera_field_variables(ma->info_static_fields, ma->qtd_fields_estaticos); // criando fields estáticos
 }
 
 
@@ -283,12 +288,12 @@ void carrega_classe_por_nome(char name[], method_area* area_metodos) {
 
 void carregamento(Classfile* classfile, method_area* area_metodos) {
 
-    method_area_item m;
+    method_area_item ma;
 
-    m.class_name = decodeClassInfo(classfile->constant_pool, classfile->this_class);
+    ma.class_name = decodeClassInfo(classfile->constant_pool, classfile->this_class);
     char* father_class_name =  decodeClassInfo(classfile->constant_pool, classfile->super_class);
 
-    if (ja_foi_carregada(m.class_name, area_metodos)) {
+    if (ja_foi_carregada(ma.class_name, area_metodos)) {
         printf("Classe já carregada\n");
         return;
     }
@@ -297,20 +302,42 @@ void carregamento(Classfile* classfile, method_area* area_metodos) {
         carrega_classe_por_nome(father_class_name, area_metodos);   
     }    
     
-    m.father_class = busca_endereco_class_in_method_area(area_metodos,father_class_name);
-    m.classfile = classfile;
-
+    ma.father_class = busca_endereco_class_in_method_area(area_metodos,father_class_name);
+    ma.classfile = classfile;
    
-    preenche_fields_in_class(&m, classfile);
-    preenche_methods_in_class(&m, classfile, area_metodos);
-    insere_class_in_method_area(&m, area_metodos);
+    preenche_fields_in_class(&ma, classfile);
+    preenche_methods_in_class(&ma, classfile, area_metodos);
+    insere_class_in_method_area(&ma, area_metodos);
 
 
-    printf("\n\nInformações classe %s\n", m.class_name);
+    printf("\n\nInformações classe %s\n", ma.class_name);
     printf("Fields estáticos\n");
-    imprime_fields(m.static_fields, m.qtd_fields_estaticos); 
+    imprime_fields(ma.static_fields, ma.qtd_fields_estaticos); 
     printf("Imprime métodos\n");
-    imprime_metodos(m.metodos, m.qtd_metodos);
+    imprime_metodos(ma.metodos, ma.qtd_metodos);
     printf("--------------------------------------------------------------------------------------------\n");
+    clinit_exec(&ma);
 }
 
+void clinit_exec(method_area_item * ma){
+
+}
+
+void bytecodeexec(){
+    Jvm jvm;
+    classcode code;
+    frame frame_atual;
+    vetorfuncs[0](&jvm,&frame_atual,&code);
+    printf("OK2\n");
+}
+
+/*
+void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual){
+    jvm->pc=0;
+    u1 bytecode;
+    while(jvm->pc <code->tamanho_codigo){
+        bytecode = code->code[jvm->pc];
+        vetorfuncs[bytecode](jvm,frame_atual,code);
+    }
+}
+*/

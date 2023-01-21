@@ -6,6 +6,8 @@
 #include "src/instructions.h"
 #include <string.h>
 #include <stdlib.h>
+extern void (*vetorfuncs[256])(Jvm *, frame*, classcode*);
+
 int main(int argc,char * argv[]){
 	Classfile cf;
 	char * filename;
@@ -17,6 +19,8 @@ int main(int argc,char * argv[]){
 
 		if(strcmp(argv[2],"1")==0){
 			printf("Execução iniciando\n");
+			load_instructions(vetorfuncs);
+			bytecodeexec();
 			// jvmexec(&cf);
 			
 			

@@ -24,6 +24,8 @@ typedef struct stack{
 
 }stack;
 
+
+
 void stack_push(stack* pilha, int32_t elem);
 void push_float_in_stack(stack* pilha, float valor_f);
 void push_long_in_stack(stack* pilha, long valor_l);
@@ -130,7 +132,7 @@ typedef struct method_area {
 
 
 typedef struct Jvm{
-    void *pc;
+    u4 pc; 
     stack pilha_de_frames;
     method_area area_de_metodos;
 
@@ -149,8 +151,16 @@ void readlocal_variable_vector(int32_t vetor[], Classfile*);
 ///    Divisões prinicipais, carregamento e execução de classe
 void carregamento(Classfile* classfile, method_area* area_metodos);
 void code_exec(Jvm *);
+void clinit_exec(method_area_item *);
+
 
 ///
+//void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual);
+void bytecodeexec();
 void jvm_exec(Classfile *);    //Chamada pelo main
+
+
+
+
 
 #endif
