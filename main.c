@@ -8,7 +8,9 @@
 #include <stdlib.h>
 extern void (*vetorfuncs[256])(Jvm *, frame*, classcode*);
 
+
 int main(int argc,char * argv[]){
+
 	Classfile cf;
 	char * filename;
 	if (argc == 3){
@@ -30,7 +32,8 @@ int main(int argc,char * argv[]){
 			area_metodos.classes = (method_area_item*)malloc(sizeof(method_area_item)*area_metodos.tamanho_total);
 			area_metodos.qtd_atual = 0;
 			carregamento(&cf, &area_metodos);
-			
+
+
 
 		}
 		else{

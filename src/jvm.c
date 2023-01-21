@@ -31,7 +31,7 @@ void *stack_pop_reference(stack* pilha){
 }
 
 
-void push_long_in_stack(stack* pilha, long valor_l) {
+void push_long_in_stack(stack* pilha,long long valor_l) {
     u1 buffer[8];
     memcpy(&buffer, &valor_l, 8);
 

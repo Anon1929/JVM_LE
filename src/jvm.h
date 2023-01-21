@@ -28,7 +28,7 @@ typedef struct stack{
 
 void stack_push(stack* pilha, int32_t elem);
 void push_float_in_stack(stack* pilha, float valor_f);
-void push_long_in_stack(stack* pilha, long valor_l);
+void push_long_in_stack(stack* pilha, long long valor_l);
 void push_double_in_stack(stack* pilha, double valor_d);
 void stack_push_reference(stack* pilha, void * referencia);
 void *stack_pop_reference(stack* pilha);

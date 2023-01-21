@@ -491,7 +491,7 @@ void printCpinfo(cp_info *cpinfo, cp_info * arraycpinfo)
             printf("Float: %f\n", cpinfo->cp_info_union.float_info.bytes);
             break;
         case 5:
-            printf("Long: %ld\n", ((long) cpinfo->cp_info_union.long_info.high_bytes << 32) + cpinfo->cp_info_union.long_info.low_bytes);
+            printf("Long: %ld\n", ((long long) cpinfo->cp_info_union.long_info.high_bytes << 32) + cpinfo->cp_info_union.long_info.low_bytes);
             break;
         case 6:
             printf("Double_1: %lf\n", cpinfo->cp_info_union.double_info.high_bytes);
