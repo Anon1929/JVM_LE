@@ -278,15 +278,15 @@ void preenche_methods_in_class(method_area_item* classe, Classfile* classfile, m
 }
 
 
-void carrega_classe_por_nome(char name[], method_area* area_metodos) {
+void carrega_classe_por_nome(char name[], method_area* area_metodos, Jvm* jvm) {
     Classfile* classfile = (Classfile*)malloc(sizeof(Classfile));
     readFile(classfile, concatena_strings("test/", ponto_class(name)));
-    carregamento(classfile, area_metodos);   
+    carregamento(classfile, area_metodos, jvm);   
 }
 
 
 
-void carregamento(Classfile* classfile, method_area* area_metodos) {
+void carregamento(Classfile* classfile, method_area* area_metodos,Jvm* jvm) {
 
     method_area_item ma;
 
@@ -299,7 +299,7 @@ void carregamento(Classfile* classfile, method_area* area_metodos) {
     }
 
     if(strcmp(father_class_name, "java/lang/Object") != 0) {
-        carrega_classe_por_nome(father_class_name, area_metodos);   
+        carrega_classe_por_nome(father_class_name, area_metodos, jvm);   
     }    
     
     ma.father_class = busca_endereco_class_in_method_area(area_metodos,father_class_name);
@@ -316,13 +316,27 @@ void carregamento(Classfile* classfile, method_area* area_metodos) {
     printf("Imprime métodos\n");
     imprime_metodos(ma.metodos, ma.qtd_metodos);
     printf("--------------------------------------------------------------------------------------------\n");
-    clinit_exec(&ma);
+    
+    for(int i=0;i<ma.qtd_metodos;i++){
+        if(strcmp(ma.metodos[i].name, "<clinit>")==0){
+            frame frame_novo;
+            bytecodeexec(ma.metodos[i].codigo, jvm, &frame_novo);
+            jvm->pilha_de_frames[jvm->framecount]= frame_novo;
+            jvm->framecount++;
+                //clinit_exec(&ma);
+        }
+    }
 }
 
-void clinit_exec(method_area_item * ma){
+
+
+
+void clinit_exec(method_area_item * ma, int32_t index_cl){
 
 }
 
+
+/*
 void bytecodeexec(){
     Jvm jvm;
     classcode code;
@@ -330,8 +344,8 @@ void bytecodeexec(){
     vetorfuncs[0](&jvm,&frame_atual,&code);
     printf("OK2\n");
 }
+*/
 
-/*
 void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual){
     jvm->pc=0;
     u1 bytecode;
@@ -339,5 +353,13 @@ void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual){
         bytecode = code->code[jvm->pc];
         vetorfuncs[bytecode](jvm,frame_atual,code);
     }
+}
+/*
+Object* instanciarObjeto(method_area_item *ma){
+    Object *newobject = (Object *) malloc(sizeof(Object));
+    newobject->atributos = (int32_t *) malloc(sizeof(int32_t)*ma->qtd_fields_nao_estaticos*2);
+    newobject->atributos_nome = (classfields *) malloc(sizeof(classfields)*ma->qtd_fields_nao_estaticos*2);
+    newobject->classe = ma;
+    return newobject;
 }
 */

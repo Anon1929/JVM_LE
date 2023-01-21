@@ -13,7 +13,7 @@ typedef struct Array {
 typedef struct Numero {
 	union {
         void * referencia;
-	    int32_t valor;
+	    int32_t valor; 
     } info;
 } Numero;
 
@@ -52,7 +52,7 @@ typedef struct frame{
     local_variable_vector* vetor_de_variaveis_locais;
     stack pilha_de_operandos;
     cp_info * constant_pool ;
-    
+
 }frame;
 
 
@@ -122,21 +122,31 @@ struct method_area_item{
 
 };
 
+typedef struct Object{
+    int32_t *atributos;
+    classfields * atributos_nome;
+    method_area_item * classe;
+}Object;
+
 
 
 typedef struct method_area {
     method_area_item* classes;
     int qtd_atual;
     int tamanho_total;
+
 }method_area;
 
 
 typedef struct Jvm{
     u4 pc; 
-    stack pilha_de_frames;
+    frame pilha_de_frames[999];
+    int32_t framecount;
     method_area area_de_metodos;
-
 }Jvm;
+
+
+
 
 
 // Union Variables
@@ -149,9 +159,9 @@ void readlocal_variable_vector(int32_t vetor[], Classfile*);
 //implementar stack
 
 ///    Divisões prinicipais, carregamento e execução de classe
-void carregamento(Classfile* classfile, method_area* area_metodos);
+void carregamento(Classfile* classfile, method_area* area_metodos, Jvm *jvm);
 void code_exec(Jvm *);
-void clinit_exec(method_area_item *);
+void clinit_exec(method_area_item *,int32_t index_cl);
 
 
 ///

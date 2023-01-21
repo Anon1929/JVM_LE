@@ -271,16 +271,19 @@ void readClassfile(Classfile *cf, FILE *fd)
     cf->super_class = u2Read(fd);
     cf->interfaces_count = u2Read(fd);
     cf->interfaces = (u2 *)malloc(cf->interfaces_count * sizeof(u2));
+    
     for (int i = 0; i < cf->interfaces_count; i++)
     {
         cf->interfaces[i] = u2Read(fd);
     }
     cf->fields_count = u2Read(fd);
+    
     cf->fields = (field_info *)malloc(cf->fields_count * sizeof(field_info));
     for (int i = 0; i < cf->fields_count; i++)
     {
         readField_info(&cf->fields[i], fd, cf->constant_pool);
     }
+    
 
 
     cf->methods_count = u2Read(fd);
