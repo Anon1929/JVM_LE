@@ -348,28 +348,50 @@ void func_saload(Jvm * jvm,frame* frame_atual, classcode * code){
 }
 
 void func_istore(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    u1 indice = code->code[jvm->pc+1];    
+    frame_atual->vetor_de_variaveis_locais[indice] = valor;
+    jvm->pc += 2;
 }
+
 void func_lstore(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u1 indice = code->code[jvm->pc+1];    
+    frame_atual->vetor_de_variaveis_locais[indice+1] = stack_pop(&(frame_atual->pilha_de_operandos));
+    frame_atual->vetor_de_variaveis_locais[indice] = stack_pop(&(frame_atual->pilha_de_operandos));
+    jvm->pc += 2;
 }
+
 void func_fstore(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    u1 indice = code->code[jvm->pc+1];    
+    frame_atual->vetor_de_variaveis_locais[indice] = valor;
+    jvm->pc += 2;
 }
+
 void func_dstore(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u1 indice = code->code[jvm->pc+1];    
+    frame_atual->vetor_de_variaveis_locais[indice+1] = stack_pop(&(frame_atual->pilha_de_operandos));
+    frame_atual->vetor_de_variaveis_locais[indice] = stack_pop(&(frame_atual->pilha_de_operandos));
+    jvm->pc += 2;
 }
+
 void func_astore(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    u1 indice = code->code[jvm->pc+1];    
+    frame_atual->vetor_de_variaveis_locais[indice] = valor;
+    jvm->pc += 2;
 }
+
 void func_istore_0(Jvm * jvm,frame* frame_atual, classcode * code){
     int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
-    //insert_in_local_var_array((frame_atual->vetor_de_variaveis_locais),valor,0);
-    
+    frame_atual->vetor_de_variaveis_locais[0] = valor;
+    jvm->pc++;    
 }
+
 void func_istore_1(Jvm * jvm,frame* frame_atual, classcode * code){
     int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
-    //insert_in_local_var_array((frame_atual->vetor_de_variaveis_locais),valor,1);
+    frame_atual->vetor_de_variaveis_locais[1] = valor;
+    jvm->pc++;
     
 }
 // Welliton termina
