@@ -20,7 +20,7 @@ typedef struct Numero {
 
 typedef struct stack{
     int altura;
-    Numero stackarr[99999];
+    int32_t stackarr[99999];
 
 }stack;
 
@@ -28,29 +28,29 @@ typedef struct stack{
 
 void stack_push(stack* pilha, int32_t elem);
 void push_float_in_stack(stack* pilha, float valor_f);
-void push_long_in_stack(stack* pilha, long long valor_l);
+void push_long_in_stack(stack* pilha, int64_t valor_l);
 void push_double_in_stack(stack* pilha, double valor_d);
-void stack_push_reference(stack* pilha, void * referencia);
-void *stack_pop_reference(stack* pilha);
+void push_reference_in_stack(stack* pilha, void* reference);
+
+uint32_t uint32_from_bits_in_i32t(int32_t valor_int32);
+void* pointer_from_bits_in_i32t(int32_t valor_int32);
+
+
 int32_t stack_pop(stack* pilha);
 
 
 typedef struct local_variable_vector{
     int tamanho;
-    Numero vetor[99999];
+    int32_t vetor[99999];
 }local_variable_vector;
 
 
 void insert_in_local_var_array(local_variable_vector* variaveis_vetor, int32_t elem, int indice);
 int32_t get_from_array(local_variable_vector* variaveis_vetor, int indice);
 
-void insert_reference_in_local_var_array(local_variable_vector* vetor_variaveis, void* reference, int indice);
-void *get_reference_from_local_var_array(local_variable_vector* vetor_variaveis, int32_t indice);
-
 
 typedef struct frame{
-    //int32_t *vetor_de_variaveis_locais;
-    local_variable_vector* vetor_de_variaveis_locais;
+    int32_t *vetor_de_variaveis_locais;
     stack pilha_de_operandos;
     cp_info * constant_pool ;
 
