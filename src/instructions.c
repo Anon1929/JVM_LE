@@ -396,13 +396,17 @@ void func_istore_1(Jvm * jvm,frame* frame_atual, classcode * code){
 
 // Arthur Começa
 void func_istore_2(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array((frame_atual->vetor_de_variaveis_locais),valor,2);
+    jvm->pc++;
 }
 void func_istore_3(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array((frame_atual->vetor_de_variaveis_locais),valor,3);
+    jvm->pc++;
 }
 void func_lstore_0(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    
 }
 void func_lstore_1(Jvm * jvm, frame* frame_atual, classcode * code){
 
