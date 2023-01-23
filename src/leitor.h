@@ -10,7 +10,7 @@ static u8 u8Read();
 
 
 void readClassfile(Classfile *, FILE *);
-void readCpinfo(cp_info *, FILE *);
+void readCpinfo(cp_info *, FILE *, int *);
 void readField_info(field_info *, FILE *,cp_info*);
 void readMethod_info(method_info *, FILE *,cp_info *);
 void readAttribute_info(attribute_info *, FILE *,cp_info *);

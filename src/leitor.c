@@ -47,7 +47,7 @@ static u8 u8Read(FILE *fd)
     return toReturn;
 }
 // lendo cp_info
-void readCpinfo(cp_info *cp, FILE *fd)
+void readCpinfo(cp_info *cp, FILE *fd, int *index)
 {
     cp->tag = u1Read(fd);
     switch (cp->tag)
@@ -77,10 +77,12 @@ void readCpinfo(cp_info *cp, FILE *fd)
             cp->cp_info_union.float_info.bytes = u4Read(fd);
             break;
         case CONSTANT_Long:
+			(*index)++;
             cp->cp_info_union.long_info.high_bytes = u4Read(fd);
             cp->cp_info_union.long_info.low_bytes = u4Read(fd);
             break;
         case CONSTANT_Double:
+			(*index)++;
             cp->cp_info_union.double_info.high_bytes = u4Read(fd);
             cp->cp_info_union.double_info.low_bytes = u4Read(fd);
             break;
@@ -152,7 +154,6 @@ void readAttribute_info(attribute_info* ai, FILE* fd, cp_info* cp){
 
     if(ai->attribute_length > 0){
         char * string_comp;
-        
         string_comp = decodeUTF8(cp + ai->attribute_name_index);
         if(strcmp(string_comp, "Code")==0){
             readAttribute_code(&(ai->attr_info_union.Code),fd,cp);
@@ -263,8 +264,8 @@ void readClassfile(Classfile *cf, FILE *fd)
     cf->constant_pool_count = u2Read(fd);
     cf->constant_pool = (cp_info *)malloc(cf->constant_pool_count * sizeof(cp_info));
     for (int i = 1; i < cf->constant_pool_count; i++)
-    {
-        readCpinfo(&cf->constant_pool[i], fd);
+    {   
+        readCpinfo(&cf->constant_pool[i], fd, &i);
     }
     cf->access_flags = u2Read(fd);
     cf->this_class = u2Read(fd);
@@ -301,7 +302,7 @@ void readClassfile(Classfile *cf, FILE *fd)
     {
         readAttribute_info(&cf->attributes[i], fd,cf->constant_pool);
     }
-    //*/
+    //
 }
 
 void readFile(Classfile * cf, char *nome){
