@@ -406,55 +406,88 @@ void func_istore_3(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_lstore_0(Jvm * jvm, frame* frame_atual, classcode * code){
-    
+    int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,0);
+    jvm->pc++;
 }
 void func_lstore_1(Jvm * jvm, frame* frame_atual, classcode * code){
+    int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,1);
+    jvm->pc++;
 
 }
 void func_lstore_2(Jvm * jvm, frame* frame_atual, classcode * code){
+    int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,2);
+    jvm->pc++;
 
 }
 void func_lstore_3(Jvm * jvm, frame* frame_atual, classcode * code){
+    int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,3);
+    jvm->pc++;
 
 }
 void func_fstore_0(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array((frame_atual->vetor_de_variaveis_locais),valor,0);
+    jvm->pc++;
 }
 void func_fstore_1(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array((frame_atual->vetor_de_variaveis_locais),valor,1);
+    jvm->pc++;
 
 }
 void func_fstore_2(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array((frame_atual->vetor_de_variaveis_locais),valor,2);
+    jvm->pc++;
 
 }
 void func_fstore_3(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array((frame_atual->vetor_de_variaveis_locais),valor,3);
+    jvm->pc++;
 
 }
 void func_dstore_0(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,0);
+    jvm->pc++;
 }
 void func_dstore_1(Jvm * jvm, frame* frame_atual, classcode * code){
+    int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,1);
+    jvm->pc++;
 
 }
 void func_dstore_2(Jvm * jvm, frame* frame_atual, classcode * code){
+    int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,2);
+    jvm->pc++;
 
 }
 void func_dstore_3(Jvm * jvm, frame* frame_atual, classcode * code){
+    int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,3);
+    jvm->pc++;
 
 }
 void func_astore_0(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    
 }
 void func_astore_1(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    
 }
 void func_astore_2(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    
 }
 void func_astore_3(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    
 }
 void func_iastore(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    
 }
 void func_lastore(Jvm * jvm, frame* frame_atual, classcode * code){
 
@@ -478,6 +511,8 @@ void func_sastore(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_pop(Jvm * jvm, frame* frame_atual, classcode * code){
+    stack_pop(&(frame_atual->pilha_de_operandos));
+    jvm->pc++;
 
 }
 // Arthur termina
