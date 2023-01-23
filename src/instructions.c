@@ -691,49 +691,176 @@ void func_dcmpg(Jvm * jvm, frame* frame_atual, classcode * code){
 
 //  avançadas depois 
 void func_ifeq(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
 
+    if(stack_pop(&(frame_atual->pilha_de_operandos)) == 0){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }    
 }
 void func_ifne(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
 
+    if(stack_pop(&(frame_atual->pilha_de_operandos)) != 0){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }    
 }
 void func_iflt(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
 
+    if(stack_pop(&(frame_atual->pilha_de_operandos)) < 0){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }    
 }
 void func_ifge(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
 
+    if(stack_pop(&(frame_atual->pilha_de_operandos)) >= 0){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }    
 }
 void func_ifgt(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
 
+    if(stack_pop(&(frame_atual->pilha_de_operandos)) > 0){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }    
 }
 void func_ifle(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
 
+    if(stack_pop(&(frame_atual->pilha_de_operandos)) <= 0){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }    
 }
 void func_if_icmpeq(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
 
+    if(stack_pop(&(frame_atual->pilha_de_operandos)) == stack_pop(&(frame_atual->pilha_de_operandos))){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }  
 }
 void func_if_icmpne(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
 
+    if(stack_pop(&(frame_atual->pilha_de_operandos)) != stack_pop(&(frame_atual->pilha_de_operandos))){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }
 }
 void func_if_icmplt(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
 
+    int32_t value2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t value1 = stack_pop(&(frame_atual->pilha_de_operandos));
+
+    if(value1 < value2){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }
 }
 void func_if_icmpge(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
 
+    int32_t value2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t value1 = stack_pop(&(frame_atual->pilha_de_operandos));
+
+    if(value1 >= value2){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }
 }
 void func_if_icmpgt(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
+    
+    int32_t value2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t value1 = stack_pop(&(frame_atual->pilha_de_operandos));
 
+    if(value1 > value2){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }
 }
 void func_if_icmple(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
 
+    int32_t value2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t value1 = stack_pop(&(frame_atual->pilha_de_operandos));
+
+    if(value1 <= value2){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }
 }
 void func_if_acmpeq(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
+    // Sao referencias, mas como é uma questão de comparar bytes, basta comparar como inteiro.
+    if(stack_pop(&(frame_atual->pilha_de_operandos)) == stack_pop(&(frame_atual->pilha_de_operandos))){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }
 }
 void func_if_acmpne(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
+    // Sao referencias, mas como é uma questão de comparar bytes, basta comparar como inteiro.
+    if(stack_pop(&(frame_atual->pilha_de_operandos)) != stack_pop(&(frame_atual->pilha_de_operandos))){
+        jvm->pc += branchoffset;
+    } else{
+        jvm->pc += 3;
+    }
 }
 void func_inst_goto(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u2 aux = code->code[jvm->pc+1] << 8 | code->code[jvm->pc+2];
+    int16_t branchoffset;
+    memcpy(&branchoffset, &aux, 2);
+    jvm->pc += branchoffset;
 }
 void func_jsr(Jvm * jvm, frame* frame_atual, classcode * code){
 
