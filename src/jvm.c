@@ -65,6 +65,47 @@ void push_double_in_stack(stack* pilha, double valor_d) {
     stack_push(pilha, first_half);
     stack_push(pilha, second_half);
 }
+void insert_in_array_short(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {
+    Array *array = (Array *) arrayref;
+    int16_t *vetor = (int16_t *) array->vetor;
+    vetor[indice] = valor;
+}
+void insert_in_array_char(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {
+    Array *array = (Array *) arrayref;
+    int16_t *vetor = (int16_t *) array->vetor;
+    vetor[indice] = valor;
+}
+void insert_in_array_byte(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {
+    Array *array = (Array *) arrayref;
+    int8_t *vetor = (int8_t *) array->vetor;
+    vetor[indice] = valor;
+}
+void insert_in_array_ref(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {
+    Array *array = (Array *) arrayref;
+    int32_t *vetor = (int32_t *) array->vetor;
+    vetor[indice] = valor;
+}
+void insert_in_array_double(Jvm *jvm, int32_t arrayref, int32_t indice, int64_t elem) {
+    Array *array = (Array *) arrayref;
+    double *vetor = (double *) array->vetor;
+    vetor[indice] = elem;
+}
+void insert_in_array_int(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t elem) {
+    Array *array = (Array *) arrayref;
+    int32_t *vetor = (int32_t *) array->vetor;
+    vetor[indice] = elem;
+}
+void insert_in_array_long(Jvm *jvm, int32_t arrayref, int32_t indice, int64_t elem) {
+    Array *array = (Array *) arrayref;
+    long *vetor = (long *) array->vetor;
+    vetor[indice] = elem;
+}
+void insert_in_array_float(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t elem) {
+    Array *array = (Array *) arrayref;
+    float *vetor = (float *) array->vetor;
+    vetor[indice] = elem;
+}
+
 
 void insert_in_local_var_array(local_variable_vector* vetor_variaveis, int32_t elem, int indice) {
     vetor_variaveis->vetor[indice].info.valor = elem;
