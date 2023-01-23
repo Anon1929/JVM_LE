@@ -5,7 +5,7 @@ CC = gcc
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings
-COMPILER_FLAGS = 
+COMPILER_FLAGS = -m32
 
 #LINKER_FLAGS specifies the libraries we're linking against
 LINKER_FLAGS = 

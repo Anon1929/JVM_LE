@@ -23,6 +23,11 @@ char * decodeClassInfo(cp_info* cp,int classnumber){
 }
 
 
+char **decodeNameandType(cp_info* cp, int indexnum){
+    char ** name_and_type;
+    return name_and_type;
+}
+
 char *decodeAccFlags(u2 flag){
     char *decode = malloc(sizeof(char)*100);
     if(flag & 0x0001){
@@ -69,20 +74,20 @@ void printClassfile(Classfile *classfile)
     printf("Major version: %d\n", classfile->major_version);
     printf("Constant pool count: %d\n", classfile->constant_pool_count);
     
-
-    printf("\n\n\n");
+    printf("\n");
     printf("CONSTPOOL\n");
 
      
      for (int i = 1; i < classfile->constant_pool_count; i++)
      {
-         printCpinfo(&classfile->constant_pool[i]);
+        printf("[%d] ",i);
+         printCpinfo(&classfile->constant_pool[i],classfile->constant_pool);   //primeiro é a entrada, segundo é o array em si de cpinfo
      }
     //Acho que não precisa imprimir o constant pool diretamente
     
 
 
-    printf("\n\n\n");
+    printf("\n");
     printf("CONSTPOOL\n");
 
     printf("Access flags: %d [%s]\n", classfile->access_flags , decodeAccFlags(classfile->access_flags));
@@ -98,20 +103,20 @@ void printClassfile(Classfile *classfile)
     printf("EXIB INTERF\n");
      for (int i = 0; i < classfile->interfaces_count; i++)
      {
-         printf("Interfaces: %s\n", decodeUTF8(classfile->constant_pool + classfile->interfaces[i]));
+         printf("Interface %d: %s\n",classfile->interfaces[i], decodeClassInfo(classfile->constant_pool, classfile->interfaces[i]));
      }
      printf("FIM EXIB INTERF\n");
 
     printf("\n");
 
     printf("EXIBIÇÃO DE FIELDS\n");
-    printf("=========\n");
+    printf("\n");
 
     
     for (int i = 0; i < classfile->fields_count; i++)
     {
         printField_info(&classfile->fields[i],classfile->constant_pool);
-        printf("=========\n");
+        printf("\n");
     }
     
     printf("FIM EXIBIÇÃO DE FIELDS\n");
@@ -119,14 +124,13 @@ void printClassfile(Classfile *classfile)
     printf("\n");
 
 
-
     printf("EXIBIÇÃO DE MÉTODOS\n");
-    printf("=========\n");
+    printf("\n");
     
     for (int i = 0; i < classfile->methods_count; i++)
     {
         printMethod_info(&classfile->methods[i],classfile->constant_pool);
-        printf("=========\n");
+        printf("\n\n");
     }
     printf("FIM EXIBIÇÃO DE MÉTODOS\n");
     
@@ -134,12 +138,12 @@ void printClassfile(Classfile *classfile)
     printf("\n");
 
     printf("EXIBIÇÃO DE ATRIBUTOS\n");
-    printf("=========\n");
+    printf("\n");
     
     
     for (int i = 0; i < classfile->attributes_count; i++){
         printAttribute_info(&classfile->attributes[i], classfile->constant_pool);
-        printf("=========\n");
+        printf("\n");
     }
 
     printf("FIM EXIBIÇÃO DE ATRIBUTOS\n");
@@ -200,7 +204,7 @@ void printAttribute_info(attribute_info *attribute,cp_info *cp){
     else if (strcmp(string_name, "Exceptions") == 0){
         printf("Number of Exceptions: %d\n", attribute->attr_info_union.Exception.number_of_exceptions);
         for (int i = 0; i < attribute->attr_info_union.Exception.number_of_exceptions; i++){
-            printf("Exception Index: %d <%s>\n", attribute->attr_info_union.Exception.exception_index_table[i], decodeUTF8(cp + attribute->attr_info_union.Exception.exception_index_table[i]));
+           // printf("Exception Index: %d <%s>\n", attribute->attr_info_union.Exception.exception_index_table[i], decodeUTF8(cp + attribute->attr_info_union.Exception.exception_index_table[i]));
         }
     }
     else if (strcmp(string_name, "SourceFile") == 0){
@@ -474,16 +478,11 @@ void treatoperand(Code_attribute ca, cp_info* cp, int * indice, int type){
 
 
 
-
-
-
-void printCpinfo(cp_info *cpinfo)
+void printCpinfo(cp_info *cpinfo, cp_info * arraycpinfo)
 {
-    printf("Tag: %d\n", cpinfo->tag);
-    printf("\t");
     switch (cpinfo->tag){
         case 1:
-            printf("Utf8: %s", cpinfo->cp_info_union.utf_8_info.bytes);
+            printf("Utf8: %s\n", cpinfo->cp_info_union.utf_8_info.bytes);
             break;
         case 3:
             printf("Integer: %d\n", cpinfo->cp_info_union.integer_info.bytes);
@@ -492,33 +491,33 @@ void printCpinfo(cp_info *cpinfo)
             printf("Float: %f\n", cpinfo->cp_info_union.float_info.bytes);
             break;
         case 5:
-            printf("Long: %ld", ((long) cpinfo->cp_info_union.long_info.high_bytes << 32) + cpinfo->cp_info_union.long_info.low_bytes);
+            printf("Long: %ld\n", ((long long) cpinfo->cp_info_union.long_info.high_bytes << 32) + cpinfo->cp_info_union.long_info.low_bytes);
             break;
         case 6:
-            printf("Double_1: %lf", cpinfo->cp_info_union.double_info.high_bytes);
-            printf("\tDouble_2: %lf", cpinfo->cp_info_union.double_info.low_bytes);
+            printf("Double_1: %lf\n", cpinfo->cp_info_union.double_info.high_bytes);
+            printf("Double_2: %lf\n", cpinfo->cp_info_union.double_info.low_bytes);
             break;
         case 7:
-            printf("Class: %d\n", cpinfo->cp_info_union.class_info.name_index);
+            printf("Class: #%d <%s>\n", cpinfo->cp_info_union.class_info.name_index, decodeUTF8(arraycpinfo+cpinfo->cp_info_union.class_info.name_index));
             break;
         case 8:
-            printf("String: %d\n", cpinfo->cp_info_union.string_info.string_index);
+            printf("String: #%d <%s> \n", cpinfo->cp_info_union.string_info.string_index, decodeUTF8(arraycpinfo+cpinfo->cp_info_union.string_info.string_index));
             break;
         case 9:
             printf("Fieldref_1: %d\n", cpinfo->cp_info_union.field_ref.class_index);
-            printf("\tFieldref_2: %d\n", cpinfo->cp_info_union.field_ref.name_and_type_index);
+            printf("Fieldref_2: %d\n", cpinfo->cp_info_union.field_ref.name_and_type_index);
             break;
         case 10:
-            printf("Methodref_1: %d\n", cpinfo->cp_info_union.method_ref.class_index);
-            printf("\tMethodref_2: %d\n", cpinfo->cp_info_union.method_ref.name_and_type_index);
+            printf("Methodref Class name: #%d <%s>\n", cpinfo->cp_info_union.method_ref.class_index, decodeClassInfo(arraycpinfo,cpinfo->cp_info_union.method_ref.class_index ));
+            printf("Name and type: %d\n", cpinfo->cp_info_union.method_ref.name_and_type_index);
             break;
         case 11:
             printf("InterfaceMethodref_1: %d\n", cpinfo->cp_info_union.interface_method_ref.class_index);
-            printf("\tInterfaceMethodref_2: %d\n", cpinfo->cp_info_union.interface_method_ref.name_and_type_index);
+            printf("InterfaceMethodref_2: %d\n", cpinfo->cp_info_union.interface_method_ref.name_and_type_index);
             break;
         case 12:
             printf("NameAndType: %d\n", cpinfo->cp_info_union.name_and_type.name_index);
-            printf("\tDescriptor: %d\n", cpinfo->cp_info_union.name_and_type.descriptor_index);
+            printf("Descriptor: %d\n", cpinfo->cp_info_union.name_and_type.descriptor_index);
             break;
         
     }

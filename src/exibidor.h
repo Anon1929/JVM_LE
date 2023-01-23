@@ -6,7 +6,7 @@
 #define xstr(x) str(x)
 
 void printClassfile(Classfile *);
-void printCpinfo(cp_info *);
+void printCpinfo(cp_info *, cp_info *);
 void printField_info(field_info *,cp_info *);
 void printMethod_info(method_info *,cp_info *);
 void printAttribute_info(attribute_info *,cp_info *);
@@ -15,6 +15,7 @@ void printCodeAttr(Code_attribute,cp_info *);
 char *decodeUTF8(cp_info *);
 char *decodeAccFlags(u2);
 char *decodeClassInfo(cp_info* cp,int classnumber);
+char **decodeNameandType(cp_info*, int );
 
 void treatoperand(Code_attribute, cp_info*, int *,int type);
 
