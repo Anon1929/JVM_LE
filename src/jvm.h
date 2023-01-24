@@ -170,7 +170,7 @@ void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual);
 //void bytecodeexec();
 void jvm_exec(method_area* area_metodos,Jvm* jvm);    //Chamada pelo main
 
-frame * allocframe();
+frame * allocframe(cp_info *);
 
 
 

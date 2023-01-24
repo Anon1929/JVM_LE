@@ -145,7 +145,7 @@ void func_sipush(Jvm * jvm, frame* frame_atual, classcode * code){
     (jvm->pc)++;
     (jvm->pc)++;
     (jvm->pc)++;
-    
+
     }
 void func_ldc(Jvm * jvm, frame* frame_atual, classcode * code){/*
 
@@ -819,6 +819,10 @@ void func_inst_return(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_getstatic(Jvm * jvm, frame* frame_atual, classcode * code){
+    int8_t argumento_operando = code->code[jvm->pc+1];
+    int8_t argumento_operando2 = code->code[jvm->pc+2];
+    int32_t indice = argumento_operando << 8 + argumento_operando2;
+
 
 }
 void func_putstatic(Jvm * jvm, frame* frame_atual, classcode * code){
