@@ -69,6 +69,7 @@ typedef struct frame{
     int32_t altura_tipos;
 
 } frame;
+void insert_in_local_var_array_double(frame* ,int64_t, int32_t);
 
 void typepush_opstack(frame *, char);
 char typepop_opstack(frame *);

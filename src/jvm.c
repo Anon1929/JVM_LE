@@ -89,6 +89,10 @@ void push_double_in_stack(stack* pilha, double valor_d) {
     stack_push(pilha, first_half);
     stack_push(pilha, second_half);
 }
+void insert_in_local_var_array_double(frame *, int64_t,int32_t){
+
+}
+
 void insert_in_array_short(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {
     Array *array = (Array *) arrayref;
     int16_t *vetor = (int16_t *) array->vetor;
