@@ -39,7 +39,7 @@ void push_reference_in_stack(stack* pilha, void* reference) {
     memcpy(&valor, &reference, 4);
     stack_push(pilha, valor);
 }
-void stack_pop_double(stack* pilha){
+int64_t stack_pop_double(stack* pilha){
     --(pilha->altura);
     --(pilha->altura);
     int32_t first_half = pilha->stackarr[pilha->altura];
