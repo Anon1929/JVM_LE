@@ -186,7 +186,18 @@ void func_ldc(Jvm * jvm, frame* frame_atual, classcode * code){
 
             case CONSTANT_Class:
             typepush_opstack(frame_atual,'R');
-            //todo
+            char *nomeclasse = decodeClassInfo(frame_atual,argumento_operando);
+            if(!ja_foi_carregada(nomeclasse)){
+                carrega_classe_por_nome(nomeclasse,jvm->area_de_metodos);
+            }
+            method_area_item *ma;
+            for(int j=0; j<jvm->area_de_metodos.qtd_atual;j++){
+                if(strcmp(jvm->area_de_metodos.classes[j].class_name, nomeclasse)==0){
+                    ma = &jvm->area_de_metodos.classes[j];
+                    break;
+                }
+            }
+            stack_push(&(frame_atual->pilha_de_operandos),(int32_t) ma);
             break;
 
         }
