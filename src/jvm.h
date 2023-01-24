@@ -54,8 +54,13 @@ typedef struct frame{
     local_variable_vector* vetor_de_variaveis_locais;
     stack pilha_de_operandos;
     cp_info * constant_pool ;
+    char pilha_tipos_operandos[999];
+    int32_t altura_tipos;
 
 }frame;
+
+void typepush_opstack(frame *, char);
+char typepop_opstack(frame *);
 
 
 typedef struct field_variable {

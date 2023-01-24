@@ -64,6 +64,13 @@ void push_double_in_stack(stack* pilha, double valor_d) {
     stack_push(pilha, first_half);
     stack_push(pilha, second_half);
 }
+void typepush_opstack(frame * frame_atual, char c){
+    frame_atual->pilha_tipos_operandos[frame_atual->altura_tipos++] = c;
+}
+char typepop_opstack(frame * frame_atual){
+    return frame_atual->pilha_tipos_operandos[frame_atual->altura_tipos--];
+}
+
 
 void insert_in_local_var_array(local_variable_vector* vetor_variaveis, int32_t elem, int indice) {
     vetor_variaveis->vetor[indice].info.valor = elem;
@@ -383,5 +390,6 @@ frame * allocframe(cp_info * cp){
     frame_novo = (frame *) malloc(sizeof(frame));
 	frame_novo->vetor_de_variaveis_locais = (local_variable_vector *) malloc(sizeof(local_variable_vector));
     frame_novo->constant_pool = cp;
+    frame_novo->altura_tipos = 0;
     return frame_novo;
 }

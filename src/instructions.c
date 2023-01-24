@@ -147,9 +147,34 @@ void func_sipush(Jvm * jvm, frame* frame_atual, classcode * code){
     (jvm->pc)++;
 
     }
-void func_ldc(Jvm * jvm, frame* frame_atual, classcode * code){/*
+void func_ldc(Jvm * jvm, frame* frame_atual, classcode * code){
+        int8_t argumento_operando = code->code[jvm->pc+1];
+        switch(frame_atual->constant_pool[argumento_operando].tag){
 
-*/}
+            case CONSTANT_Integer:
+            typepush_opstack(frame_atual,'I');
+            stack_push(&(frame_atual->pilha_de_operandos),frame_atual->constant_pool[argumento_operando].cp_info_union.integer_info.bytes);   
+            break;
+
+            case CONSTANT_Float:
+            typepush_opstack(frame_atual,'F');
+            stack_push(&(frame_atual->pilha_de_operandos),frame_atual->constant_pool[argumento_operando].cp_info_union.float_info.bytes);   
+            break;
+
+            case CONSTANT_String:
+            typepush_opstack(frame_atual,'S');
+            int32_t index2 = frame_atual->constant_pool[argumento_operando].cp_info_union.string_info.string_index;
+            stack_push(&(frame_atual->pilha_de_operandos),(int32_t)frame_atual->constant_pool[index2].cp_info_union.utf_8_info.bytes);   
+            break;
+
+            case CONSTANT_Class:
+            //todo
+            break;
+
+        }
+        jvm->pc++;
+        jvm->pc++;
+}
 void func_ldc_w(Jvm * jvm, frame* frame_atual, classcode * code){/*
 
 */}
@@ -828,7 +853,7 @@ void func_getstatic(Jvm * jvm, frame* frame_atual, classcode * code){
     if(strcmp(classname,"java/lang/System")==0){ // se é do sistema faz nada 
         }
     else{
-        // carrega classe e coloca na pilha TODO
+        // carrega classe se não tiver e coloca na pilha TODO
     }
     jvm->pc++;
     jvm->pc++;
