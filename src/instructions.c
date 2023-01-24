@@ -520,27 +520,45 @@ void func_pop(Jvm * jvm, frame* frame_atual, classcode * code){
 // Thiago começa
 
 void func_pop2(Jvm * jvm, frame* frame_atual, classcode * code){
+    // Assumindo que todos os elementos são u4:
+    stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_pop(&(frame_atual->pilha_de_operandos));
+    jvm->pc++;
+
+    /* Ideia geral:
     temp = stack_pop(&(frame_atual->pilha_de_operandos));
     if (sizeof(temp) != sizeof(u8)) {
         stack_pop(&(frame_atual->pilha_de_operandos));
     }
     jvm->pc++;
+     */
 }
 void func_dup(Jvm * jvm, frame* frame_atual, classcode * code){
-    temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
     stack_push(&(frame_atual->pilha_de_operandos), temp);
     stack_push(&(frame_atual->pilha_de_operandos), temp);
     jvm->pc++;
 }
 void func_dup_x1(Jvm * jvm, frame* frame_atual, classcode * code){
-    temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
     stack_push(&(frame_atual->pilha_de_operandos), temp);
     stack_push(&(frame_atual->pilha_de_operandos), temp2);
     stack_push(&(frame_atual->pilha_de_operandos), temp);
     jvm->pc++;
 }
 void func_dup_x2(Jvm * jvm, frame* frame_atual, classcode * code){
+    // Assumindo que todos os elementos são u4:
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    jvm->pc++;
+
+    /* Ideia geral:
     temp = stack_pop(&(frame_atual->pilha_de_operandos));
     temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
     if (sizeof(temp2) == sizeof(u8)) {
@@ -555,8 +573,19 @@ void func_dup_x2(Jvm * jvm, frame* frame_atual, classcode * code){
         stack_push(&(frame_atual->pilha_de_operandos), temp);
     }
     jvm->pc++;
+     */
 }
 void func_dup2(Jvm * jvm, frame* frame_atual, classcode * code){
+    // Assumindo que todos os elementos são u4:
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    jvm->pc++;
+
+    /* Ideia geral:
     temp = stack_pop(&(frame_atual->pilha_de_operandos));
     if (sizeof(temp) != sizeof(u8)) {
         temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
@@ -569,8 +598,22 @@ void func_dup2(Jvm * jvm, frame* frame_atual, classcode * code){
         stack_push(&(frame_atual->pilha_de_operandos), temp);
     }
     jvm->pc++;
+    */
 }
 void func_dup2_x1(Jvm * jvm, frame* frame_atual, classcode * code){
+    // Assumindo que todos os elementos são u4:
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    jvm->pc++;
+
+
+    /* Ideia geral:
     temp = stack_pop(&(frame_atual->pilha_de_operandos));
     if (sizeof(temp) != sizeof(u8)) {
         temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
@@ -587,8 +630,23 @@ void func_dup2_x1(Jvm * jvm, frame* frame_atual, classcode * code){
         stack_push(&(frame_atual->pilha_de_operandos), temp);
     }
     jvm->pc++;
+    */
 }
 void func_dup2_x2(Jvm * jvm, frame* frame_atual, classcode * code) {
+    // Assumindo que todos os elementos são u4:
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp4 = stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    stack_push(&(frame_atual->pilha_de_operandos), temp4);
+    stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    jvm->pc++;
+
+    /* Ideia geral:
     temp = stack_pop(&(frame_atual->pilha_de_operandos));
     if (sizeof(temp) != sizeof(u8)) {
         temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
@@ -624,6 +682,8 @@ void func_dup2_x2(Jvm * jvm, frame* frame_atual, classcode * code) {
             stack_push(&(frame_atual->pilha_de_operandos), temp);
         }
     }
+    jvm->pc++;
+    */
 }
 void func_swap(Jvm * jvm, frame* frame_atual, classcode * code){
     u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
