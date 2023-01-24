@@ -1246,10 +1246,12 @@ void func_iinc(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_i2l(Jvm * jvm, frame* frame_atual, classcode * code){
-    // int32_t temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    // int64_t temp2 = temp;
-    // push_double_in_stack(&(frame_atual->pilha_de_operandos), temp2);
-    // jvm->pc++;
+    int32_t temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(&(frame_atual));
+    int64_t temp2 = temp;
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), temp2);
+    typepush_opstack(&(frame_atual), 'J');
+    jvm->pc++;
     //converter pra long
 
 }
