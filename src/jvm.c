@@ -40,7 +40,16 @@ void push_reference_in_stack(stack* pilha, void* reference) {
     stack_push(pilha, valor);
 }
 void stack_pop_double(stack* pilha){
-    
+    --(pilha->altura);
+    --(pilha->altura);
+    int32_t first_half = pilha->stackarr[pilha->altura];
+    int32_t second_half = pilha->stackarr[pilha->altura+1];
+    u1 buffer[8];
+    memcpy(buffer, &first_half, 4);
+    memcpy(buffer+4, &second_half, 4);
+    int64_t valor;
+    memcpy(&valor, buffer, 8);
+    return valor;
 }
 
 
