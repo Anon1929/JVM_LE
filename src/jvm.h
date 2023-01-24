@@ -21,6 +21,7 @@ typedef struct Numero {
 typedef struct stack{
     int altura;
     Numero stackarr[99999];
+    //int32_t stackarr[99999];
 
 }stack;
 
