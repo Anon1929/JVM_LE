@@ -140,7 +140,7 @@ void func_sipush(Jvm * jvm, frame* frame_atual, classcode * code){
     
     int8_t argumento_operando = code->code[jvm->pc+1];
     int8_t argumento_operando2 = code->code[jvm->pc+2];
-    int32_t valor = argumento_operando << 8 + argumento_operando2;
+    int32_t valor = (argumento_operando << 8) + argumento_operando2;
     stack_push(&(frame_atual->pilha_de_operandos),valor);   
     (jvm->pc)++;
     (jvm->pc)++;
@@ -821,8 +821,18 @@ void func_inst_return(Jvm * jvm, frame* frame_atual, classcode * code){
 void func_getstatic(Jvm * jvm, frame* frame_atual, classcode * code){
     int8_t argumento_operando = code->code[jvm->pc+1];
     int8_t argumento_operando2 = code->code[jvm->pc+2];
-    int32_t indice = argumento_operando << 8 + argumento_operando2;
+    int32_t indice = (argumento_operando << 8 )+ argumento_operando2;   //indice para o constantpool
 
+    int32_t classnameindex = frame_atual->constant_pool[indice].cp_info_union.field_ref.class_index;
+    char * classname = decodeClassInfo(frame_atual->constant_pool,classnameindex);
+    if(strcmp(classname,"java/lang/System")==0){ // se é do sistema faz nada 
+        }
+    else{
+        // carrega classe e coloca na pilha TODO
+    }
+    jvm->pc++;
+    jvm->pc++;
+    jvm->pc++;
 
 }
 void func_putstatic(Jvm * jvm, frame* frame_atual, classcode * code){
