@@ -39,6 +39,18 @@ void push_reference_in_stack(stack* pilha, void* reference) {
     memcpy(&valor, &reference, 4);
     stack_push(pilha, valor);
 }
+void stack_pop_double(stack* pilha){
+    --(pilha->altura);
+    --(pilha->altura);
+    int32_t first_half = pilha->stackarr[pilha->altura];
+    int32_t second_half = pilha->stackarr[pilha->altura+1];
+    u1 buffer[8];
+    memcpy(buffer, &first_half, 4);
+    memcpy(buffer+4, &second_half, 4);
+    int64_t valor;
+    memcpy(&valor, buffer, 8);
+    return valor;
+}
 
 
 void push_long_in_stack(stack* pilha, int64_t valor_l) {
@@ -76,6 +88,46 @@ void push_double_in_stack(stack* pilha, double valor_d) {
 
     stack_push(pilha, first_half);
     stack_push(pilha, second_half);
+}
+void insert_in_array_short(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {
+    Array *array = (Array *) arrayref;
+    int16_t *vetor = (int16_t *) array->vetor;
+    vetor[indice] = valor;
+}
+void insert_in_array_char(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {
+    Array *array = (Array *) arrayref;
+    int16_t *vetor = (int16_t *) array->vetor;
+    vetor[indice] = valor;
+}
+void insert_in_array_byte(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {
+    Array *array = (Array *) arrayref;
+    int8_t *vetor = (int8_t *) array->vetor;
+    vetor[indice] = valor;
+}
+void insert_in_array_ref(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {
+    Array *array = (Array *) arrayref;
+    int32_t *vetor = (int32_t *) array->vetor;
+    vetor[indice] = valor;
+}
+void insert_in_array_double(Jvm *jvm, int32_t arrayref, int32_t indice, int64_t elem) {
+    Array *array = (Array *) arrayref;
+    double *vetor = (double *) array->vetor;
+    vetor[indice] = elem;
+}
+void insert_in_array_int(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t elem) {
+    Array *array = (Array *) arrayref;
+    int32_t *vetor = (int32_t *) array->vetor;
+    vetor[indice] = elem;
+}
+void insert_in_array_long(Jvm *jvm, int32_t arrayref, int32_t indice, int64_t elem) {
+    Array *array = (Array *) arrayref;
+    long *vetor = (long *) array->vetor;
+    vetor[indice] = elem;
+}
+void insert_in_array_float(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t elem) {
+    Array *array = (Array *) arrayref;
+    float *vetor = (float *) array->vetor;
+    vetor[indice] = elem;
 }
 void typepush_opstack(frame * frame_atual, char c){
     frame_atual->pilha_tipos_operandos[frame_atual->altura_tipos++] = c;
