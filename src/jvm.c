@@ -318,10 +318,11 @@ void carregamento(Classfile* classfile, method_area* area_metodos,Jvm* jvm) {
     
     for(int i=0;i<ma.qtd_metodos;i++){
         if(strcmp(ma.metodos[i].name, "<clinit>")==0){
-            frame frame_novo;
+            frame *frame_novo;
+            frame_novo = allocframe();
             printf("Iniciando Execução Clinit\n");
-            bytecodeexec(&(ma.metodos[i].codigo), jvm, &frame_novo);
-            jvm->pilha_de_frames[jvm->framecount]= frame_novo;
+            bytecodeexec(&(ma.metodos[i].codigo), jvm, frame_novo);
+            jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
             jvm->framecount++;
                 //clinit_exec(&ma);
         }
@@ -347,9 +348,11 @@ void jvm_exec(method_area* area_metodos,Jvm* jvm){
     }
     found_main:
     if(mainencontrado){
-        frame frame_novo;
+        frame *frame_novo = allocframe();
         printf("Iniciando Execução Main\n");
-        bytecodeexec(&(ma.metodos[j].codigo), jvm, &frame_novo);
+        bytecodeexec(&(ma.metodos[j].codigo), jvm, frame_novo);
+        jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
+
     }
     else{
         printf("Main não encontrado\n");
@@ -374,3 +377,10 @@ Object* instanciarObjeto(method_area_item *ma){
     return newobject;
 }
 */
+
+frame * allocframe(){
+    frame *frame_novo;
+    frame_novo = (frame *) malloc(sizeof(frame));
+	frame_novo->vetor_de_variaveis_locais = (local_variable_vector *) malloc(sizeof(local_variable_vector));
+    return frame_novo;
+}
