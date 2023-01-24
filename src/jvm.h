@@ -45,7 +45,7 @@ typedef struct local_variable_vector{
 }local_variable_vector;
 
 
-void insert_in_local_var_array(local_variable_vector* variaveis_vetor, int32_t elem, int indice);
+void insert_in_local_var_array(int32_t* variaveis_vetor, int32_t elem, int32_t indice);
 int32_t get_from_array(local_variable_vector* variaveis_vetor, int indice);
 
 
