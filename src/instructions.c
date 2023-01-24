@@ -203,13 +203,72 @@ void func_ldc(Jvm * jvm, frame* frame_atual, classcode * code){
         }
         jvm->pc++;
         jvm->pc++;
+
 }
-void func_ldc_w(Jvm * jvm, frame* frame_atual, classcode * code){/*
+void func_ldc_w(Jvm * jvm, frame* frame_atual, classcode * code){
+    int8_t argumento_operando = code->code[jvm->pc+1];
+    int8_t argumento_operando2 = code->code[jvm->pc+2];
+    int32_t index = (argumento_operando << 8) + argumento_operando2;
+    
+    
+    switch(frame_atual->constant_pool[index].tag){
+            case CONSTANT_Integer:
+            typepush_opstack(frame_atual,'I');
+            stack_push(&(frame_atual->pilha_de_operandos),frame_atual->constant_pool[index].cp_info_union.integer_info.bytes);   
+            break;
 
-*/}
-void func_ldc2_w(Jvm * jvm, frame* frame_atual, classcode * code){/*
+            case CONSTANT_Float:
+            typepush_opstack(frame_atual,'F');
+            stack_push(&(frame_atual->pilha_de_operandos),frame_atual->constant_pool[index].cp_info_union.float_info.bytes);   
+            break;
 
-*/}
+            case CONSTANT_String:
+            typepush_opstack(frame_atual,'S');
+            int32_t index2 = frame_atual->constant_pool[index].cp_info_union.string_info.string_index;
+            stack_push(&(frame_atual->pilha_de_operandos),(int32_t)frame_atual->constant_pool[index2].cp_info_union.utf_8_info.bytes);   
+            break;
+
+            case CONSTANT_Class:
+            typepush_opstack(frame_atual,'R');
+            char *nomeclasse = decodeClassInfo(frame_atual,index);
+            if(!ja_foi_carregada(nomeclasse)){
+                carrega_classe_por_nome(nomeclasse,jvm->area_de_metodos);
+            }
+            method_area_item *ma;
+            for(int j=0; j<jvm->area_de_metodos.qtd_atual;j++){
+                if(strcmp(jvm->area_de_metodos.classes[j].class_name, nomeclasse)==0){
+                    ma = &jvm->area_de_metodos.classes[j];
+                    break;
+                }
+            }
+            stack_push(&(frame_atual->pilha_de_operandos),(int32_t) ma);
+            break;
+
+        }
+        jvm->pc++;
+        jvm->pc++;
+        jvm->pc++;
+        
+}
+void func_ldc2_w(Jvm * jvm, frame* frame_atual, classcode * code){
+    int8_t argumento_operando = code->code[jvm->pc+1];
+    int8_t argumento_operando2 = code->code[jvm->pc+2];
+    int32_t index = (argumento_operando << 8) + argumento_operando2;
+    switch(frame_atual->constant_pool[index].tag){
+        case CONSTANT_Long:
+            typepush_opstack(frame_atual,'L');
+            //stack_push(&(frame_atual->pilha_de_operandos), frame_atual->constant_pool[index].
+        break;
+
+        case CONSTANT_Double:
+            typepush_opstack(frame_atual,'D');
+        break;
+
+    }
+
+
+
+}
 void func_iload(Jvm * jvm, frame* frame_atual, classcode * code){/*
 
 */}
