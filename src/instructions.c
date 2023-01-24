@@ -841,6 +841,8 @@ void func_areturn(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_inst_return(Jvm * jvm, frame* frame_atual, classcode * code){
+    jvm->framecount--;//pop frame
+    jvm->pc++;
 
 }
 void func_getstatic(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -870,6 +872,45 @@ void func_putfield(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_invokevirtual(Jvm * jvm, frame* frame_atual, classcode * code){
+    int8_t argumento_operando = code->code[jvm->pc+1];
+    int8_t argumento_operando2 = code->code[jvm->pc+2];
+    int32_t indice = (argumento_operando << 8 )+ argumento_operando2;   //indice para o constantpool Methodref
+    int32_t classindex = frame_atual->constant_pool[indice].cp_info_union.method_ref.class_index;
+    if(strcmp(decodeClassInfo(frame_atual->constant_pool,classindex),"java/io/PrintStream")==0){
+        char tipo = typepop_opstack(frame_atual);
+        switch(tipo){
+
+            case 'S':
+            printf("%s",(char *)stack_pop(&(frame_atual->pilha_de_operandos)));
+            break;
+
+            case 'I':
+            printf("%d",stack_pop(&(frame_atual->pilha_de_operandos)));
+            break;
+
+            case 'F':
+            printf("%f",(float) stack_pop(&(frame_atual->pilha_de_operandos)));
+            break;
+
+            case 'C':
+            printf("%c",(char) stack_pop(&(frame_atual->pilha_de_operandos)));
+            break;
+
+            case 'L':
+
+            case 'D':
+
+
+        }
+        int32_t nametypeindex = frame_atual->constant_pool[indice].cp_info_union.method_ref.name_and_type_index;
+        int32_t classnameindex = frame_atual->constant_pool[nametypeindex].cp_info_union.name_and_type.name_index;
+        if(strcmp(decodeUTF8(frame_atual->constant_pool + classnameindex),"println")==0){
+            printf("\n");
+        }
+    }
+    jvm->pc++;
+    jvm->pc++;
+    jvm->pc++;
 
 }
 void func_invokespecial(Jvm * jvm, frame* frame_atual, classcode * code){

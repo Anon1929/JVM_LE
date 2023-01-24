@@ -68,7 +68,7 @@ void typepush_opstack(frame * frame_atual, char c){
     frame_atual->pilha_tipos_operandos[frame_atual->altura_tipos++] = c;
 }
 char typepop_opstack(frame * frame_atual){
-    return frame_atual->pilha_tipos_operandos[frame_atual->altura_tipos--];
+    return frame_atual->pilha_tipos_operandos[--(frame_atual->altura_tipos)];
 }
 
 
@@ -327,10 +327,10 @@ void carregamento(Classfile* classfile, method_area* area_metodos,Jvm* jvm) {
         if(strcmp(ma.metodos[i].name, "<clinit>")==0){
             frame *frame_novo;
             frame_novo = allocframe(ma.classfile->constant_pool);
-            printf("Iniciando Execução Clinit\n");
-            bytecodeexec(&(ma.metodos[i].codigo), jvm, frame_novo);
             jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
             jvm->framecount++;
+            printf("Iniciando Execução Clinit\n");
+            bytecodeexec(&(ma.metodos[i].codigo), jvm, frame_novo);
                 //clinit_exec(&ma);
         }
     }
@@ -356,9 +356,10 @@ void jvm_exec(method_area* area_metodos,Jvm* jvm){
     found_main:
     if(mainencontrado){
         frame *frame_novo = allocframe(ma.classfile->constant_pool);
+        jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
+        jvm->framecount++;
         printf("Iniciando Execução Main\n");
         bytecodeexec(&(ma.metodos[j].codigo), jvm, frame_novo);
-        jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
 
     }
     else{
