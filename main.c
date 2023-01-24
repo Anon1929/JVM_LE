@@ -9,8 +9,7 @@
 extern void (*vetorfuncs[256])(Jvm *, frame*, classcode*);
 
 
-int main(int argc,char * argv[]){
-		
+int main(int argc,char * argv[]){		
 	
 	Classfile cf;
 	char * filename;
@@ -25,30 +24,24 @@ int main(int argc,char * argv[]){
 			
 			printf("Execução iniciando\n");
 			
-			//load_instructions(vetorfuncs);
-			//bytecodeexec();
-			// jvmexec(&cf);
-
+			load_instructions(vetorfuncs);
 
 			Jvm *Javamaquina;
 			Javamaquina = (Jvm *) malloc(sizeof(Jvm));
-
 			
 			method_area area_metodos;
 			
-
 			area_metodos.tamanho_total = 100;
 			area_metodos.classes = (method_area_item*)malloc(sizeof(method_area_item)*area_metodos.tamanho_total);
 						
-
 			area_metodos.qtd_atual = 0;
 									
-
-
 			Javamaquina->area_de_metodos = area_metodos;
 						
-
 			carregamento(&cf, &Javamaquina->area_de_metodos, Javamaquina);
+
+
+			jvm_exec(&Javamaquina->area_de_metodos, Javamaquina);
 
 
 		}

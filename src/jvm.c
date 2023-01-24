@@ -1,8 +1,7 @@
-#include "jvm.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "jvm.h"
 
 
 void (*vetorfuncs[256])(Jvm *, frame*, classcode*);
@@ -360,39 +359,53 @@ void carregamento(Classfile* classfile, method_area* area_metodos,Jvm* jvm) {
     
     for(int i=0;i<ma.qtd_metodos;i++){
         if(strcmp(ma.metodos[i].name, "<clinit>")==0){
-            frame frame_novo;
-            bytecodeexec(&ma, jvm, &frame_novo);
-            jvm->pilha_de_frames[jvm->framecount]= frame_novo;
+            frame *frame_novo;
+            frame_novo = allocframe();
+            printf("Iniciando Execução Clinit\n");
+            bytecodeexec(&(ma.metodos[i].codigo), jvm, frame_novo);
+            jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
             jvm->framecount++;
                 //clinit_exec(&ma);
         }
     }
+    
 }
 
+void jvm_exec(method_area* area_metodos,Jvm* jvm){
+    //Varredura total para ver se encontra main
+    method_area_item ma;
+    int mainencontrado = 0;
+    int i=0,j=0;
 
+    for(int i=0;i<area_metodos->qtd_atual;i++){
+        ma = area_metodos->classes[i];
+        for(;j<ma.qtd_metodos;j++){
+            if(strcmp(ma.metodos[j].name, "main")==0){
+                printf("Main encontrado\n");
+                mainencontrado=1;
+                goto found_main;
+            }
+        }    
+    }
+    found_main:
+    if(mainencontrado){
+        frame *frame_novo = allocframe();
+        printf("Iniciando Execução Main\n");
+        bytecodeexec(&(ma.metodos[j].codigo), jvm, frame_novo);
+        jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
 
-
-void clinit_exec(method_area_item * ma, int32_t index_cl){
-
+    }
+    else{
+        printf("Main não encontrado\n");
+    }
 }
 
-
-/*
-void bytecodeexec(){
-    Jvm jvm;
-    classcode code;
-    frame frame_atual;
-    vetorfuncs[0](&jvm,&frame_atual,&code);
-    printf("OK2\n");
-}
-*/
-
-void bytecodeexec(method_area_item * ma,Jvm * jvm, frame *frame_atual){
-    classcode *code = &ma->metodos[0].codigo;
+void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual){
     jvm->pc=0;
     u1 bytecode;
-    while(jvm->pc <code->tamanho_codigo){
+    while(jvm->pc < code->tamanho_codigo){
         bytecode = code->code[jvm->pc];
+        printf("%s\n",get_op_name(bytecode));
         vetorfuncs[bytecode](jvm,frame_atual,code);
     }
 }
@@ -405,3 +418,10 @@ Object* instanciarObjeto(method_area_item *ma){
     return newobject;
 }
 */
+
+frame * allocframe(){
+    frame *frame_novo;
+    frame_novo = (frame *) malloc(sizeof(frame));
+	frame_novo->vetor_de_variaveis_locais = (local_variable_vector *) malloc(sizeof(local_variable_vector));
+    return frame_novo;
+}
