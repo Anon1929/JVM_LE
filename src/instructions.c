@@ -961,7 +961,22 @@ void func_f2d(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_d2i(Jvm * jvm, frame* frame_atual, classcode * code){
+    int64_t bytes = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    double operando;
+    memcpy(&operando, &bytes, 8);
 
+    if(operando == NAN) {
+        stack_push(&(frame_atual->pilha_de_operandos), 0);
+    } else if(operando == INFINITY){ 
+        stack_push(&(frame_atual->pilha_de_operandos), INT32_MAX);
+    } else if(operando == -INFINITY) {
+        stack_push(&(frame_atual->pilha_de_operandos), INT32_MIN);
+    } else {
+        stack_push(&(frame_atual->pilha_de_operandos), (int32_t)operando);
+    }
+    
+    typepush_opstack(frame_atual,'I');
+    jvm->pc++;
 }
 void func_d2l(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t bytes = stack_pop_double(&(frame_atual->pilha_de_operandos));
@@ -977,7 +992,7 @@ void func_d2l(Jvm * jvm, frame* frame_atual, classcode * code){
     } else {
         push_long_in_stack(&(frame_atual->pilha_de_operandos), (int64_t)operando);
     }
-    
+
     typepush_opstack(frame_atual,'L');
     jvm->pc++;
 }
