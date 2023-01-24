@@ -1,8 +1,7 @@
-#include "jvm.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "jvm.h"
 
 
 void (*vetorfuncs[256])(Jvm *, frame*, classcode*);
@@ -320,12 +319,14 @@ void carregamento(Classfile* classfile, method_area* area_metodos,Jvm* jvm) {
     for(int i=0;i<ma.qtd_metodos;i++){
         if(strcmp(ma.metodos[i].name, "<clinit>")==0){
             frame frame_novo;
-            bytecodeexec(&ma, jvm, &frame_novo);
+            printf("Iniciando Execução Clinit\n");
+            bytecodeexec(&(ma.metodos[i].codigo), jvm, &frame_novo);
             jvm->pilha_de_frames[jvm->framecount]= frame_novo;
             jvm->framecount++;
                 //clinit_exec(&ma);
         }
     }
+    
 }
 
 
@@ -346,12 +347,12 @@ void bytecodeexec(){
 }
 */
 
-void bytecodeexec(method_area_item * ma,Jvm * jvm, frame *frame_atual){
-    classcode *code = &ma->metodos[0].codigo;
+void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual){
     jvm->pc=0;
     u1 bytecode;
-    while(jvm->pc <code->tamanho_codigo){
+    while(jvm->pc < code->tamanho_codigo){
         bytecode = code->code[jvm->pc];
+        //printf("%x\n",bytecode);
         vetorfuncs[bytecode](jvm,frame_atual,code);
     }
 }

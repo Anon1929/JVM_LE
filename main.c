@@ -25,7 +25,7 @@ int main(int argc,char * argv[]){
 			
 			printf("Execução iniciando\n");
 			
-			//load_instructions(vetorfuncs);
+			load_instructions(vetorfuncs);
 			//bytecodeexec();
 			// jvmexec(&cf);
 

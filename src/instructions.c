@@ -114,14 +114,17 @@ void func_dconst_1(Jvm * jvm, frame* frame_atual, classcode * code){/*
     stack_push(&(frame_atual->pilha_de_operandos),low_bits);
 
 */}
-void func_bipush(Jvm * jvm, frame* frame_atual, classcode * code){/*
-
-    int8_t *argumento_operando = (int8_t) (jvm->pc);
-    stack_push(&(frame_atual->pilha_de_operandos),(int32_t) *(argumento_operando+1));
+void func_bipush(Jvm * jvm, frame* frame_atual, classcode * code){
     
     
 
-*/}
+    int8_t argumento_operando = code->code[jvm->pc+1];
+    //printf("%d\n",argumento_operando);
+    //stack_push(&(frame_atual->pilha_de_operandos),(int32_t) *(argumento_operando+1));
+    
+    
+
+}
 void func_sipush(Jvm * jvm, frame* frame_atual, classcode * code){/*
 
     int8_t *argumento_operando = (int8_t) (jvm->pc);
