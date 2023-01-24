@@ -7,30 +7,41 @@
 void (*vetorfuncs[256])(Jvm *, frame*, classcode*);
 
 
+uint32_t uint32_from_bits_in_i32t(int32_t valor_int32) {
+    uint32_t valor_u32;
+    memcpy(&valor_u32,&valor_int32,4);
+    return valor_u32;
+}
+
+
+void* pointer_from_bits_in_i32t(int32_t valor_int32) {
+    void* pointer;
+    memcpy(&pointer, &valor_int32,4);
+    
+    return pointer;
+}
+
+
+
+
 void stack_push(stack* pilha, int32_t elem){
     pilha->altura++;
-    pilha->stackarr[pilha->altura-1].info.valor = elem;
+    pilha->stackarr[pilha->altura-1] = elem;
 }
 
 int32_t stack_pop(stack* pilha){
     --(pilha->altura);
-    return pilha->stackarr[pilha->altura].info.valor;
+    return pilha->stackarr[pilha->altura];
+}
+
+void push_reference_in_stack(stack* pilha, void* reference) {
+    int32_t valor;
+    memcpy(&valor, &reference, 4);
+    stack_push(pilha, valor);
 }
 
 
-void stack_push_reference(stack* pilha, void * referencia) {
-    pilha->altura++;
-    pilha->stackarr[pilha->altura-1].info.referencia = referencia;
-}
-
-
-void *stack_pop_reference(stack* pilha){
-    --(pilha->altura);
-    return pilha->stackarr[pilha->altura].info.referencia;
-}
-
-
-void push_long_in_stack(stack* pilha,long long valor_l) {
+void push_long_in_stack(stack* pilha, int64_t valor_l) {
     u1 buffer[8];
     memcpy(&buffer, &valor_l, 8);
 
@@ -50,6 +61,8 @@ void push_float_in_stack(stack* pilha, float valor_f) {
     memcpy(&valor, &valor_f, 4);
     stack_push(pilha, valor);
 }
+
+
 
 void push_double_in_stack(stack* pilha, double valor_d) {
     u1 buffer[8];
@@ -71,22 +84,6 @@ char typepop_opstack(frame * frame_atual){
     return frame_atual->pilha_tipos_operandos[--(frame_atual->altura_tipos)];
 }
 
-
-void insert_in_local_var_array(local_variable_vector* vetor_variaveis, int32_t elem, int indice) {
-    vetor_variaveis->vetor[indice].info.valor = elem;
-}
-
-void insert_reference_in_local_var_array(local_variable_vector* vetor_variaveis, void* reference, int indice) {
-    vetor_variaveis->vetor[indice].info.referencia = reference;
-}
-
-void *get_reference_from_local_var_array(local_variable_vector* vetor_variaveis, int32_t indice){
-    return vetor_variaveis->vetor[indice].info.referencia;
-}
-
-int32_t get_from_array(local_variable_vector* vetor_variaveis, int32_t indice) {
-    return vetor_variaveis->vetor[indice].info.valor;
-}
 
 char *concatena_strings(char str1[], char str2[]) { 
     char* result = (char*)malloc(sizeof(strlen(str1) + strlen(str2) + 1));   
