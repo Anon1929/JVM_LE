@@ -563,88 +563,317 @@ void func_pop(Jvm * jvm, frame* frame_atual, classcode * code){
 // Thiago começa
 
 void func_pop2(Jvm * jvm, frame* frame_atual, classcode * code){
+    // Assumindo que todos os elementos são u4:
+    stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_pop(&(frame_atual->pilha_de_operandos));
+    jvm->pc++;
 
+    /* Ideia geral:
+    temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    if (sizeof(temp) != sizeof(u8)) {
+        stack_pop(&(frame_atual->pilha_de_operandos));
+    }
+    jvm->pc++;
+     */
 }
 void func_dup(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    jvm->pc++;
 }
 void func_dup_x1(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    jvm->pc++;
 }
 void func_dup_x2(Jvm * jvm, frame* frame_atual, classcode * code){
+    // Assumindo que todos os elementos são u4:
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    jvm->pc++;
 
+    /* Ideia geral:
+    temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    if (sizeof(temp2) == sizeof(u8)) {
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+        stack_push(&(frame_atual->pilha_de_operandos), temp2);
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+    } else {
+        temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+        stack_push(&(frame_atual->pilha_de_operandos), temp3);
+        stack_push(&(frame_atual->pilha_de_operandos), temp2);
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+    }
+    jvm->pc++;
+     */
 }
 void func_dup2(Jvm * jvm, frame* frame_atual, classcode * code){
+    // Assumindo que todos os elementos são u4:
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    jvm->pc++;
 
+    /* Ideia geral:
+    temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    if (sizeof(temp) != sizeof(u8)) {
+        temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+        stack_push(&(frame_atual->pilha_de_operandos), temp2);
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+        stack_push(&(frame_atual->pilha_de_operandos), temp2);
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+    } else {
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+    }
+    jvm->pc++;
+    */
 }
 void func_dup2_x1(Jvm * jvm, frame* frame_atual, classcode * code){
+    // Assumindo que todos os elementos são u4:
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    jvm->pc++;
 
+
+    /* Ideia geral:
+    temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    if (sizeof(temp) != sizeof(u8)) {
+        temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+        temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+        stack_push(&(frame_atual->pilha_de_operandos), temp2);
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+        stack_push(&(frame_atual->pilha_de_operandos), temp3);
+        stack_push(&(frame_atual->pilha_de_operandos), temp2);
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+    } else {
+        temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+        stack_push(&(frame_atual->pilha_de_operandos), temp2);
+        stack_push(&(frame_atual->pilha_de_operandos), temp);
+    }
+    jvm->pc++;
+    */
 }
-void func_dup2_x2(Jvm * jvm, frame* frame_atual, classcode * code){
+void func_dup2_x2(Jvm * jvm, frame* frame_atual, classcode * code) {
+    // Assumindo que todos os elementos são u4:
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp4 = stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    stack_push(&(frame_atual->pilha_de_operandos), temp4);
+    stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    jvm->pc++;
 
+    /* Ideia geral:
+    temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    if (sizeof(temp) != sizeof(u8)) {
+        temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+        if (sizeof(temp2) != sizeof(u8)) {
+            temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+            if (sizeof(temp3) != sizeof(u8)) {
+                temp4 = stack_pop(&(frame_atual->pilha_de_operandos));
+                stack_push(&(frame_atual->pilha_de_operandos), temp2);
+                stack_push(&(frame_atual->pilha_de_operandos), temp);
+                stack_push(&(frame_atual->pilha_de_operandos), temp4);
+                stack_push(&(frame_atual->pilha_de_operandos), temp3);
+                stack_push(&(frame_atual->pilha_de_operandos), temp2);
+                stack_push(&(frame_atual->pilha_de_operandos), temp);
+            } else {
+                stack_push(&(frame_atual->pilha_de_operandos), temp2);
+                stack_push(&(frame_atual->pilha_de_operandos), temp);
+                stack_push(&(frame_atual->pilha_de_operandos), temp3);
+                stack_push(&(frame_atual->pilha_de_operandos), temp2);
+                stack_push(&(frame_atual->pilha_de_operandos), temp);
+            }
+        }
+    } else {
+        temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+        if (sizeof(temp2) != sizeof(u8)) {
+            temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+            stack_push(&(frame_atual->pilha_de_operandos), temp);
+            stack_push(&(frame_atual->pilha_de_operandos), temp3);
+            stack_push(&(frame_atual->pilha_de_operandos), temp2);
+            stack_push(&(frame_atual->pilha_de_operandos), temp);
+        } else {
+            stack_push(&(frame_atual->pilha_de_operandos), temp);
+            stack_push(&(frame_atual->pilha_de_operandos), temp2);
+            stack_push(&(frame_atual->pilha_de_operandos), temp);
+        }
+    }
+    jvm->pc++;
+    */
 }
 void func_swap(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    jvm->pc++;
 }
 void func_iadd(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = temp + temp2;
+    stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_ladd(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp3 = temp + temp2;
+    push_long_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_fadd(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = temp + temp2;
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_dadd(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp3 = temp + temp2;
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_isub(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = temp - temp2;
+    stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_lsub(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp3 = temp - temp2;
+    push_long_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_fsub(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = temp - temp2;
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_dsub(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp3 = temp - temp2;
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_imul(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = temp * temp2;
+    stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_lmul(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp3 = temp * temp2;
+    push_long_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_fmul(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = temp * temp2;
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_dmul(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp3 = temp * temp2;
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_idiv(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = temp / temp2;
+    stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_inst_ldiv(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp3 = temp / temp2;
+    push_long_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_fdiv(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = temp / temp2;
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_ddiv(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp3 = temp / temp2;
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_irem(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = temp - (temp/temp2)*temp2;
+    stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_lrem(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp3 = temp - (temp/temp2)*temp2;
+    push_long_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_frem(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u4 temp3 = temp - (temp/temp2)*temp2;
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 void func_inst_drem(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    u8 temp3 = temp - (temp/temp2)*temp2;
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    jvm->pc++;
 }
 // Thiago termina
 
