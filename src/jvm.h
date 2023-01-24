@@ -56,8 +56,9 @@ typedef struct local_variable_vector{
 
 int32_t get_from_array(local_variable_vector *variaveis_vetor, int indice);
 
-void insert_reference_in_local_var_array(local_variable_vector *vetor_variaveis, void *reference, int indice);
-void *get_reference_from_local_var_array(local_variable_vector *vetor_variaveis, int32_t indice);
+
+void insert_in_local_var_array(int32_t* variaveis_vetor, int32_t elem, int32_t indice);
+int32_t get_from_array(local_variable_vector* variaveis_vetor, int indice);
 
 
 typedef struct frame{

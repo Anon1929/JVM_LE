@@ -286,7 +286,9 @@ void imprime_metodos(classmethod* vetor_metodos, u2 length) {
     printf("\n");
     printf("\n");
 }
-
+void insert_in_local_var_array(int32_t* variaveis_vetor, int32_t elem, int32_t indice){
+    variaveis_vetor[indice]= elem;
+}
 void insere_class_in_method_area(method_area_item* ma, method_area* area_metodos) {
     area_metodos->classes[area_metodos->qtd_atual] = (*ma);
     area_metodos->qtd_atual++;
@@ -438,7 +440,7 @@ Object* instanciarObjeto(method_area_item *ma){
 frame * allocframe(cp_info * cp){
     frame *frame_novo;
     frame_novo = (frame *) malloc(sizeof(frame));
-	frame_novo->vetor_de_variaveis_locais = (local_variable_vector *) malloc(sizeof(local_variable_vector));
+	frame_novo->vetor_de_variaveis_locais = (int32_t *) malloc(sizeof(int32_t));
     frame_novo->constant_pool = cp;
     frame_novo->altura_tipos = 0;
     return frame_novo;

@@ -12,35 +12,41 @@ void func_nop(Jvm * jvm,frame* frame_atual, classcode * code){
 
 void func_aconst_null(Jvm * jvm,frame* frame_atual, classcode * code){
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) NULL);
+    typepush_opstack(frame_atual,'N');
     jvm->pc++;
     
 }
 
 void func_iconst_m1(Jvm * jvm,frame* frame_atual, classcode * code){
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) -1 );
+    typepush_opstack(frame_atual,'I');
     jvm->pc++;
     }
 
 void func_iconst_0(Jvm * jvm,frame* frame_atual, classcode * code){
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 0 );
+    typepush_opstack(frame_atual,'I');
     jvm->pc++;
     
 }
 
 void func_iconst_1(Jvm * jvm,frame* frame_atual, classcode * code){
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 1 );
+    typepush_opstack(frame_atual,'I');
     jvm->pc++;
     
 }
 
 void func_iconst_2(Jvm * jvm,frame* frame_atual, classcode * code){
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 2 );
+    typepush_opstack(frame_atual,'I');
     jvm->pc++;
     
 }
 
 void func_iconst_3(Jvm * jvm,frame* frame_atual, classcode * code){
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 3 );
+    typepush_opstack(frame_atual,'I');
     jvm->pc++;
     
 }
@@ -48,6 +54,7 @@ void func_iconst_3(Jvm * jvm,frame* frame_atual, classcode * code){
 
 void func_iconst_4(Jvm * jvm,frame* frame_atual, classcode * code){
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 4 );
+    typepush_opstack(frame_atual,'I');
     jvm->pc++;
     
 }
@@ -55,6 +62,7 @@ void func_iconst_4(Jvm * jvm,frame* frame_atual, classcode * code){
 
 void func_iconst_5(Jvm * jvm,frame* frame_atual, classcode * code){
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 5 );
+    typepush_opstack(frame_atual,'I');
     jvm->pc++;
     
 }
@@ -62,6 +70,7 @@ void func_iconst_5(Jvm * jvm,frame* frame_atual, classcode * code){
 void func_lconst_0(Jvm * jvm, frame* frame_atual, classcode * code){
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 0 );
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 0 );
+    typepush_opstack(frame_atual,'L');
     jvm->pc++;
     
 }
@@ -69,6 +78,7 @@ void func_lconst_0(Jvm * jvm, frame* frame_atual, classcode * code){
 void func_lconst_1(Jvm * jvm, frame* frame_atual, classcode * code){
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 0 );
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) 1 );
+    typepush_opstack(frame_atual,'L');
     jvm->pc++;
     
 }
@@ -79,6 +89,7 @@ void func_fconst_0(Jvm * jvm, frame* frame_atual, classcode * code){
     valor_pilha = (int32_t*) malloc(sizeof(int32_t));
     memcpy(valor_pilha, &temp_float, sizeof(int32_t));    
     stack_push(&(frame_atual->pilha_de_operandos),*valor_pilha);
+    typepush_opstack(frame_atual,'F');
     jvm->pc++;
 
 }
@@ -89,6 +100,7 @@ void func_fconst_1(Jvm * jvm, frame* frame_atual, classcode * code){
     valor_pilha = (int32_t*) malloc(sizeof(int32_t));
     memcpy(valor_pilha, &temp_float, sizeof(int32_t));    
     stack_push(&(frame_atual->pilha_de_operandos),*valor_pilha);
+    typepush_opstack(frame_atual,'F');
     jvm->pc++;
 
 }
@@ -98,6 +110,7 @@ void func_fconst_2(Jvm * jvm, frame* frame_atual, classcode * code){
     valor_pilha = (int32_t*) malloc(sizeof(int32_t));
     memcpy(valor_pilha, &temp_float, sizeof(int32_t));    
     stack_push(&(frame_atual->pilha_de_operandos),*valor_pilha);
+    typepush_opstack(frame_atual,'F');
     jvm->pc++;
     }
 void func_dconst_0(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -111,6 +124,7 @@ void func_dconst_0(Jvm * jvm, frame* frame_atual, classcode * code){
     low_bits = (*temp_int) & 0xffffffff;
     stack_push(&(frame_atual->pilha_de_operandos),high_bits);
     stack_push(&(frame_atual->pilha_de_operandos),low_bits);
+    typepush_opstack(frame_atual,'D');
     jvm->pc++;
     }
 void func_dconst_1(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -124,6 +138,7 @@ void func_dconst_1(Jvm * jvm, frame* frame_atual, classcode * code){
     low_bits = (*temp_int) & 0xffffffff;
     stack_push(&(frame_atual->pilha_de_operandos),high_bits);
     stack_push(&(frame_atual->pilha_de_operandos),low_bits);
+    typepush_opstack(frame_atual,'D');
     jvm->pc++;
 
 }
@@ -131,6 +146,7 @@ void func_bipush(Jvm * jvm, frame* frame_atual, classcode * code){
 
     int8_t argumento_operando = code->code[jvm->pc+1];
     stack_push(&(frame_atual->pilha_de_operandos),(int32_t) (argumento_operando));
+    typepush_opstack(frame_atual,'I');
     (jvm->pc)++;
     (jvm->pc)++;
 }
@@ -141,7 +157,8 @@ void func_sipush(Jvm * jvm, frame* frame_atual, classcode * code){
     int8_t argumento_operando = code->code[jvm->pc+1];
     int8_t argumento_operando2 = code->code[jvm->pc+2];
     int32_t valor = (argumento_operando << 8) + argumento_operando2;
-    stack_push(&(frame_atual->pilha_de_operandos),valor);   
+    stack_push(&(frame_atual->pilha_de_operandos),valor);
+    typepush_opstack(frame_atual,'I');
     (jvm->pc)++;
     (jvm->pc)++;
     (jvm->pc)++;
@@ -168,6 +185,7 @@ void func_ldc(Jvm * jvm, frame* frame_atual, classcode * code){
             break;
 
             case CONSTANT_Class:
+            typepush_opstack(frame_atual,'R');
             //todo
             break;
 
@@ -1334,9 +1352,22 @@ void func_invokevirtual(Jvm * jvm, frame* frame_atual, classcode * code){
             break;
 
             case 'L':
+                int64_t temp_long = stack_pop(&(frame_atual->pilha_de_operandos));
+                int64_t high_bits = stack_pop(&(frame_atual->pilha_de_operandos));
+                temp_long += (high_bits<<32);
+                printf("%ld", (long long)temp_long);
+                break;
 
             case 'D':
-
+                double temp_double; 
+                int64_t *temp_int; 
+                int64_t temp_high;
+                *temp_int = stack_pop(&(frame_atual->pilha_de_operandos));
+                temp_high = stack_pop(&(frame_atual->pilha_de_operandos));
+                *temp_int += temp_high<<32;
+                memcpy(&temp_double,temp_int , sizeof(double));
+                printf("%d", temp_double);
+                break;
 
         }
         int32_t nametypeindex = frame_atual->constant_pool[indice].cp_info_union.method_ref.name_and_type_index;
