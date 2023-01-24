@@ -351,6 +351,9 @@ void jvm_exec(method_area* area_metodos,Jvm* jvm){
         printf("Iniciando Execução Main\n");
         bytecodeexec(&(ma.metodos[j].codigo), jvm, &frame_novo);
     }
+    else{
+        printf("Main não encontrado\n");
+    }
 }
 
 void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual){
