@@ -16,6 +16,17 @@ int32_t stack_pop(stack* pilha){
     --(pilha->altura);
     return pilha->stackarr[pilha->altura].info.valor;
 }
+void stack_pop_double(stack* pilha){
+    pilha->altura -= 2;
+    int32_t first_half = pilha->stackarr[pilha->altura].info.valor;
+    int32_t second_half = pilha->stackarr[pilha->altura+1].info.valor;
+    u1 buffer[8];
+    memcpy(buffer, &first_half, 4);
+    memcpy(buffer+4, &second_half, 4);
+    double valor;
+    return memcpy(&valor, buffer, 8);
+    return valor;
+}
 
 
 void stack_push_reference(stack* pilha, void * referencia) {
@@ -103,6 +114,12 @@ void insert_in_array_float(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t e
     Array *array = (Array *) arrayref;
     float *vetor = (float *) array->vetor;
     vetor[indice] = elem;
+}
+void typepush_opstack(frame * frame_atual, char c){
+    frame_atual->pilha_tipos_operandos[frame_atual->altura_tipos++] = c;
+}
+char typepop_opstack(frame * frame_atual){
+    return frame_atual->pilha_tipos_operandos[--(frame_atual->altura_tipos)];
 }
 
 
@@ -360,11 +377,11 @@ void carregamento(Classfile* classfile, method_area* area_metodos,Jvm* jvm) {
     for(int i=0;i<ma.qtd_metodos;i++){
         if(strcmp(ma.metodos[i].name, "<clinit>")==0){
             frame *frame_novo;
-            frame_novo = allocframe();
-            printf("Iniciando Execução Clinit\n");
-            bytecodeexec(&(ma.metodos[i].codigo), jvm, frame_novo);
+            frame_novo = allocframe(ma.classfile->constant_pool);
             jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
             jvm->framecount++;
+            printf("Iniciando Execução Clinit\n");
+            bytecodeexec(&(ma.metodos[i].codigo), jvm, frame_novo);
                 //clinit_exec(&ma);
         }
     }
@@ -389,10 +406,11 @@ void jvm_exec(method_area* area_metodos,Jvm* jvm){
     }
     found_main:
     if(mainencontrado){
-        frame *frame_novo = allocframe();
+        frame *frame_novo = allocframe(ma.classfile->constant_pool);
+        jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
+        jvm->framecount++;
         printf("Iniciando Execução Main\n");
         bytecodeexec(&(ma.metodos[j].codigo), jvm, frame_novo);
-        jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
 
     }
     else{
@@ -419,9 +437,11 @@ Object* instanciarObjeto(method_area_item *ma){
 }
 */
 
-frame * allocframe(){
+frame * allocframe(cp_info * cp){
     frame *frame_novo;
     frame_novo = (frame *) malloc(sizeof(frame));
 	frame_novo->vetor_de_variaveis_locais = (local_variable_vector *) malloc(sizeof(local_variable_vector));
+    frame_novo->constant_pool = cp;
+    frame_novo->altura_tipos = 0;
     return frame_novo;
 }

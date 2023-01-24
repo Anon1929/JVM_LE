@@ -52,13 +52,18 @@ typedef struct frame
     // int32_t *vetor_de_variaveis_locais;
     local_variable_vector *vetor_de_variaveis_locais;
     stack pilha_de_operandos;
-    cp_info *constant_pool;
+    cp_info * constant_pool ;
+    char pilha_tipos_operandos[999];
+    int32_t altura_tipos;
 
 } frame;
 
-typedef struct field_variable
-{
-    char *name;
+void typepush_opstack(frame *, char);
+char typepop_opstack(frame *);
+
+
+typedef struct field_variable {
+    char* name;
 } field_variable;
 
 /*
@@ -164,7 +169,7 @@ void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual);
 //void bytecodeexec();
 void jvm_exec(method_area* area_metodos,Jvm* jvm);    //Chamada pelo main
 
-frame * allocframe();
+frame * allocframe(cp_info *);
 
 
 
