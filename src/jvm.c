@@ -329,30 +329,36 @@ void carregamento(Classfile* classfile, method_area* area_metodos,Jvm* jvm) {
     
 }
 
+void jvm_exec(method_area* area_metodos,Jvm* jvm){
+    //Varredura total para ver se encontra main
+    method_area_item ma;
+    int mainencontrado = 0;
+    int i=0,j=0;
 
-
-
-void clinit_exec(method_area_item * ma, int32_t index_cl){
-
+    for(int i=0;i<area_metodos->qtd_atual;i++){
+        ma = area_metodos->classes[i];
+        for(;j<ma.qtd_metodos;j++){
+            if(strcmp(ma.metodos[j].name, "main")==0){
+                printf("Main encontrado\n");
+                mainencontrado=1;
+                goto found_main;
+            }
+        }    
+    }
+    found_main:
+    if(mainencontrado){
+        frame frame_novo;
+        printf("Iniciando Execução Main\n");
+        bytecodeexec(&(ma.metodos[j].codigo), jvm, &frame_novo);
+    }
 }
-
-
-/*
-void bytecodeexec(){
-    Jvm jvm;
-    classcode code;
-    frame frame_atual;
-    vetorfuncs[0](&jvm,&frame_atual,&code);
-    printf("OK2\n");
-}
-*/
 
 void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual){
     jvm->pc=0;
     u1 bytecode;
     while(jvm->pc < code->tamanho_codigo){
         bytecode = code->code[jvm->pc];
-        //printf("%x\n",bytecode);
+        printf("%s\n",get_op_name(bytecode));
         vetorfuncs[bytecode](jvm,frame_atual,code);
     }
 }

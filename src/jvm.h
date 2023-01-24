@@ -163,13 +163,12 @@ void readlocal_variable_vector(int32_t vetor[], Classfile*);
 ///    Divisões prinicipais, carregamento e execução de classe
 void carregamento(Classfile* classfile, method_area* area_metodos, Jvm *jvm);
 void code_exec(Jvm *);
-void clinit_exec(method_area_item *,int32_t index_cl);
 
 
 ///
-//void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual);
-void bytecodeexec();
-void jvm_exec(Classfile *);    //Chamada pelo main
+void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual);
+//void bytecodeexec();
+void jvm_exec(method_area* area_metodos,Jvm* jvm);    //Chamada pelo main
 
 
 
