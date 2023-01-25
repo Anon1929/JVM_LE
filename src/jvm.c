@@ -152,6 +152,7 @@ char typepop_opstack(frame * frame_atual){
     else{
         return frame_atual->pilha_tipos_operandos[--(frame_atual->altura_tipos)];
     }
+
 }
 
 
@@ -484,6 +485,7 @@ void jvm_exec(method_area* area_metodos,Jvm* jvm){
 void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual){
     jvm->pc=0;
     u1 bytecode;
+    printf("%s\n", frame_atual->constant_pool[20].cp_info_union.utf_8_info.bytes);
     while(jvm->pc < code->tamanho_codigo){
         bytecode = code->code[jvm->pc];
         printf("%s\n",get_op_name(bytecode));

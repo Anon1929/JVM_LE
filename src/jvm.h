@@ -112,7 +112,7 @@ typedef struct frame{
     int32_t *vetor_de_variaveis_locais;
     stack pilha_de_operandos;
     cp_info * constant_pool ;
-    char pilha_tipos_operandos[999];
+    char pilha_tipos_operandos[9999];
     int32_t altura_tipos;
 
 } frame;
