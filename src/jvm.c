@@ -145,8 +145,14 @@ void typepush_opstack(frame * frame_atual, char c){
     frame_atual->pilha_tipos_operandos[frame_atual->altura_tipos++] = c;
 }
 char typepop_opstack(frame * frame_atual){
-    return 'I';
-    //return frame_atual->pilha_tipos_operandos[--(frame_atual->altura_tipos)];
+    if(frame_atual->altura_tipos == 0){
+        printf("POP EM PILHA VAZIA\n");
+        return 'I';
+    }
+    else{
+        return frame_atual->pilha_tipos_operandos[--(frame_atual->altura_tipos)];
+    }
+
 }
 
 
