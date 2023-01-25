@@ -1938,7 +1938,7 @@ void func_invokestatic(Jvm * jvm, frame* frame_atual, classcode * code){
     u4 pc_salvo = jvm->pc;
     bytecodeexec(codigo, jvm, frame_novo);
 
-    jvm->pc += 3; 
+    jvm->pc = pc_salvo + 3; 
 }
 void func_invokeinterface(Jvm * jvm, frame* frame_atual, classcode * code){
 
