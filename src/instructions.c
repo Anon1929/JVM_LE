@@ -836,8 +836,8 @@ void func_iadd(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_ladd(Jvm * jvm, frame* frame_atual, classcode * code){
-    long temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    long temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    long temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    long temp2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
     long temp3 = temp + temp2;
@@ -856,8 +856,8 @@ void func_fadd(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_dadd(Jvm * jvm, frame* frame_atual, classcode * code){
-    double temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    double temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    double temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    double temp2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
     double temp3 = temp + temp2;
@@ -876,8 +876,8 @@ void func_isub(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_lsub(Jvm * jvm, frame* frame_atual, classcode * code){
-    long temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    long temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    long temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    long temp2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
     long temp3 = temp - temp2;
@@ -896,8 +896,8 @@ void func_fsub(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_dsub(Jvm * jvm, frame* frame_atual, classcode * code){
-    double temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    double temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    double temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    double temp2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
     double temp3 = temp - temp2;
@@ -916,8 +916,8 @@ void func_imul(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_lmul(Jvm * jvm, frame* frame_atual, classcode * code){
-    long temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    long temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    long temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    long temp2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
     long temp3 = temp * temp2;
@@ -936,8 +936,8 @@ void func_fmul(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_dmul(Jvm * jvm, frame* frame_atual, classcode * code){
-    double temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    double temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    double temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    double temp2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
     double temp3 = temp * temp2;
@@ -956,8 +956,8 @@ void func_idiv(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_inst_ldiv(Jvm * jvm, frame* frame_atual, classcode * code){
-    long temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    long temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    long temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    long temp2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
     long temp3 = temp / temp2;
@@ -976,8 +976,8 @@ void func_fdiv(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_ddiv(Jvm * jvm, frame* frame_atual, classcode * code){
-    double temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    double temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    double temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    double temp2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
     double temp3 = temp / temp2;
@@ -996,8 +996,8 @@ void func_irem(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_lrem(Jvm * jvm, frame* frame_atual, classcode * code){
-    long temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    long temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    long temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    long temp2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
     long temp3 = temp - (temp/temp2)*temp2;
@@ -1016,8 +1016,8 @@ void func_frem(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_inst_drem(Jvm * jvm, frame* frame_atual, classcode * code){
-    double temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    double temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    double temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    double temp2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
     double temp3 = temp - (temp/temp2)*temp2;
