@@ -87,8 +87,18 @@ void push_double_in_stack(stack* pilha, double valor_d) {
     stack_push(pilha, first_half);
     stack_push(pilha, second_half);
 }
-void insert_in_local_var_array_double(int32_t * vetor, int64_t valor,int32_t indice){
+void insert_in_local_var_array_double(frame * frame_atual, int64_t elem,int32_t indice){
+    u1 buffer[8];
+    memcpy(&buffer, &elem, 8);
 
+    int32_t first_half;
+    int32_t second_half;
+
+    memcpy(&first_half, buffer+4, 4);
+    memcpy(&second_half, buffer, 4);
+
+    frame_atual->vetor_de_variaveis_locais[indice] = first_half;
+    frame_atual->vetor_de_variaveis_locais[indice+1] = second_half;
 }
 
 void insert_in_array_short(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {
@@ -474,15 +484,34 @@ void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual){
         vetorfuncs[bytecode](jvm,frame_atual,code);
     }
 }
-/*
-Object* instanciarObjeto(method_area_item *ma){
+
+Object* instanciarObjeto(method_area_item *ma, Jvm * jvm){
     Object *newobject = (Object *) malloc(sizeof(Object));
     newobject->atributos = (int32_t *) malloc(sizeof(int32_t)*ma->qtd_fields_nao_estaticos*2);
     newobject->atributos_nome = (classfields *) malloc(sizeof(classfields)*ma->qtd_fields_nao_estaticos*2);
     newobject->classe = ma;
+    int j=0;
+    int initencontrado=0;
+    for(;j<ma->qtd_metodos;j++){
+        if(strcmp(ma->metodos[j].name, "<init>")==0){
+                printf("Init encontrado\n");
+                initencontrado=1;
+                break;
+        }
+    }
+
+    if (initencontrado){
+        frame *frame_novo = allocframe(ma->classfile->constant_pool);
+        jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
+        jvm->framecount++;
+        printf("Iniciando Execução Init\n");
+        bytecodeexec(&(ma->metodos[j].codigo), jvm, frame_novo);
+    }
+    else{
+        printf("Construtor não encontrado\n");
+    }
     return newobject;
 }
-*/
 
 frame * allocframe(cp_info * cp){
     frame *frame_novo;

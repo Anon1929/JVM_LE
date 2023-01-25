@@ -69,7 +69,7 @@ typedef struct frame{
     int32_t altura_tipos;
 
 } frame;
-void insert_in_local_var_array_double(int32_t * ,int64_t, int32_t);
+void insert_in_local_var_array_double(frame * ,int64_t, int32_t);
 
 void typepush_opstack(frame *, char);
 char typepop_opstack(frame *);
@@ -203,6 +203,6 @@ void jvm_exec(method_area* area_metodos,Jvm* jvm);    //Chamada pelo main
 
 frame * allocframe(cp_info *);
 
-
+Object* instanciarObjeto(method_area_item *ma, Jvm *);
 
 #endif

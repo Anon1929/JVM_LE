@@ -179,10 +179,12 @@ void func_ldc(Jvm * jvm, frame* frame_atual, classcode * code){
             case CONSTANT_Class:
             typepush_opstack(frame_atual,'R');
             char *nomeclasse = decodeClassInfo(frame_atual->constant_pool,argumento_operando);
+            int32_t pcold = jvm->pc;
             if(!ja_foi_carregada(nomeclasse,&(jvm->area_de_metodos))){
                 carrega_classe_por_nome(nomeclasse,&(jvm->area_de_metodos),jvm);
             }
             method_area_item *ma;
+            jvm->pc = pcold;
             for(int j=0; j<jvm->area_de_metodos.qtd_atual;j++){
                 if(strcmp(jvm->area_de_metodos.classes[j].class_name, nomeclasse)==0){
                     ma = &jvm->area_de_metodos.classes[j];
@@ -223,9 +225,11 @@ void func_ldc_w(Jvm * jvm, frame* frame_atual, classcode * code){
             case CONSTANT_Class:
             typepush_opstack(frame_atual,'R');
             char *nomeclasse = decodeClassInfo(frame_atual->constant_pool,index);
+            int32_t oldpc = jvm->pc;
             if(!ja_foi_carregada(nomeclasse,&(jvm->area_de_metodos))){
                 carrega_classe_por_nome(nomeclasse,&(jvm->area_de_metodos),jvm);
             }
+            jvm->pc = oldpc;
             method_area_item *ma;
             for(int j=0; j<jvm->area_de_metodos.qtd_atual;j++){
                 if(strcmp(jvm->area_de_metodos.classes[j].class_name, nomeclasse)==0){
@@ -266,71 +270,106 @@ void func_ldc2_w(Jvm * jvm, frame* frame_atual, classcode * code){
         jvm->pc++;
 
 }
-void func_iload(Jvm * jvm, frame* frame_atual, classcode * code){/*
+void func_iload(Jvm * jvm, frame* frame_atual, classcode * code){
+    int8_t index = code->code[jvm->pc+1];
+    stack_push(&(frame_atual->pilha_de_operandos),frame_atual->vetor_de_variaveis_locais[index]);
+    typepush_opstack(frame_atual,'I');
+    jvm->pc++;
+    jvm->pc++;
 
-*/}
-void func_lload(Jvm * jvm, frame* frame_atual, classcode * code){/*
+}
+void func_lload(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t high_bits, low_bits;
+    int8_t index = code->code[jvm->pc+1];
+    high_bits = frame_atual->vetor_de_variaveis_locais[index];
+    low_bits  = frame_atual->vetor_de_variaveis_locais[index+1]; 
+    stack_push(&(frame_atual->pilha_de_operandos),high_bits);
+    stack_push(&(frame_atual->pilha_de_operandos),low_bits);
+    typepush_opstack(frame_atual,'L');
+    jvm->pc++;
+    jvm->pc++;
+}
+void func_fload(Jvm * jvm, frame* frame_atual, classcode * code){
+    int8_t index = code->code[jvm->pc+1];
+    stack_push(&(frame_atual->pilha_de_operandos),frame_atual->vetor_de_variaveis_locais[index]);
+    typepush_opstack(frame_atual,'L');
+    jvm->pc++;
+    jvm->pc++;
 
-*/}
-void func_fload(Jvm * jvm, frame* frame_atual, classcode * code){/*
-
-*/}
-void func_dload(Jvm * jvm, frame* frame_atual, classcode * code){/*
-
-*/}
-void func_aload(Jvm * jvm, frame* frame_atual, classcode * code){/*
-    int8_t *argumento_operando = (int8_t) (jvm->pc);
-    int32_t index = *(argumento_operando+1);
-    //stack_push(&(frame_atual->pilha_de_operandos),frame_atual->vetor_de_variaveis_locais[index]);
-*/}
-void func_iload_0(Jvm * jvm, frame* frame_atual, classcode * code){/*
+}
+void func_dload(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t high_bits, low_bits;
+    int8_t index = code->code[jvm->pc+1];
+    high_bits = frame_atual->vetor_de_variaveis_locais[index];
+    low_bits  = frame_atual->vetor_de_variaveis_locais[index+1]; 
+    stack_push(&(frame_atual->pilha_de_operandos),high_bits);
+    stack_push(&(frame_atual->pilha_de_operandos),low_bits);
+    typepush_opstack(frame_atual,'D');
+    jvm->pc++;
+    jvm->pc++;
+}
+void func_aload(Jvm * jvm, frame* frame_atual, classcode * code){
+    int8_t index = code->code[jvm->pc+1];
+    stack_push(&(frame_atual->pilha_de_operandos),frame_atual->vetor_de_variaveis_locais[index]);
+    typepush_opstack(frame_atual,'R');
+    jvm->pc++;
+    jvm->pc++;
+}
+void func_iload_0(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t valor = frame_atual->vetor_de_variaveis_locais[0];
     stack_push(&(frame_atual->pilha_de_operandos),valor);
-    
-*/}
-void func_iload_1(Jvm * jvm, frame* frame_atual, classcode * code){/*
+    typepush_opstack(frame_atual,'I');
+    jvm->pc++;
+}
+void func_iload_1(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t valor = frame_atual->vetor_de_variaveis_locais[1];
     stack_push(&(frame_atual->pilha_de_operandos),valor);
-    
-*/}
-void func_iload_2(Jvm * jvm, frame* frame_atual, classcode * code){/*
+    typepush_opstack(frame_atual,'I');
+    jvm->pc++;
+}
+void func_iload_2(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t valor = frame_atual->vetor_de_variaveis_locais[2];
     stack_push(&(frame_atual->pilha_de_operandos),valor);
-    
+    typepush_opstack(frame_atual,'I');
+    jvm->pc++;
 
-*/}
-void func_iload_3(Jvm * jvm, frame* frame_atual, classcode * code){/*
+}
+void func_iload_3(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t valor = frame_atual->vetor_de_variaveis_locais[3];
     stack_push(&(frame_atual->pilha_de_operandos),valor);
-    
-*/}
-void func_lload_0(Jvm * jvm, frame* frame_atual, classcode * code){/*
+    typepush_opstack(frame_atual,'I');
+    jvm->pc++;    
+}
+
+void func_lload_0(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t high_bits, low_bits;
     high_bits = frame_atual->vetor_de_variaveis_locais[0];
     low_bits  = frame_atual->vetor_de_variaveis_locais[1]; 
     stack_push(&(frame_atual->pilha_de_operandos),high_bits);
     stack_push(&(frame_atual->pilha_de_operandos),low_bits);
-    
-*/}
+    typepush_opstack(frame_atual,'L');
+    jvm->pc++;    
+}
 
-void func_lload_1(Jvm * jvm, frame* frame_atual, classcode * code){/*
+void func_lload_1(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t high_bits, low_bits;
     high_bits = frame_atual->vetor_de_variaveis_locais[1];
     low_bits  = frame_atual->vetor_de_variaveis_locais[2]; 
     stack_push(&(frame_atual->pilha_de_operandos),high_bits);
     stack_push(&(frame_atual->pilha_de_operandos),low_bits);
-    
+    typepush_opstack(frame_atual,'L');
+    jvm->pc++;        
+}
 
-*/}
-
-void func_lload_2(Jvm * jvm, frame* frame_atual, classcode * code){/* 
+void func_lload_2(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t high_bits, low_bits;
     high_bits = frame_atual->vetor_de_variaveis_locais[2];
     low_bits  = frame_atual->vetor_de_variaveis_locais[3]; 
     stack_push(&(frame_atual->pilha_de_operandos),high_bits);
     stack_push(&(frame_atual->pilha_de_operandos),low_bits);
-    
-*/}
+    typepush_opstack(frame_atual,'L');
+    jvm->pc++;    
+}
 // termina instruct vinicius
 
 
@@ -538,27 +577,27 @@ void func_istore_3(Jvm * jvm, frame* frame_atual, classcode * code){
 void func_lstore_0(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
     typepop_opstack(frame_atual);
-    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,0);
+    insert_in_local_var_array_double(frame_atual,valor,0);
     jvm->pc++;
 }
 void func_lstore_1(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
     typepop_opstack(frame_atual);
-    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,1);
+    insert_in_local_var_array_double(frame_atual,valor,1);
     jvm->pc++;
 
 }
 void func_lstore_2(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
     typepop_opstack(frame_atual);
-    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,2);
+    insert_in_local_var_array_double(frame_atual,valor,2);
     jvm->pc++;
 
 }
 void func_lstore_3(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
     typepop_opstack(frame_atual);
-    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,3);
+    insert_in_local_var_array_double(frame_atual,valor,3);
     jvm->pc++;
 
 }
@@ -592,27 +631,27 @@ void func_fstore_3(Jvm * jvm, frame* frame_atual, classcode * code){
 void func_dstore_0(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
     typepop_opstack(frame_atual);
-    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,0);
+    insert_in_local_var_array_double(frame_atual,valor,0);
     jvm->pc++;
 }
 void func_dstore_1(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
     typepop_opstack(frame_atual);
-    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,1);
+    insert_in_local_var_array_double(frame_atual,valor,1);
     jvm->pc++;
 
 }
 void func_dstore_2(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
     typepop_opstack(frame_atual);
-    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,2);
+    insert_in_local_var_array_double(frame_atual,valor,2);
     jvm->pc++;
 
 }
 void func_dstore_3(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
     typepop_opstack(frame_atual);
-    insert_in_local_var_array_double((frame_atual->vetor_de_variaveis_locais),valor,3);
+    insert_in_local_var_array_double(frame_atual,valor,3);
     jvm->pc++;
 
 }
@@ -1946,10 +1985,26 @@ void func_invokeinterface(Jvm * jvm, frame* frame_atual, classcode * code){
 void func_invokedynamic(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
-void func_inst_new(Jvm * jvm, frame* frame_atual, classcode * code){
 
-}
 void func_new(Jvm * jvm, frame* frame_atual, classcode * code){
+    int8_t argumento_operando = code->code[jvm->pc+1];
+    char * classname = decodeClassInfo(frame_atual->constant_pool,argumento_operando);
+    int32_t oldpc = jvm->pc;
+    if(!ja_foi_carregada(classname,&(jvm->area_de_metodos))){
+        carrega_classe_por_nome(classname,&(jvm->area_de_metodos),jvm);
+    }
+    method_area_item *ma;
+    for (int i =0;i<jvm->area_de_metodos.qtd_atual;i++){
+        if(strcmp(jvm->area_de_metodos.classes[i].class_name, classname)==0){
+            ma = &(jvm->area_de_metodos.classes[i]);
+        }
+    }
+    Object * newobject;
+    newobject =  instanciarObjeto(ma,jvm);
+    stack_push(&(frame_atual->pilha_de_operandos), (int32_t) newobject);
+    jvm->pc = oldpc;
+    jvm->pc++;
+    jvm->pc++;
 
 }
 void func_newarray(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -1962,12 +2017,37 @@ void func_athrow(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_arraylength(Jvm * jvm, frame* frame_atual, classcode * code){
+    //desempilha o array e empilha o tamanho dele
+    int32_t arrayref = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
+    Array * array = (Array *)arrayref;
+    stack_push(&(frame_atual->pilha_de_operandos),array->arraylength);
+    typepush_opstack(frame_atual,'I');
+    jvm->pc++;
 
 }
 void func_checkcast(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_instanceof(Jvm * jvm, frame* frame_atual, classcode * code){
+        //determines if an object objectref is of a given type, identified by class reference index in constant pool (indexbyte1 << 8 | indexbyte2)
+    int32_t indice = (code->code[jvm->pc + 1] << 8 )+ code->code[jvm->pc+2];
+    int32_t objectref = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
+    Object * objectref_class = (Object *)objectref;
+    char * objectref_class_name = objectref_class->classe->class_name;
+    char * class_name = decodeClassInfo(frame_atual->constant_pool,frame_atual->constant_pool[indice].cp_info_union.class_info.name_index);
+    if(strcmp(objectref_class_name,class_name)==0){
+        stack_push(&(frame_atual->pilha_de_operandos),1);
+        typepush_opstack(frame_atual,'I');
+    }
+    else{
+        stack_push(&(frame_atual->pilha_de_operandos),0);
+        typepush_opstack(frame_atual,'I');
+    }
+    jvm->pc++;
+    jvm->pc++;
+    jvm->pc++;
 
 }
 void func_monitorenter(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -1983,9 +2063,31 @@ void func_multianewarray(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_ifnull(Jvm * jvm, frame* frame_atual, classcode * code){
+    //if value is null, branch to instruction at branchoffset (signed short constructed from unsigned bytes branchbyte1 << 8 | branchbyte2)
+    int32_t branchoffset = (code->code[jvm->pc + 1] << 8 )+ code->code[jvm->pc + 2];
+    int32_t value = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
+    if(value == 0){
+        jvm->pc += branchoffset;
+    }
+    else{
+        jvm->pc += 3;
+    }
 
 }
 void func_ifnonnull(Jvm * jvm, frame* frame_atual, classcode * code){
+    
+    //if value is not null, branch to instruction at branchoffset (signed short constructed from unsigned bytes branchbyte1 << 8 | branchbyte2)
+    int32_t branchoffset = (code->code[jvm->pc + 1] << 8 )+ code->code[jvm->pc + 2];
+    int32_t value = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
+    if(value != 0){
+        jvm->pc += branchoffset;
+    }
+    else{
+        jvm->pc += 3;
+    }
+
 
 }
 void func_goto_w(Jvm * jvm, frame* frame_atual, classcode * code){
