@@ -555,7 +555,6 @@ void func_istore_0(Jvm * jvm,frame* frame_atual, classcode * code){
 void func_istore_1(Jvm * jvm,frame* frame_atual, classcode * code){
     int32_t valor = stack_pop(&(frame_atual->pilha_de_operandos));
     insert_in_local_var_array((frame_atual->vetor_de_variaveis_locais),valor,1);
-    frame_atual->vetor_de_variaveis_locais[1] = valor;
     jvm->pc++;
     
 }
@@ -1915,7 +1914,10 @@ void func_invokevirtual(Jvm * jvm, frame* frame_atual, classcode * code){
     int8_t argumento_operando = code->code[jvm->pc+1];
     int8_t argumento_operando2 = code->code[jvm->pc+2];
     int32_t indice = (argumento_operando << 8 )+ argumento_operando2;   //indice para o constantpool Methodref
+    printf("%d\n",indice);
+    
     int32_t classindex = frame_atual->constant_pool[indice].cp_info_union.method_ref.class_index;
+    printf("%d\n",classindex);
     if(strcmp(decodeClassInfo(frame_atual->constant_pool,classindex),"java/io/PrintStream")==0){
         char tipo = typepop_opstack(frame_atual);
         switch(tipo){
@@ -1948,6 +1950,7 @@ void func_invokevirtual(Jvm * jvm, frame* frame_atual, classcode * code){
             printf("\n");
         }
     }
+  
     jvm->pc++;
     jvm->pc++;
     jvm->pc++;
