@@ -89,8 +89,18 @@ void push_double_in_stack(stack* pilha, double valor_d) {
     stack_push(pilha, first_half);
     stack_push(pilha, second_half);
 }
-void insert_in_local_var_array_double(frame *, int64_t,int32_t){
+void insert_in_local_var_array_double(frame * frame_atual, int64_t elem,int32_t indice){
+    u1 buffer[8];
+    memcpy(&buffer, &elem, 8);
 
+    int32_t first_half;
+    int32_t second_half;
+
+    memcpy(&first_half, buffer+4, 4);
+    memcpy(&second_half, buffer, 4);
+
+    frame_atual->vetor_de_variaveis_locais[indice] = first_half;
+    frame_atual->vetor_de_variaveis_locais[indice+1] = second_half;
 }
 
 void insert_in_array_short(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {

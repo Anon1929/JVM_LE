@@ -1232,7 +1232,7 @@ void func_lxor(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     typepop_opstack(frame_atual);
     int64_t temp3 = temp ^ temp2;
-    push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    push_double_in_stack(&(frame_atual), temp3);
     typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'J');
     jvm->pc++;
 
@@ -1249,20 +1249,15 @@ void func_iinc(Jvm * jvm, frame* frame_atual, classcode * code){
 void func_i2l(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t temp = stack_pop(&(frame_atual->pilha_de_operandos));
     typepop_opstack(&(frame_atual));
-    int64_t temp2 = temp;
-    push_double_in_stack(&(frame_atual->pilha_de_operandos), temp2);
+    int64_t temp2 = (int64_t) temp;
+    push_double_in_stack(&(frame_atual), temp2);
     typepush_opstack(&(frame_atual), 'J');
     jvm->pc++;
     //converter pra long
 
 }
 void func_i2f(Jvm * jvm, frame* frame_atual, classcode * code){
-    // int32_t temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    // float temp2 = (float) temp;
-    // push_float_in_stack(&(frame_atual->pilha_de_operandos), temp2);
-    // jvm->pc++;
     //converter pra float
-
 }
 void func_i2d(Jvm * jvm, frame* frame_atual, classcode * code){
     // int32_t temp = stack_pop(&(frame_atual->pilha_de_operandos));
@@ -1273,10 +1268,12 @@ void func_i2d(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_l2i(Jvm * jvm, frame* frame_atual, classcode * code){
-    // int64_t temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
-    // int32_t temp2 = (int32_t) temp;
-    // stack_push(&(frame_atual->pilha_de_operandos), temp2);
-    // jvm->pc++;
+    int64_t temp = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
+    int32_t temp2 = (int32_t) temp;
+    stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    typepush_opstack(&(frame_atual), 'I');
+    jvm->pc++;
     //converter pra int
 
 }
