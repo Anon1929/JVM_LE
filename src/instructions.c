@@ -263,11 +263,15 @@ void func_ldc2_w(Jvm * jvm, frame* frame_atual, classcode * code){
 
         case CONSTANT_Double:
             typepush_opstack(frame_atual,'D');
+            stack_push(&(frame_atual->pilha_de_operandos), frame_atual->constant_pool[index].cp_info_union.double_info.high_bytes);
+            stack_push(&(frame_atual->pilha_de_operandos), frame_atual->constant_pool[index].cp_info_union.double_info.low_bytes);
+
         break;
 
     }
-
-
+        jvm->pc++;
+        jvm->pc++;
+        jvm->pc++;
 
 }
 void func_iload(Jvm * jvm, frame* frame_atual, classcode * code){/*
