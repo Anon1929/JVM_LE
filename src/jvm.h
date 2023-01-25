@@ -197,6 +197,6 @@ void jvm_exec(method_area* area_metodos,Jvm* jvm);    //Chamada pelo main
 
 frame * allocframe(cp_info *);
 
-
+Object* instanciarObjeto(method_area_item *ma, Jvm *);
 
 #endif

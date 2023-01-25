@@ -177,10 +177,12 @@ void func_ldc(Jvm * jvm, frame* frame_atual, classcode * code){
             case CONSTANT_Class:
             typepush_opstack(frame_atual,'R');
             char *nomeclasse = decodeClassInfo(frame_atual->constant_pool,argumento_operando);
+            int32_t pcold = jvm->pc;
             if(!ja_foi_carregada(nomeclasse,&(jvm->area_de_metodos))){
                 carrega_classe_por_nome(nomeclasse,&(jvm->area_de_metodos),jvm);
             }
             method_area_item *ma;
+            jvm->pc = pcold;
             for(int j=0; j<jvm->area_de_metodos.qtd_atual;j++){
                 if(strcmp(jvm->area_de_metodos.classes[j].class_name, nomeclasse)==0){
                     ma = &jvm->area_de_metodos.classes[j];
@@ -221,9 +223,11 @@ void func_ldc_w(Jvm * jvm, frame* frame_atual, classcode * code){
             case CONSTANT_Class:
             typepush_opstack(frame_atual,'R');
             char *nomeclasse = decodeClassInfo(frame_atual->constant_pool,index);
+            int32_t oldpc = jvm->pc;
             if(!ja_foi_carregada(nomeclasse,&(jvm->area_de_metodos))){
                 carrega_classe_por_nome(nomeclasse,&(jvm->area_de_metodos),jvm);
             }
+            jvm->pc = oldpc;
             method_area_item *ma;
             for(int j=0; j<jvm->area_de_metodos.qtd_atual;j++){
                 if(strcmp(jvm->area_de_metodos.classes[j].class_name, nomeclasse)==0){
@@ -1926,10 +1930,26 @@ void func_invokeinterface(Jvm * jvm, frame* frame_atual, classcode * code){
 void func_invokedynamic(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
-void func_inst_new(Jvm * jvm, frame* frame_atual, classcode * code){
 
-}
 void func_new(Jvm * jvm, frame* frame_atual, classcode * code){
+    int8_t argumento_operando = code->code[jvm->pc+1];
+    char * classname = decodeClassInfo(frame_atual->constant_pool,argumento_operando);
+    int32_t oldpc = jvm->pc;
+    if(!ja_foi_carregada(classname,&(jvm->area_de_metodos))){
+        carrega_classe_por_nome(classname,&(jvm->area_de_metodos),jvm);
+    }
+    method_area_item *ma;
+    for (int i =0;i<jvm->area_de_metodos.qtd_atual;i++){
+        if(strcmp(jvm->area_de_metodos.classes[i].class_name, classname)==0){
+            ma = &(jvm->area_de_metodos.classes[i]);
+        }
+    }
+    Object * newobject;
+    newobject =  instanciarObjeto(ma,jvm);
+    stack_push(&(frame_atual->pilha_de_operandos), (int32_t) newobject);
+    jvm->pc = oldpc;
+    jvm->pc++;
+    jvm->pc++;
 
 }
 void func_newarray(Jvm * jvm, frame* frame_atual, classcode * code){
