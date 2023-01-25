@@ -57,7 +57,7 @@ typedef struct local_variable_vector{
 int32_t get_from_array(local_variable_vector *variaveis_vetor, int indice);
 
 
-void insert_in_local_var_array(frame *, int32_t elem, int32_t indice);
+void insert_in_local_var_array(int32_t* variaveis_vetor, int32_t elem, int32_t indice);
 int32_t get_from_array(local_variable_vector* variaveis_vetor, int indice);
 
 
@@ -69,7 +69,7 @@ typedef struct frame{
     int32_t altura_tipos;
 
 } frame;
-void insert_in_local_var_array_double(int32_t * ,int64_t, int32_t);
+void insert_in_local_var_array_double(frame * ,int64_t, int32_t);
 
 void typepush_opstack(frame *, char);
 char typepop_opstack(frame *);
