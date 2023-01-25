@@ -74,6 +74,8 @@ void insert_in_local_var_array_double(int32_t * ,int64_t, int32_t);
 void typepush_opstack(frame *, char);
 char typepop_opstack(frame *);
 
+int32_t le_inteiro_from_code(u1* code, int x);
+u2 concatena_bytes(u1 msb, u1 lsb);
 
 typedef struct field_variable {
     char* name;
@@ -162,6 +164,10 @@ typedef struct Jvm
     int32_t framecount;
     method_area area_de_metodos;
 } Jvm;
+
+classcode*  busca_codigo(method_area* area_metodos, char* nome_classe, char* nome_metodo, char* descriptor);
+classcode* busca_codigo_in_classe(method_area_item* classe, char nome_metodo[], char descritor[]);
+method_area_item* busca_endereco_class_in_method_area(method_area* area_metodos, char class_name[]);
 
 void insert_in_array_ref(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor);
 void insert_in_array_char(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor);

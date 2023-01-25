@@ -3,7 +3,6 @@
 #include <string.h>
 #include "jvm.h"
 
-
 void (*vetorfuncs[256])(Jvm *, frame*, classcode*);
 
 
@@ -75,7 +74,6 @@ void push_float_in_stack(stack* pilha, float valor_f) {
 }
 
 
-
 void push_double_in_stack(stack* pilha, double valor_d) {
     u1 buffer[8];
     memcpy(&buffer, &valor_d, 8);
@@ -141,6 +139,33 @@ char typepop_opstack(frame * frame_atual){
 }
 
 
+
+u2 concatena_bytes(u1 msb, u1 lsb) {
+	u2 result = msb;
+	result = result << 8 | lsb;
+	return result;
+}
+
+
+u4 concatena_duas_half_words(u2 msh, u2 lsh) {
+	u4 result = msh;
+	result = result << 16 | lsh;
+	return result;
+
+}
+
+
+int32_t le_inteiro_from_code(u1* code, int x){
+
+	//printf("%d  esse eh x\n", x);
+	int32_t valor = 0;
+	u4 aux = concatena_duas_half_words(concatena_bytes(code[x], code[x+1]), concatena_bytes(code[x+2], code[x+3]));
+	memcpy(&valor, &aux, 4);
+	return valor;
+}
+
+
+
 char *concatena_strings(char str1[], char str2[]) { 
     char* result = (char*)malloc(sizeof(strlen(str1) + strlen(str2) + 1));   
 
@@ -177,6 +202,8 @@ int ja_foi_carregada(char nome_classe[],method_area* area_metodos) {
 
     return 0;
 }
+
+//classcode* busca_codigo
 
 
 
@@ -259,6 +286,15 @@ field_variable* gera_field_variables(classfields* info_fields, u2 qtd) {
 }
 
 
+classcode* busca_codigo_in_classe(method_area_item* classe, char nome_metodo[], char descritor[]) {
+    for(int i = 0; i < classe->qtd_metodos;i++) {
+        if((strcmp(classe->metodos[i].name, nome_metodo) == 0) && (strcmp(classe->metodos[i].descriptor, descritor) == 0)){
+            return &(classe->metodos[i].codigo);            
+        }
+    }
+}
+
+
 
 method_area_item* busca_endereco_class_in_method_area(method_area* area_metodos, char class_name[]) {    
     for(int i = 0; i < area_metodos->qtd_atual;i++) {
@@ -269,6 +305,13 @@ method_area_item* busca_endereco_class_in_method_area(method_area* area_metodos,
         }
     }
 }
+
+
+classcode*  busca_codigo(method_area* area_metodos, char* nome_classe, char* nome_metodo, char* descritor) {
+    method_area_item *classe = busca_endereco_class_in_method_area(area_metodos, nome_classe);
+    return busca_codigo_in_classe(classe, nome_metodo, descritor);
+} 
+
 
 
 
