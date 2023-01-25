@@ -962,7 +962,7 @@ void func_i2d(Jvm * jvm, frame* frame_atual, classcode * code){
 }
 void func_l2i(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
-    int32_t inteiro = valor & 4294967295;
+    int32_t inteiro = (int32_t) valor;
 
     stack_push(&(frame_atual->pilha_de_operandos), inteiro);
     typepush_opstack(frame_atual,'I');
