@@ -184,6 +184,12 @@ void func_ldc(Jvm * jvm, frame* frame_atual, classcode * code){
 
             case CONSTANT_Float:
             typepush_opstack(frame_atual,'F');
+            /*
+            float f_temp;
+            u4 i_temp = frame_atual->constant_pool[argumento_operando].cp_info_union.float_info.bytes;
+            memcpy(&f_temp,&i_temp,4);
+            printf("FLOAT: %f\n",(float) f_temp);
+            */
             stack_push(&(frame_atual->pilha_de_operandos),frame_atual->constant_pool[argumento_operando].cp_info_union.float_info.bytes);   
             break;
 
@@ -1060,13 +1066,25 @@ void func_ladd(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_fadd(Jvm * jvm, frame* frame_atual, classcode * code){
-    float temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    float temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    char tipoTemp = typepop_opstack(frame_atual);
-    char tipoTemp2 = typepop_opstack(frame_atual);
+    
+    float temp; 
+    int32_t inttemp = stack_pop(&(frame_atual->pilha_de_operandos));
+    memcpy(&temp,&inttemp,4);
+    float temp2;
+    int32_t inttemp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    memcpy(&temp2,&inttemp2,4);
+    
+    typepop_opstack(frame_atual);
+    typepop_opstack(frame_atual);
+
     float temp3 = temp + temp2;
-    push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(frame_atual, tipoTemp);
+    int32_t inttemp3;
+    memcpy(&inttemp3,&temp3,4);
+    printf("FLOAT : %f\n", temp3);
+
+
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), inttemp3);
+    typepush_opstack(frame_atual, 'F');
     jvm->pc++;
 }
 void func_dadd(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -1084,7 +1102,7 @@ void func_isub(Jvm * jvm, frame* frame_atual, classcode * code){
     int temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
-    int temp3 = temp - temp2;
+    int temp3 = temp2 -temp;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
     typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
@@ -1164,7 +1182,7 @@ void func_idiv(Jvm * jvm, frame* frame_atual, classcode * code){
     int temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
-    int temp3 = temp / temp2;
+    int temp3 = temp2 / temp;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
     typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
@@ -1204,7 +1222,7 @@ void func_irem(Jvm * jvm, frame* frame_atual, classcode * code){
     int temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
     char tipoTemp = typepop_opstack(frame_atual);
     char tipoTemp2 = typepop_opstack(frame_atual);
-    int temp3 = temp - (temp/temp2)*temp2;
+    int temp3 = temp2 % temp;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
     typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
@@ -1294,7 +1312,7 @@ void func_ishl(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
     typepop_opstack(frame_atual);
     typepop_opstack(frame_atual);
-    int32_t temp3 = temp << temp2;
+    int32_t temp3 = temp2 << temp;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
     typepush_opstack(frame_atual, 'I');
     jvm->pc++;
@@ -1315,7 +1333,7 @@ void func_ishr(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
     typepop_opstack(frame_atual);
     typepop_opstack(frame_atual);
-    int32_t temp3 = temp >> temp2;
+    int32_t temp3 = temp2 >> temp;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
     typepush_opstack(frame_atual, 'I');
     jvm->pc++;
@@ -2012,7 +2030,11 @@ void func_invokevirtual(Jvm * jvm, frame* frame_atual, classcode * code){
             break;
 
             case 'F':
-            printf("%f",(float) stack_pop(&(frame_atual->pilha_de_operandos)));
+            float f_temp;
+            u4 i_temp = stack_pop(&(frame_atual->pilha_de_operandos));
+            memcpy(&f_temp,&i_temp,4);
+            
+            printf("%f",f_temp );
             break;
 
             case 'C':
