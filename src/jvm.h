@@ -34,7 +34,7 @@ void push_double_in_stack(stack *pilha, double valor_d);
 void stack_push_reference(stack *pilha, void *referencia);
 void *stack_pop_reference(stack *pilha);
 int32_t stack_pop(stack *pilha);
-
+int64_t stack_pop_double(stack* pilha);
 
 void stack_push(stack* pilha, int32_t elem);
 void push_float_in_stack(stack* pilha, float valor_f);
