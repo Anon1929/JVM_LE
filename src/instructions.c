@@ -187,8 +187,8 @@ void func_ldc(Jvm * jvm, frame* frame_atual, classcode * code){
             case CONSTANT_Class:
             typepush_opstack(frame_atual,'R');
             char *nomeclasse = decodeClassInfo(frame_atual->constant_pool,argumento_operando);
-            if(!ja_foi_carregada(nomeclasse)){
-                carrega_classe_por_nome(nomeclasse,jvm->area_de_metodos);
+            if(!ja_foi_carregada(nomeclasse,&(jvm->area_de_metodos))){
+                carrega_classe_por_nome(nomeclasse,&(jvm->area_de_metodos),jvm);
             }
             method_area_item *ma;
             for(int j=0; j<jvm->area_de_metodos.qtd_atual;j++){
@@ -230,9 +230,9 @@ void func_ldc_w(Jvm * jvm, frame* frame_atual, classcode * code){
 
             case CONSTANT_Class:
             typepush_opstack(frame_atual,'R');
-            char *nomeclasse = decodeClassInfo(frame_atual,index);
-            if(!ja_foi_carregada(nomeclasse)){
-                carrega_classe_por_nome(nomeclasse,jvm->area_de_metodos);
+            char *nomeclasse = decodeClassInfo(frame_atual->constant_pool,index);
+            if(!ja_foi_carregada(nomeclasse,&(jvm->area_de_metodos))){
+                carrega_classe_por_nome(nomeclasse,&(jvm->area_de_metodos),jvm);
             }
             method_area_item *ma;
             for(int j=0; j<jvm->area_de_metodos.qtd_atual;j++){
@@ -1068,7 +1068,7 @@ void func__drem(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     int64_t temp3 = temp - (temp/temp2)*temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'D');
+    typepush_opstack(frame_atual, 'D');
     jvm->pc++;
 
 
@@ -1078,7 +1078,7 @@ void func_ineg(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     temp = temp * -1;
     stack_push(&(frame_atual->pilha_de_operandos), temp);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'I');
+    typepush_opstack(frame_atual, 'I');
     jvm->pc++;
 
 }
@@ -1087,7 +1087,7 @@ void func_lneg(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     temp = temp * -1;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'J');
+    typepush_opstack(frame_atual, 'J');
     jvm->pc++;
 
 }
@@ -1096,7 +1096,7 @@ void func_fneg(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     temp = temp * -1;
     stack_push(&(frame_atual->pilha_de_operandos), temp);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'F');
+    typepush_opstack(frame_atual, 'F');
     jvm->pc++;
 }
 void func_dneg(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -1104,7 +1104,7 @@ void func_dneg(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     temp = temp * -1;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'D');
+    typepush_opstack(frame_atual, 'D');
     jvm->pc++;
 
 }
@@ -1115,7 +1115,7 @@ void func_ishl(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     int32_t temp3 = temp << temp2;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'I');
+    typepush_opstack(frame_atual, 'I');
     jvm->pc++;
 
 }
@@ -1126,7 +1126,7 @@ void func_lshl(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     int64_t temp3 = temp << temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'J');
+    typepush_opstack(frame_atual, 'J');
     jvm->pc++;
 }
 void func_ishr(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -1136,7 +1136,7 @@ void func_ishr(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     int32_t temp3 = temp >> temp2;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'I');
+    typepush_opstack(frame_atual, 'I');
     jvm->pc++;
     //shifting a signed value >> is arithmetic shift
 }
@@ -1147,7 +1147,7 @@ void func_lshr(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     int64_t temp3 = temp >> temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'J');
+    typepush_opstack(frame_atual, 'J');
     jvm->pc++;
     
 }
@@ -1158,7 +1158,7 @@ void func_iushr(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     uint32_t temp3 = temp >> temp2;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'I');
+    typepush_opstack(frame_atual, 'I');
     jvm->pc++;
 
 }
@@ -1169,7 +1169,7 @@ void func_lushr(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     uint64_t temp3 = temp >> temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'J');
+    typepush_opstack(frame_atual, 'J');
     jvm->pc++;
 
 }
@@ -1180,7 +1180,7 @@ void func_iand(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     int32_t temp3 = temp & temp2;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'I');
+    typepush_opstack(frame_atual, 'I');
     jvm->pc++;
 }
 void func_land(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -1190,7 +1190,7 @@ void func_land(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     int64_t temp3 = temp & temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'J');
+    typepush_opstack(frame_atual, 'J');
     jvm->pc++;
 
 }
@@ -1201,7 +1201,7 @@ void func_ior(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     int32_t temp3 = temp | temp2;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'I');
+    typepush_opstack(frame_atual, 'I');
     jvm->pc++;
 
 }
@@ -1212,7 +1212,7 @@ void func_lor(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     int64_t temp3 = temp | temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'J');
+    typepush_opstack(frame_atual, 'J');
     jvm->pc++;
 
 }
@@ -1223,7 +1223,7 @@ void func_ixor(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     int32_t temp3 = temp ^ temp2;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'I');
+    typepush_opstack(frame_atual, 'I');
     jvm->pc++;
 }
 void func_lxor(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -1233,7 +1233,7 @@ void func_lxor(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
     int64_t temp3 = temp ^ temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(&(frame_atual->pilha_tipos_operandos), 'J');
+    typepush_opstack(frame_atual, 'J');
     jvm->pc++;
 
 }

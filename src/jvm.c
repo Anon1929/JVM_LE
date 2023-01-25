@@ -89,7 +89,7 @@ void push_double_in_stack(stack* pilha, double valor_d) {
     stack_push(pilha, first_half);
     stack_push(pilha, second_half);
 }
-void insert_in_local_var_array_double(frame *, int64_t,int32_t){
+void insert_in_local_var_array_double(int32_t * vetor, int64_t valor,int32_t indice){
 
 }
 
