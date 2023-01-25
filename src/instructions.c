@@ -184,13 +184,12 @@ void func_ldc(Jvm * jvm, frame* frame_atual, classcode * code){
 
             case CONSTANT_Float:
             typepush_opstack(frame_atual,'F');
-            /*
-            float f_temp;
+            
+            int32_t temp;
             u4 i_temp = frame_atual->constant_pool[argumento_operando].cp_info_union.float_info.bytes;
-            memcpy(&f_temp,&i_temp,4);
-            printf("FLOAT: %f\n",(float) f_temp);
-            */
-            stack_push(&(frame_atual->pilha_de_operandos),frame_atual->constant_pool[argumento_operando].cp_info_union.float_info.bytes);   
+            memcpy(&temp,&i_temp,4);
+            
+            stack_push(&(frame_atual->pilha_de_operandos), temp);   
             break;
 
             case CONSTANT_String:
@@ -412,15 +411,16 @@ void func_fload_0(Jvm * jvm,frame* frame_atual, classcode * code){
 }
 
 void func_fload_1(Jvm * jvm,frame* frame_atual, classcode * code){
-    push_float_in_stack(&(frame_atual->pilha_de_operandos), 1);
+    int32_t valor = frame_atual->vetor_de_variaveis_locais[1];
+    stack_push(&(frame_atual->pilha_de_operandos), valor);
     typepush_opstack(frame_atual, 'F');
     jvm->pc++;
 }
 
 void func_fload_2(Jvm * jvm,frame* frame_atual, classcode * code){
-    push_float_in_stack(&(frame_atual->pilha_de_operandos), 2);
+    int32_t valor = frame_atual->vetor_de_variaveis_locais[2];
+    stack_push(&(frame_atual->pilha_de_operandos), valor);
     typepush_opstack(frame_atual, 'F');
-
     jvm->pc++;
 }
 
@@ -1078,12 +1078,8 @@ void func_fadd(Jvm * jvm, frame* frame_atual, classcode * code){
     typepop_opstack(frame_atual);
 
     float temp3 = temp + temp2;
-    int32_t inttemp3;
-    memcpy(&inttemp3,&temp3,4);
-    printf("FLOAT : %f\n", temp3);
 
-
-    push_float_in_stack(&(frame_atual->pilha_de_operandos), inttemp3);
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
     typepush_opstack(frame_atual, 'F');
     jvm->pc++;
 }
@@ -1118,13 +1114,18 @@ void func_lsub(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_fsub(Jvm * jvm, frame* frame_atual, classcode * code){
-    float temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    float temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    char tipoTemp = typepop_opstack(frame_atual);
-    char tipoTemp2 = typepop_opstack(frame_atual);
+    float temp2;
+    int32_t inttemp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    memcpy(&temp2,&inttemp2,4);
+
+    float temp; 
+    int32_t inttemp = stack_pop(&(frame_atual->pilha_de_operandos));
+    memcpy(&temp,&inttemp,4);
+
     float temp3 = temp - temp2;
+
     push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(frame_atual, tipoTemp);
+    typepush_opstack(frame_atual, 'F');
     jvm->pc++;
 }
 void func_dsub(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -1158,13 +1159,17 @@ void func_lmul(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_fmul(Jvm * jvm, frame* frame_atual, classcode * code){
-    float temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    float temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    char tipoTemp = typepop_opstack(frame_atual);
-    char tipoTemp2 = typepop_opstack(frame_atual);
+    float temp2;
+    int32_t inttemp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    memcpy(&temp2,&inttemp2,4);
+
+    float temp; 
+    int32_t inttemp = stack_pop(&(frame_atual->pilha_de_operandos));
+    memcpy(&temp,&inttemp,4);
+
     float temp3 = temp * temp2;
     push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(frame_atual, tipoTemp);
+    typepush_opstack(frame_atual, 'F');
     jvm->pc++;
 }
 void func_dmul(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -1198,13 +1203,16 @@ void func_inst_ldiv(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_fdiv(Jvm * jvm, frame* frame_atual, classcode * code){
-    float temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    float temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    char tipoTemp = typepop_opstack(frame_atual);
-    char tipoTemp2 = typepop_opstack(frame_atual);
+    float temp2;
+    int32_t inttemp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    memcpy(&temp2,&inttemp2,4);
+
+    float temp; 
+    int32_t inttemp = stack_pop(&(frame_atual->pilha_de_operandos));
+    memcpy(&temp,&inttemp,4);
     float temp3 = temp / temp2;
     push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(frame_atual, tipoTemp);
+    typepush_opstack(frame_atual, 'F');
     jvm->pc++;
 }
 void func_ddiv(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -1238,13 +1246,17 @@ void func_lrem(Jvm * jvm, frame* frame_atual, classcode * code){
     jvm->pc++;
 }
 void func_frem(Jvm * jvm, frame* frame_atual, classcode * code){
-    float temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    float temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    char tipoTemp = typepop_opstack(frame_atual);
-    char tipoTemp2 = typepop_opstack(frame_atual);
+    float temp2;
+    int32_t inttemp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    memcpy(&temp2,&inttemp2,4);
+
+    float temp; 
+    int32_t inttemp = stack_pop(&(frame_atual->pilha_de_operandos));
+    memcpy(&temp,&inttemp,4);
+
     float temp3 = temp - (temp/temp2)*temp2;
     push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
-    typepush_opstack(frame_atual, tipoTemp);
+    typepush_opstack(frame_atual, 'F');
     jvm->pc++;
 }
 void func_inst_drem(Jvm * jvm, frame* frame_atual, classcode * code){
@@ -1291,10 +1303,13 @@ void func_lneg(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_fneg(Jvm * jvm, frame* frame_atual, classcode * code){
-    int32_t temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    float temp; 
+    int32_t inttemp = stack_pop(&(frame_atual->pilha_de_operandos));
+    memcpy(&temp,&inttemp,4);
+
     typepop_opstack(frame_atual);
     temp = temp * -1;
-    stack_push(&(frame_atual->pilha_de_operandos), temp);
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), temp);
     typepush_opstack(frame_atual, 'F');
     jvm->pc++;
 }
@@ -2029,14 +2044,14 @@ void func_invokevirtual(Jvm * jvm, frame* frame_atual, classcode * code){
             printf("%d",stack_pop(&(frame_atual->pilha_de_operandos)));
             break;
 
-            case 'F':
+            case 'F':{
             float f_temp;
-            u4 i_temp = stack_pop(&(frame_atual->pilha_de_operandos));
+            int32_t i_temp = stack_pop(&(frame_atual->pilha_de_operandos));
             memcpy(&f_temp,&i_temp,4);
             
             printf("%f",f_temp );
             break;
-
+            }
             case 'C':
             printf("%c",(char) stack_pop(&(frame_atual->pilha_de_operandos)));
             break;
