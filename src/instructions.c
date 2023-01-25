@@ -264,18 +264,44 @@ void func_ldc2_w(Jvm * jvm, frame* frame_atual, classcode * code){
         jvm->pc++;
 
 }
-void func_iload(Jvm * jvm, frame* frame_atual, classcode * code){/*
+void func_iload(Jvm * jvm, frame* frame_atual, classcode * code){
+    int8_t index = code->code[jvm->pc+1];
+    stack_push(&(frame_atual->pilha_de_operandos),frame_atual->vetor_de_variaveis_locais[index]);
+    typepush_opstack(frame_atual,'I');
+    jvm->pc++;
+    jvm->pc++;
 
-*/}
-void func_lload(Jvm * jvm, frame* frame_atual, classcode * code){/*
+}
+void func_lload(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t high_bits, low_bits;
+    int8_t index = code->code[jvm->pc+1];
+    high_bits = frame_atual->vetor_de_variaveis_locais[index];
+    low_bits  = frame_atual->vetor_de_variaveis_locais[index+1]; 
+    stack_push(&(frame_atual->pilha_de_operandos),high_bits);
+    stack_push(&(frame_atual->pilha_de_operandos),low_bits);
+    typepush_opstack(frame_atual,'L');
+    jvm->pc++;
+    jvm->pc++;
+}
+void func_fload(Jvm * jvm, frame* frame_atual, classcode * code){
+    int8_t index = code->code[jvm->pc+1];
+    stack_push(&(frame_atual->pilha_de_operandos),frame_atual->vetor_de_variaveis_locais[index]);
+    typepush_opstack(frame_atual,'L');
+    jvm->pc++;
+    jvm->pc++;
 
-*/}
-void func_fload(Jvm * jvm, frame* frame_atual, classcode * code){/*
-
-*/}
-void func_dload(Jvm * jvm, frame* frame_atual, classcode * code){/*
-
-*/}
+}
+void func_dload(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t high_bits, low_bits;
+    int8_t index = code->code[jvm->pc+1];
+    high_bits = frame_atual->vetor_de_variaveis_locais[index];
+    low_bits  = frame_atual->vetor_de_variaveis_locais[index+1]; 
+    stack_push(&(frame_atual->pilha_de_operandos),high_bits);
+    stack_push(&(frame_atual->pilha_de_operandos),low_bits);
+    typepush_opstack(frame_atual,'D');
+    jvm->pc++;
+    jvm->pc++;
+}
 void func_aload(Jvm * jvm, frame* frame_atual, classcode * code){
     int8_t index = code->code[jvm->pc+1];
     stack_push(&(frame_atual->pilha_de_operandos),frame_atual->vetor_de_variaveis_locais[index]);
