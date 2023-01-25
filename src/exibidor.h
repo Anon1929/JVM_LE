@@ -1,3 +1,14 @@
+/**
+ * @file exibidor.h
+ * @author Vinicius Lima
+ * @author Weliton Barreto
+ * @author Arthur Souza
+ * @author Thiago Vale
+ * @brief Arquivo com as funções de exibição.
+ *
+ * @details Declaração das funções de exibição de diversos campos e atributos.
+ */
+
 #include "classfile.h"
 #ifndef EXIBIDORH
 #define EXIBIDORH
