@@ -785,7 +785,7 @@ void func_pop2(Jvm * jvm, frame* frame_atual, classcode * code){
     if (tipoTemp != 'D' || tipoTemp != 'L') {
         stack_pop(&(frame_atual->pilha_de_operandos));
         stack_pop(&(frame_atual->pilha_de_operandos));
-        typepop_opstack(frame_atual);
+    
     } else {
         stack_pop(&(frame_atual->pilha_de_operandos));
     }
@@ -1364,21 +1364,21 @@ void func_iinc(Jvm * jvm, frame* frame_atual, classcode * code){
 }
 void func_i2l(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t inteiro = stack_pop(&(frame_atual->pilha_de_operandos));
-    
+    typepop_opstack(frame_atual);
     push_long_in_stack(&(frame_atual->pilha_de_operandos), (int64_t) inteiro);
     typepush_opstack(frame_atual,'L');
     jvm->pc++;
 }
 void func_i2f(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t inteiro = stack_pop(&(frame_atual->pilha_de_operandos));
-
+    typepop_opstack(frame_atual);
     push_float_in_stack(&(frame_atual->pilha_de_operandos), (float)inteiro);
     typepush_opstack(frame_atual,'F');
     jvm->pc++;
 }
 void func_i2d(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t inteiro = stack_pop(&(frame_atual->pilha_de_operandos));
-
+    typepop_opstack(frame_atual);
     push_double_in_stack(&(frame_atual->pilha_de_operandos), (double)inteiro);
     typepush_opstack(frame_atual,'D');
     jvm->pc++;
@@ -1386,14 +1386,14 @@ void func_i2d(Jvm * jvm, frame* frame_atual, classcode * code){
 void func_l2i(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
     int32_t inteiro = (int32_t) valor;
-
+    typepop_opstack(frame_atual);
     stack_push(&(frame_atual->pilha_de_operandos), inteiro);
     typepush_opstack(frame_atual,'I');
     jvm->pc++;
 }
 void func_l2f(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
-
+    typepop_opstack(frame_atual);
     push_float_in_stack(&(frame_atual->pilha_de_operandos), (float)valor);
     typepush_opstack(frame_atual,'F');
     jvm->pc++;
@@ -1401,13 +1401,14 @@ void func_l2f(Jvm * jvm, frame* frame_atual, classcode * code){
 
 void func_l2d(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
-
+    typepop_opstack(frame_atual);
     push_double_in_stack(&(frame_atual->pilha_de_operandos), (double)valor);
     typepush_opstack(frame_atual,'D');
     jvm->pc++;
 }
 void func_f2i(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t bytes = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     float operando;
     memcpy(&operando, &bytes, 4);
     
@@ -1427,6 +1428,7 @@ void func_f2i(Jvm * jvm, frame* frame_atual, classcode * code){
 }
 void func_f2l(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t bytes = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     float operando;
     memcpy(&operando, &bytes, 4);
     
@@ -1449,7 +1451,7 @@ void func_f2d(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t bytes = stack_pop(&(frame_atual->pilha_de_operandos));
     float operando;
     memcpy(&operando, &bytes, 4);
-
+    typepop_opstack(frame_atual);
     push_double_in_stack(&(frame_atual->pilha_de_operandos), (double)operando);
     typepush_opstack(frame_atual,'D');
     jvm->pc++;
@@ -1457,6 +1459,7 @@ void func_f2d(Jvm * jvm, frame* frame_atual, classcode * code){
 
 void func_d2i(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t bytes = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     double operando;
     memcpy(&operando, &bytes, 8);
 
@@ -1475,6 +1478,7 @@ void func_d2i(Jvm * jvm, frame* frame_atual, classcode * code){
 }
 void func_d2l(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t bytes = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     double operando;
     memcpy(&operando, &bytes, 8);
 
@@ -1494,6 +1498,7 @@ void func_d2l(Jvm * jvm, frame* frame_atual, classcode * code){
 
 void func_d2f(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t bytes = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     double valor_double;
     memcpy(&valor_double, &bytes, 8);
 
@@ -1507,6 +1512,7 @@ void func_d2f(Jvm * jvm, frame* frame_atual, classcode * code){
 }
 void func_i2b(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t inteiro = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     int8_t valor_byte = (int8_t) inteiro;
     
     stack_push(&(frame_atual->pilha_de_operandos), (int32_t) valor_byte);
@@ -1515,6 +1521,7 @@ void func_i2b(Jvm * jvm, frame* frame_atual, classcode * code){
 }
 void func_i2c(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t inteiro = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     int32_t valor_char = inteiro & 65535;
 
     stack_push(&(frame_atual->pilha_de_operandos), valor_char);
@@ -1523,6 +1530,7 @@ void func_i2c(Jvm * jvm, frame* frame_atual, classcode * code){
 }
 void func_i2s(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t inteiro = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     int16_t valor_short = (int16_t) inteiro;
     
     stack_push(&(frame_atual->pilha_de_operandos), (int32_t) valor_short);
@@ -1533,6 +1541,8 @@ void func_i2s(Jvm * jvm, frame* frame_atual, classcode * code){
 void func_lcmp(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t op2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
     int64_t op1 = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
+    typepop_opstack(frame_atual);
 
     if (op1 < op2) {
         stack_push(&(frame_atual->pilha_de_operandos), -1);
@@ -1547,10 +1557,12 @@ void func_lcmp(Jvm * jvm, frame* frame_atual, classcode * code){
 }
 void func_fcmpl(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t bytes_op2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     float op2;
     memcpy(&op2, &bytes_op2, 4);
 
     int32_t bytes_op1 = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     float op1;
     memcpy(&op1, &bytes_op1, 4);
 
@@ -1572,10 +1584,12 @@ void func_fcmpl(Jvm * jvm, frame* frame_atual, classcode * code){
 
 void func_fcmpg(Jvm * jvm, frame* frame_atual, classcode * code){
     int32_t bytes_op2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     float op2;
     memcpy(&op2, &bytes_op2, 4);
 
     int32_t bytes_op1 = stack_pop(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     float op1;
     memcpy(&op1, &bytes_op1, 4);
 
@@ -1596,10 +1610,12 @@ void func_fcmpg(Jvm * jvm, frame* frame_atual, classcode * code){
 }
 void func_dcmpl(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t bytes_op2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     double op2;
     memcpy(&op2, &bytes_op2, 8);
 
     int64_t bytes_op1 = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     double op1;
     memcpy(&op1, &bytes_op1, 8);
 
@@ -1621,10 +1637,12 @@ void func_dcmpl(Jvm * jvm, frame* frame_atual, classcode * code){
 
 void func_dcmpg(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t bytes_op2 = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     double op2;
     memcpy(&op2, &bytes_op2, 8);
 
     int64_t bytes_op1 = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    typepop_opstack(frame_atual);
     double op1;
     memcpy(&op1, &bytes_op1, 8);
 

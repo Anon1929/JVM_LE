@@ -118,7 +118,7 @@ typedef struct frame{
 } frame;
 
 /// @brief Função que coloca um double no array de variaveis locais
-void insert_in_local_var_array_double(int32_t * ,int64_t, int32_t);
+void insert_in_local_var_array_double(frame * ,int64_t, int32_t);
 
 
 /// @brief Função que coloca o tipo do elemento no topo da pilha
