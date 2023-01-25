@@ -5,6 +5,7 @@
 #include "exibidor.h"
 #include "leitor.h"
 
+
 typedef struct Array
 {
     int32_t arraylength;
@@ -26,6 +27,7 @@ typedef struct stack
     int32_t stackarr[99999];
 
 } stack;
+/// Struct que define uma pilha
 
 void stack_push(stack *pilha, int32_t elem);
 void push_float_in_stack(stack *pilha, float valor_f);

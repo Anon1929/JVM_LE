@@ -23,7 +23,6 @@ void* pointer_from_bits_in_i32t(int32_t valor_int32) {
 
 
 
-
 void stack_push(stack* pilha, int32_t elem){
     pilha->altura++;
     pilha->stackarr[pilha->altura-1] = elem;
