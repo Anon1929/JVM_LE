@@ -1,15 +1,33 @@
+/**
+ * @file classfile.h
+ * @author Vinicius Lima
+ * @author Weliton Barreto
+ * @author Arthur Souza
+ * @author Thiago Vale
+ * @brief Arquivo com as definições dos campos de um classfile.
+ *
+ * @details Declaração das estruturas de um classfile e seus campos.
+ */
+
+
 #include <stdint.h>
 #ifndef CLASSFILEH
 #define CLASSFILEH
 
+/// @brief Definição do tamnaho do dado do tipo u1
 typedef uint8_t u1;
+
+/// @brief Definição do tamnaho do dado do tipo u2
 typedef uint16_t u2;
+
+/// @brief Definição do tamnaho do dado do tipo u4
 typedef uint32_t u4;
+
+/// @brief Definição do tamnaho do dado do tipo u8
 typedef uint64_t u8;
 
-
+/// @brief Struct que define constant pool
 typedef struct cp_info
-/// Struct que define constant pool
 {
     u1 tag;
     union
@@ -73,6 +91,7 @@ typedef struct cp_info
 
 struct attribute_info;
 
+/// @brief Struct que define exception table
 typedef struct exception_table
 {
     u2 start_pc;
@@ -82,6 +101,7 @@ typedef struct exception_table
 
 } exception_table;
 
+/// @brief Struct que define o code attribute
 typedef struct Code_attribute
 {
     u2 max_stack;
@@ -95,6 +115,7 @@ typedef struct Code_attribute
 
 } Code_attribute;
 
+/// @brief Struct que define o exceptions attribute
 typedef struct Exceptions_attribute
 {
     u2 number_of_exceptions;
@@ -102,6 +123,7 @@ typedef struct Exceptions_attribute
 
 } Exceptions_attribute;
 
+/// @brief Struct que define classes
 typedef struct classes
 {
     u2 inner_class_info_index;
@@ -111,6 +133,7 @@ typedef struct classes
 
 } classes;
 
+/// @brief Struct que define o inner classes attribute
 typedef struct InnerClasses_attribute
 {
     u2 number_of_classes;
@@ -118,16 +141,21 @@ typedef struct InnerClasses_attribute
 
 } InnerClasses_attribute;
 
-typedef struct LineNumberTable{
+/// @brief Struct que define line number table
+typedef struct LineNumberTable
+{
     u2 start_pc;
     u2 line_number;
 }LineNumberTable;
 
-typedef struct{
+/// @brief Struct que define line number table attribute
+typedef struct LineNumberTableAttr
+{
     u2 line_number_table_length;
     LineNumberTable * line_number_table;
 }LineNumberTableAttr;
 
+/// @brief Struct que define local variable table
 typedef struct LocalVariableTable
 {
     u2 start_pc;
@@ -137,12 +165,14 @@ typedef struct LocalVariableTable
     u2 index;
 } LocalVariableTable;
 
+/// @brief Struct que define local variable table attribute
 typedef struct LocalVariableTableAttr
 {
     u2 local_variable_table_length;
     LocalVariableTable * local_variable_table;
 } LocalVariableTableAttr;
 
+/// @brief Struct que define attribute info
 typedef struct attribute_info
 {
     u2 attribute_name_index;
@@ -161,6 +191,7 @@ typedef struct attribute_info
 
 } attribute_info;
 
+/// @brief Struct que define field info
 typedef struct field_info
 {
     u2 access_flags;
@@ -171,6 +202,7 @@ typedef struct field_info
 
 } field_info;
 
+/// @brief Struct que define method info
 typedef struct method_info
 {
     u2 access_flags;
@@ -199,6 +231,7 @@ enum tagswitch
     CONSTANT_InvokeDynamic = 18
 };
 
+/// @brief Struct que define classfile
 typedef struct Classfile
 {
     u4 magic;
