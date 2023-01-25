@@ -632,316 +632,397 @@ void func_pop(Jvm * jvm, frame* frame_atual, classcode * code){
 // Thiago começa
 
 void func_pop2(Jvm * jvm, frame* frame_atual, classcode * code){
-    // Assumindo que todos os elementos são u4:
-    stack_pop(&(frame_atual->pilha_de_operandos));
-    stack_pop(&(frame_atual->pilha_de_operandos));
-    jvm->pc++;
-
-    /* Ideia geral:
-    temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    if (sizeof(temp) != sizeof(u8)) {
+    char tipoTemp = typepop_opstack(frame_atual);
+    if (tipoTemp != 'D' || tipoTemp != 'L') {
+        stack_pop(&(frame_atual->pilha_de_operandos));
+        stack_pop(&(frame_atual->pilha_de_operandos));
+        typepop_opstack(frame_atual);
+    } else {
         stack_pop(&(frame_atual->pilha_de_operandos));
     }
     jvm->pc++;
-     */
 }
 void func_dup(Jvm * jvm, frame* frame_atual, classcode * code){
     u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
     stack_push(&(frame_atual->pilha_de_operandos), temp);
     stack_push(&(frame_atual->pilha_de_operandos), temp);
+    typepush_opstack(frame_atual, tipoTemp);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_dup_x1(Jvm * jvm, frame* frame_atual, classcode * code){
     u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
     u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
     stack_push(&(frame_atual->pilha_de_operandos), temp);
     stack_push(&(frame_atual->pilha_de_operandos), temp2);
     stack_push(&(frame_atual->pilha_de_operandos), temp);
+    typepush_opstack(frame_atual, tipoTemp);
+    typepush_opstack(frame_atual, tipoTemp2);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_dup_x2(Jvm * jvm, frame* frame_atual, classcode * code){
-    // Assumindo que todos os elementos são u4:
     u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
-    stack_push(&(frame_atual->pilha_de_operandos), temp);
-    stack_push(&(frame_atual->pilha_de_operandos), temp3);
-    stack_push(&(frame_atual->pilha_de_operandos), temp2);
-    stack_push(&(frame_atual->pilha_de_operandos), temp);
-    jvm->pc++;
-
-    /* Ideia geral:
-    temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    if (sizeof(temp2) == sizeof(u8)) {
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    if (tipoTemp2 == 'D' || tipoTemp2 == 'L') {
+        u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
         stack_push(&(frame_atual->pilha_de_operandos), temp);
         stack_push(&(frame_atual->pilha_de_operandos), temp2);
         stack_push(&(frame_atual->pilha_de_operandos), temp);
+        typepush_opstack(frame_atual, tipoTemp);
+        typepush_opstack(frame_atual, tipoTemp2);
+        typepush_opstack(frame_atual, tipoTemp);
     } else {
-        temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+        u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+        u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+        char tipoTemp3 = typepop_opstack(frame_atual);
         stack_push(&(frame_atual->pilha_de_operandos), temp);
         stack_push(&(frame_atual->pilha_de_operandos), temp3);
         stack_push(&(frame_atual->pilha_de_operandos), temp2);
         stack_push(&(frame_atual->pilha_de_operandos), temp);
+        typepush_opstack(frame_atual, tipoTemp);
+        typepush_opstack(frame_atual, tipoTemp3);
+        typepush_opstack(frame_atual, tipoTemp2);
+        typepush_opstack(frame_atual, tipoTemp);
     }
     jvm->pc++;
-     */
+
 }
 void func_dup2(Jvm * jvm, frame* frame_atual, classcode * code){
-    // Assumindo que todos os elementos são u4:
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    stack_push(&(frame_atual->pilha_de_operandos), temp2);
-    stack_push(&(frame_atual->pilha_de_operandos), temp);
-    stack_push(&(frame_atual->pilha_de_operandos), temp2);
-    stack_push(&(frame_atual->pilha_de_operandos), temp);
-    jvm->pc++;
-
-    /* Ideia geral:
-    temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    if (sizeof(temp) != sizeof(u8)) {
-        temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    if (tipoTemp != 'D' || tipoTemp != 'L') {
+        u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+        u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+        char tipoTemp2 = typepop_opstack(frame_atual);
         stack_push(&(frame_atual->pilha_de_operandos), temp2);
         stack_push(&(frame_atual->pilha_de_operandos), temp);
         stack_push(&(frame_atual->pilha_de_operandos), temp2);
         stack_push(&(frame_atual->pilha_de_operandos), temp);
+        typepush_opstack(frame_atual, tipoTemp2);
+        typepush_opstack(frame_atual, tipoTemp);
+        typepush_opstack(frame_atual, tipoTemp2);
+        typepush_opstack(frame_atual, tipoTemp);
     } else {
+        u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
         stack_push(&(frame_atual->pilha_de_operandos), temp);
         stack_push(&(frame_atual->pilha_de_operandos), temp);
+        typepush_opstack(frame_atual, tipoTemp);
+        typepush_opstack(frame_atual, tipoTemp);
     }
     jvm->pc++;
-    */
 }
 void func_dup2_x1(Jvm * jvm, frame* frame_atual, classcode * code){
-    // Assumindo que todos os elementos são u4:
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
-    stack_push(&(frame_atual->pilha_de_operandos), temp2);
-    stack_push(&(frame_atual->pilha_de_operandos), temp);
-    stack_push(&(frame_atual->pilha_de_operandos), temp3);
-    stack_push(&(frame_atual->pilha_de_operandos), temp2);
-    stack_push(&(frame_atual->pilha_de_operandos), temp);
-    jvm->pc++;
-
-
-    /* Ideia geral:
-    temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    if (sizeof(temp) != sizeof(u8)) {
-        temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-        temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    if (tipoTemp != 'D' || tipoTemp != 'L') {
+        u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+        u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+        u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+        char tipoTemp2 = typepop_opstack(frame_atual);
+        char tipoTemp3 = typepop_opstack(frame_atual);
         stack_push(&(frame_atual->pilha_de_operandos), temp2);
         stack_push(&(frame_atual->pilha_de_operandos), temp);
         stack_push(&(frame_atual->pilha_de_operandos), temp3);
         stack_push(&(frame_atual->pilha_de_operandos), temp2);
         stack_push(&(frame_atual->pilha_de_operandos), temp);
+        typepush_opstack(frame_atual, tipoTemp2);
+        typepush_opstack(frame_atual, tipoTemp);
+        typepush_opstack(frame_atual, tipoTemp3);
+        typepush_opstack(frame_atual, tipoTemp2);
+        typepush_opstack(frame_atual, tipoTemp);
     } else {
-        temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+        u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+        u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+        char tipoTemp2 = typepop_opstack(frame_atual);
         stack_push(&(frame_atual->pilha_de_operandos), temp);
         stack_push(&(frame_atual->pilha_de_operandos), temp2);
         stack_push(&(frame_atual->pilha_de_operandos), temp);
+        typepush_opstack(frame_atual, tipoTemp);
+        typepush_opstack(frame_atual, tipoTemp2);
+        typepush_opstack(frame_atual, tipoTemp);
     }
     jvm->pc++;
-    */
 }
 void func_dup2_x2(Jvm * jvm, frame* frame_atual, classcode * code) {
-    // Assumindo que todos os elementos são u4:
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp4 = stack_pop(&(frame_atual->pilha_de_operandos));
-    stack_push(&(frame_atual->pilha_de_operandos), temp2);
-    stack_push(&(frame_atual->pilha_de_operandos), temp);
-    stack_push(&(frame_atual->pilha_de_operandos), temp4);
-    stack_push(&(frame_atual->pilha_de_operandos), temp3);
-    stack_push(&(frame_atual->pilha_de_operandos), temp2);
-    stack_push(&(frame_atual->pilha_de_operandos), temp);
-    jvm->pc++;
-
-    /* Ideia geral:
-    temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    if (sizeof(temp) != sizeof(u8)) {
-        temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-        if (sizeof(temp2) != sizeof(u8)) {
-            temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
-            if (sizeof(temp3) != sizeof(u8)) {
-                temp4 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    if (tipoTemp != 'D' || tipoTemp != 'L') {
+        char tipoTemp2 = typepop_opstack(frame_atual);
+        if (tipoTemp2 != 'D' || tipoTemp2 != 'L') {
+            char tipoTemp3 = typepop_opstack(frame_atual);
+            if (tipoTemp3 != 'D' || tipoTemp3 != 'L') {
+                u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+                u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+                u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+                u4 temp4 = stack_pop(&(frame_atual->pilha_de_operandos));
+                char tipoTemp4 = typepop_opstack(frame_atual);
                 stack_push(&(frame_atual->pilha_de_operandos), temp2);
                 stack_push(&(frame_atual->pilha_de_operandos), temp);
                 stack_push(&(frame_atual->pilha_de_operandos), temp4);
                 stack_push(&(frame_atual->pilha_de_operandos), temp3);
                 stack_push(&(frame_atual->pilha_de_operandos), temp2);
                 stack_push(&(frame_atual->pilha_de_operandos), temp);
+                typepush_opstack(frame_atual, tipoTemp2);
+                typepush_opstack(frame_atual, tipoTemp);
+                typepush_opstack(frame_atual, tipoTemp4);
+                typepush_opstack(frame_atual, tipoTemp3);
+                typepush_opstack(frame_atual, tipoTemp2);
+                typepush_opstack(frame_atual, tipoTemp);
             } else {
+                u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+                u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+                u8 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
                 stack_push(&(frame_atual->pilha_de_operandos), temp2);
                 stack_push(&(frame_atual->pilha_de_operandos), temp);
                 stack_push(&(frame_atual->pilha_de_operandos), temp3);
                 stack_push(&(frame_atual->pilha_de_operandos), temp2);
                 stack_push(&(frame_atual->pilha_de_operandos), temp);
+                typepush_opstack(frame_atual, tipoTemp2);
+                typepush_opstack(frame_atual, tipoTemp);
+                typepush_opstack(frame_atual, tipoTemp3);
+                typepush_opstack(frame_atual, tipoTemp2);
+                typepush_opstack(frame_atual, tipoTemp);
             }
         }
     } else {
-        temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-        if (sizeof(temp2) != sizeof(u8)) {
-            temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+        char tipoTemp2 = typepop_opstack(frame_atual);
+        if (tipoTemp2 != 'D' || tipoTemp2 != 'L') {
+            u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+            u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+            u4 temp3 = stack_pop(&(frame_atual->pilha_de_operandos));
+            char tipoTemp3 = typepop_opstack(frame_atual);
             stack_push(&(frame_atual->pilha_de_operandos), temp);
             stack_push(&(frame_atual->pilha_de_operandos), temp3);
             stack_push(&(frame_atual->pilha_de_operandos), temp2);
             stack_push(&(frame_atual->pilha_de_operandos), temp);
+            typepush_opstack(frame_atual, tipoTemp);
+            typepush_opstack(frame_atual, tipoTemp3);
+            typepush_opstack(frame_atual, tipoTemp2);
+            typepush_opstack(frame_atual, tipoTemp);
         } else {
+            u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
+            u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
             stack_push(&(frame_atual->pilha_de_operandos), temp);
             stack_push(&(frame_atual->pilha_de_operandos), temp2);
             stack_push(&(frame_atual->pilha_de_operandos), temp);
+            typepush_opstack(frame_atual, tipoTemp);
+            typepush_opstack(frame_atual, tipoTemp2);
+            typepush_opstack(frame_atual, tipoTemp);
         }
     }
     jvm->pc++;
-    */
 }
 void func_swap(Jvm * jvm, frame* frame_atual, classcode * code){
     u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
     u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
     stack_push(&(frame_atual->pilha_de_operandos), temp);
     stack_push(&(frame_atual->pilha_de_operandos), temp2);
+    typepush_opstack(frame_atual, tipoTemp);
+    typepush_opstack(frame_atual, tipoTemp2);
     jvm->pc++;
 }
 void func_iadd(Jvm * jvm, frame* frame_atual, classcode * code){
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = temp + temp2;
+    int temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    int temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    int temp3 = temp + temp2;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_ladd(Jvm * jvm, frame* frame_atual, classcode * code){
-    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp3 = temp + temp2;
+    long temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    long temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    long temp3 = temp + temp2;
     push_long_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_fadd(Jvm * jvm, frame* frame_atual, classcode * code){
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = temp + temp2;
+    float temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    float temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    float temp3 = temp + temp2;
     push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_dadd(Jvm * jvm, frame* frame_atual, classcode * code){
-    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp3 = temp + temp2;
+    double temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    double temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    double temp3 = temp + temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_isub(Jvm * jvm, frame* frame_atual, classcode * code){
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = temp - temp2;
+    int temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    int temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    int temp3 = temp - temp2;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_lsub(Jvm * jvm, frame* frame_atual, classcode * code){
-    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp3 = temp - temp2;
+    long temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    long temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    long temp3 = temp - temp2;
     push_long_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_fsub(Jvm * jvm, frame* frame_atual, classcode * code){
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = temp - temp2;
+    float temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    float temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    float temp3 = temp - temp2;
     push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_dsub(Jvm * jvm, frame* frame_atual, classcode * code){
-    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp3 = temp - temp2;
+    double temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    double temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    double temp3 = temp - temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_imul(Jvm * jvm, frame* frame_atual, classcode * code){
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = temp * temp2;
+    int temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    int temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    int temp3 = temp * temp2;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_lmul(Jvm * jvm, frame* frame_atual, classcode * code){
-    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp3 = temp * temp2;
+    long temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    long temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    long temp3 = temp * temp2;
     push_long_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_fmul(Jvm * jvm, frame* frame_atual, classcode * code){
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = temp * temp2;
+    float temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    float temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    float temp3 = temp * temp2;
     push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_dmul(Jvm * jvm, frame* frame_atual, classcode * code){
-    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp3 = temp * temp2;
+    double temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    double temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    double temp3 = temp * temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_idiv(Jvm * jvm, frame* frame_atual, classcode * code){
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = temp / temp2;
+    int temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    int temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    int temp3 = temp / temp2;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_inst_ldiv(Jvm * jvm, frame* frame_atual, classcode * code){
-    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp3 = temp / temp2;
+    long temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    long temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    long temp3 = temp / temp2;
     push_long_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_fdiv(Jvm * jvm, frame* frame_atual, classcode * code){
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = temp / temp2;
+    float temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    float temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    float temp3 = temp / temp2;
     push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_ddiv(Jvm * jvm, frame* frame_atual, classcode * code){
-    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp3 = temp / temp2;
+    double temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    double temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    double temp3 = temp / temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_irem(Jvm * jvm, frame* frame_atual, classcode * code){
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = temp - (temp/temp2)*temp2;
+    int temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    int temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    int temp3 = temp - (temp/temp2)*temp2;
     stack_push(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_lrem(Jvm * jvm, frame* frame_atual, classcode * code){
-    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp3 = temp - (temp/temp2)*temp2;
+    long temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    long temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    long temp3 = temp - (temp/temp2)*temp2;
     push_long_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_frem(Jvm * jvm, frame* frame_atual, classcode * code){
-    u4 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u4 temp3 = temp - (temp/temp2)*temp2;
+    float temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    float temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    float temp3 = temp - (temp/temp2)*temp2;
     push_float_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 void func_inst_drem(Jvm * jvm, frame* frame_atual, classcode * code){
-    u8 temp = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
-    u8 temp3 = temp - (temp/temp2)*temp2;
+    double temp = stack_pop(&(frame_atual->pilha_de_operandos));
+    double temp2 = stack_pop(&(frame_atual->pilha_de_operandos));
+    char tipoTemp = typepop_opstack(frame_atual);
+    char tipoTemp2 = typepop_opstack(frame_atual);
+    double temp3 = temp - (temp/temp2)*temp2;
     push_double_in_stack(&(frame_atual->pilha_de_operandos), temp3);
+    typepush_opstack(frame_atual, tipoTemp);
     jvm->pc++;
 }
 // Thiago termina
