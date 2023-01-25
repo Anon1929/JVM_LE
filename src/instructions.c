@@ -7,6 +7,12 @@
 #include <string.h>
 #include <math.h>
 
+const double INFINITO_DOUBLE = 0.0/0.0;
+const double NEG_INFINITO_DOUBLE = 0.0/0.0;
+const float INFINITO_FLOAT = 0.0/0.0;
+const float NEG_INFINITO_FLOAT = 0.0/0.0;
+
+
 void func_nop(Jvm * jvm,frame* frame_atual, classcode * code){
     jvm->pc++;
 }
@@ -934,32 +940,98 @@ void func_iinc(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_i2l(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    int32_t inteiro = stack_pop(&(frame_atual->pilha_de_operandos));
+    
+    push_long_in_stack(&(frame_atual->pilha_de_operandos), (int64_t) inteiro);
+    typepush_opstack(frame_atual,'L');
+    jvm->pc++;
 }
 void func_i2f(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t inteiro = stack_pop(&(frame_atual->pilha_de_operandos));
 
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), (float)inteiro);
+    typepush_opstack(frame_atual,'F');
+    jvm->pc++;
 }
 void func_i2d(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t inteiro = stack_pop(&(frame_atual->pilha_de_operandos));
 
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), (double)inteiro);
+    typepush_opstack(frame_atual,'D');
+    jvm->pc++;
 }
 void func_l2i(Jvm * jvm, frame* frame_atual, classcode * code){
+    int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
+    int32_t inteiro = valor & 4294967295;
 
+    stack_push(&(frame_atual->pilha_de_operandos), inteiro);
+    typepush_opstack(frame_atual,'I');
+    jvm->pc++;
 }
 void func_l2f(Jvm * jvm, frame* frame_atual, classcode * code){
+    int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
 
+    push_float_in_stack(&(frame_atual->pilha_de_operandos), (float)valor);
+    typepush_opstack(frame_atual,'F');
+    jvm->pc++;
 }
-void func_l2d(Jvm * jvm, frame* frame_atual, classcode * code){
 
+void func_l2d(Jvm * jvm, frame* frame_atual, classcode * code){
+    int64_t valor = stack_pop_double(&(frame_atual->pilha_de_operandos));
+
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), (double)valor);
+    typepush_opstack(frame_atual,'D');
+    jvm->pc++;
 }
 void func_f2i(Jvm * jvm, frame* frame_atual, classcode * code){
-
+    int32_t bytes = stack_pop(&(frame_atual->pilha_de_operandos));
+    float operando;
+    memcpy(&operando, &bytes, 4);
+    
+    
+    if(operando == nanf("")) {
+        stack_push(&(frame_atual->pilha_de_operandos), 0);
+    } else if(operando == INFINITO_FLOAT){ 
+        stack_push(&(frame_atual->pilha_de_operandos), INT32_MAX);
+    } else if(operando == NEG_INFINITO_FLOAT) {
+        stack_push(&(frame_atual->pilha_de_operandos), INT32_MIN);
+    } else {
+        stack_push(&(frame_atual->pilha_de_operandos), (int32_t)operando);
+    }
+    
+    typepush_opstack(frame_atual,'I');
+    jvm->pc++;
 }
 void func_f2l(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t bytes = stack_pop(&(frame_atual->pilha_de_operandos));
+    float operando;
+    memcpy(&operando, &bytes, 4);
+    
+    
+    if(operando == nanf("")) {
+        push_long_in_stack(&(frame_atual->pilha_de_operandos), 0);
+    } else if(operando == INFINITO_FLOAT){ 
+        push_long_in_stack(&(frame_atual->pilha_de_operandos), INT64_MAX);
+    } else if(operando == NEG_INFINITO_FLOAT) {
+        push_long_in_stack(&(frame_atual->pilha_de_operandos), INT64_MIN);
+    } else {
+        push_long_in_stack(&(frame_atual->pilha_de_operandos), (int64_t)operando);
+    }
+    
+    typepush_opstack(frame_atual,'L');
+    jvm->pc++;
 
 }
 void func_f2d(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t bytes = stack_pop(&(frame_atual->pilha_de_operandos));
+    float operando;
+    memcpy(&operando, &bytes, 4);
 
+    push_double_in_stack(&(frame_atual->pilha_de_operandos), (double)operando);
+    typepush_opstack(frame_atual,'D');
+    jvm->pc++;
 }
+
 void func_d2i(Jvm * jvm, frame* frame_atual, classcode * code){
     int64_t bytes = stack_pop_double(&(frame_atual->pilha_de_operandos));
     double operando;
@@ -967,9 +1039,9 @@ void func_d2i(Jvm * jvm, frame* frame_atual, classcode * code){
 
     if(operando == NAN) {
         stack_push(&(frame_atual->pilha_de_operandos), 0);
-    } else if(operando == INFINITY){ 
+    } else if(operando == INFINITO_DOUBLE){ 
         stack_push(&(frame_atual->pilha_de_operandos), INT32_MAX);
-    } else if(operando == -INFINITY) {
+    } else if(operando == NEG_INFINITO_DOUBLE) {
         stack_push(&(frame_atual->pilha_de_operandos), INT32_MIN);
     } else {
         stack_push(&(frame_atual->pilha_de_operandos), (int32_t)operando);
@@ -985,9 +1057,9 @@ void func_d2l(Jvm * jvm, frame* frame_atual, classcode * code){
 
     if(operando == NAN) {
         push_long_in_stack(&(frame_atual->pilha_de_operandos), 0);
-    } else if(operando == INFINITY){ 
+    } else if(operando == INFINITO_DOUBLE){ 
         push_long_in_stack(&(frame_atual->pilha_de_operandos), INT64_MAX);
-    } else if(operando == -INFINITY) {
+    } else if(operando == NEG_INFINITO_DOUBLE) {
         push_long_in_stack(&(frame_atual->pilha_de_operandos), INT64_MIN);
     } else {
         push_long_in_stack(&(frame_atual->pilha_de_operandos), (int64_t)operando);
