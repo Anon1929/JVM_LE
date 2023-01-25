@@ -69,6 +69,7 @@ typedef struct frame{
     int32_t altura_tipos;
 
 } frame;
+void insert_in_local_var_array_double(int32_t * ,int64_t, int32_t);
 
 void typepush_opstack(frame *, char);
 char typepop_opstack(frame *);
@@ -162,6 +163,17 @@ typedef struct Jvm
     method_area area_de_metodos;
 } Jvm;
 
+void insert_in_array_ref(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor);
+void insert_in_array_char(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor);
+void insert_in_array_short(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor);
+void insert_in_array_byte(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor);
+void insert_in_array_double(Jvm *jvm, int32_t arrayref, int32_t indice, int64_t elem);
+void insert_in_array_int(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t elem);
+void insert_in_array_long(Jvm *jvm, int32_t arrayref, int32_t indice, int64_t elem);
+void insert_in_array_float(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t elem);
+
+int64_t stack_pop_double(stack* pilha);
+
 // Union Variables
 
 void readmethod_area(method_area *, Classfile *);
@@ -174,8 +186,10 @@ void readlocal_variable_vector(int32_t vetor[], Classfile *);
 ///    Divisões prinicipais, carregamento e execução de classe
 void carregamento(Classfile *classfile, method_area *area_metodos, Jvm *jvm);
 void code_exec(Jvm *);
+void carrega_classe_por_nome(char name[], method_area* area_metodos, Jvm* jvm);
 
 
+int ja_foi_carregada(char nome_classe[],method_area* area_metodos);
 ///
 void bytecodeexec(classcode *code,Jvm * jvm, frame *frame_atual);
 //void bytecodeexec();

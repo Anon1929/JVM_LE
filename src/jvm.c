@@ -39,7 +39,7 @@ void push_reference_in_stack(stack* pilha, void* reference) {
     memcpy(&valor, &reference, 4);
     stack_push(pilha, valor);
 }
-void stack_pop_double(stack* pilha){
+int64_t stack_pop_double(stack* pilha){
     --(pilha->altura);
     --(pilha->altura);
     int32_t first_half = pilha->stackarr[pilha->altura];
@@ -89,6 +89,10 @@ void push_double_in_stack(stack* pilha, double valor_d) {
     stack_push(pilha, first_half);
     stack_push(pilha, second_half);
 }
+void insert_in_local_var_array_double(int32_t * vetor, int64_t valor,int32_t indice){
+
+}
+
 void insert_in_array_short(Jvm *jvm, int32_t arrayref, int32_t indice, int32_t valor) {
     Array *array = (Array *) arrayref;
     int16_t *vetor = (int16_t *) array->vetor;
