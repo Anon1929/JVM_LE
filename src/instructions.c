@@ -6,6 +6,8 @@
 #include "exibidor.h"
 #include <string.h>
 #include <math.h>
+#include "leitor.h"
+
 
 const double INFINITO_DOUBLE = 0.0/0.0;
 const double NEG_INFINITO_DOUBLE = 0.0/0.0;
@@ -1825,10 +1827,43 @@ void func_ret(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_tableswitch(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t index = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t k = 4 - (jvm->pc % 4); // quantidade de byte4s de preenchimento
+	int32_t padrao = le_inteiro_from_code(code->code,jvm->pc+k);
+	int32_t low = le_inteiro_from_code(code->code,jvm->pc+k+4);
+    int32_t high = le_inteiro_from_code(code->code,jvm->pc+k+8);
+	int32_t posicao_atual = jvm->pc+k+12;
 
+    for(int i = low; i < high+1; i++) {
+        if(index == i) {
+            jvm->pc += le_inteiro_from_code(code->code, posicao_atual);
+            return;
+        }
+
+        posicao_atual += 4;
+	}
+
+    jvm->pc += padrao;
 }
-void func_lookupswitch(Jvm * jvm, frame* frame_atual, classcode * code){
 
+
+void func_lookupswitch(Jvm * jvm, frame* frame_atual, classcode * code){
+    int32_t key = stack_pop(&(frame_atual->pilha_de_operandos));
+    int32_t k = 4 - (jvm->pc % 4);    // numero de bytes  de preenchimento 
+	int32_t padrao = le_inteiro_from_code(code->code,jvm->pc+k);
+	int32_t num_pares = le_inteiro_from_code(code->code,jvm->pc+k+4);
+	int32_t posicao_atual = jvm->pc+k+8;
+
+    for(int i = 0;i < num_pares;i++) {
+		int match = le_inteiro_from_code(code->code,posicao_atual);
+        if(match == key) {
+            jvm->pc += le_inteiro_from_code(code->code,posicao_atual+4);
+            return;
+        }        
+		posicao_atual += 8;
+	}
+
+    jvm->pc += padrao;
 }
 void func_ireturn(Jvm * jvm, frame* frame_atual, classcode * code){
 
@@ -1922,7 +1957,27 @@ void func_invokespecial(Jvm * jvm, frame* frame_atual, classcode * code){
 
 }
 void func_invokestatic(Jvm * jvm, frame* frame_atual, classcode * code){
+    u2 indice = concatena_bytes(jvm->pc+1,jvm->pc+2);
+    cp_info method_reference = frame_atual->constant_pool[indice];
+    cp_info name_and_type = frame_atual->constant_pool[method_reference.cp_info_union.method_ref.name_and_type_index];
+    char* nome_metodo = decodeUTF8(&(frame_atual->constant_pool[name_and_type.cp_info_union.name_and_type.name_index]));
+    char* descritor = decodeUTF8(&(frame_atual->constant_pool[name_and_type.cp_info_union.name_and_type.descriptor_index]));
+    char* nome_classe = decodeClassInfo(frame_atual->constant_pool, method_reference.cp_info_union.method_ref.class_index);
 
+    method_area_item *classe = busca_endereco_class_in_method_area(&(jvm->area_de_metodos), nome_classe);
+    classcode* codigo =  busca_codigo_in_classe(classe, nome_metodo, descritor);
+
+    if(!ja_foi_carregada(nome_classe,&(jvm->area_de_metodos))) {
+        carrega_classe_por_nome(nome_classe, &(jvm->area_de_metodos),jvm);
+    }
+
+    frame *frame_novo = allocframe(classe->classfile->constant_pool);
+    jvm->pilha_de_frames[jvm->framecount]= *frame_novo;
+    jvm->framecount++;
+    u4 pc_salvo = jvm->pc;
+    bytecodeexec(codigo, jvm, frame_novo);
+
+    jvm->pc = pc_salvo + 3; 
 }
 void func_invokeinterface(Jvm * jvm, frame* frame_atual, classcode * code){
 
