@@ -398,17 +398,23 @@ void func_lload_2(Jvm * jvm, frame* frame_atual, classcode * code){
 // isntruções Welliton 
 
 void func_lload_3(Jvm * jvm,frame* frame_atual, classcode * code){
-    stack_push(&(frame_atual->pilha_de_operandos), 0);
-    stack_push(&(frame_atual->pilha_de_operandos), 3);
-    typepush_opstack(frame_atual, 'L');
+    int32_t first_half = frame_atual->vetor_de_variaveis_locais[3];
+    int32_t second_half = frame_atual->vetor_de_variaveis_locais[4];
+
+    stack_push(&(frame_atual->pilha_de_operandos), first_half);
+    stack_push(&(frame_atual->pilha_de_operandos), second_half);
+
+    typepush_opstack(frame_atual, 'D');
+
     jvm->pc++;
 }
 
 void func_fload_0(Jvm * jvm,frame* frame_atual, classcode * code){
-    push_float_in_stack(&(frame_atual->pilha_de_operandos), 0);
+    int32_t valor = frame_atual->vetor_de_variaveis_locais[0];
+    stack_push(&(frame_atual->pilha_de_operandos), valor);
     typepush_opstack(frame_atual, 'F');
     jvm->pc++;
-}
+}   
 
 void func_fload_1(Jvm * jvm,frame* frame_atual, classcode * code){
     int32_t valor = frame_atual->vetor_de_variaveis_locais[1];
@@ -425,35 +431,57 @@ void func_fload_2(Jvm * jvm,frame* frame_atual, classcode * code){
 }
 
 void func_fload_3(Jvm * jvm,frame* frame_atual, classcode * code){
-    push_float_in_stack(&(frame_atual->pilha_de_operandos), 3);
+    int32_t valor = frame_atual->vetor_de_variaveis_locais[3];
+    stack_push(&(frame_atual->pilha_de_operandos), valor);
     typepush_opstack(frame_atual, 'F');
-
     jvm->pc++;
 }
 
 void func_dload_0(Jvm * jvm,frame* frame_atual, classcode * code){
-    push_double_in_stack(&(frame_atual->pilha_de_operandos), 0);
+    int32_t first_half = frame_atual->vetor_de_variaveis_locais[0];
+    int32_t second_half = frame_atual->vetor_de_variaveis_locais[1];
+
+    stack_push(&(frame_atual->pilha_de_operandos), first_half);
+    stack_push(&(frame_atual->pilha_de_operandos), second_half);
+
     typepush_opstack(frame_atual, 'D');
 
     jvm->pc++;
 }
 
 void func_dload_1(Jvm * jvm,frame* frame_atual, classcode * code){
-    push_double_in_stack(&(frame_atual->pilha_de_operandos), 1);
+    int32_t first_half = frame_atual->vetor_de_variaveis_locais[1];
+    int32_t second_half = frame_atual->vetor_de_variaveis_locais[2];
+
+    stack_push(&(frame_atual->pilha_de_operandos), first_half);
+    stack_push(&(frame_atual->pilha_de_operandos), second_half);
+
     typepush_opstack(frame_atual, 'D');
 
     jvm->pc++;
 }
 void func_dload_2(Jvm * jvm,frame* frame_atual, classcode * code){
-    push_double_in_stack(&(frame_atual->pilha_de_operandos), 2);
+    int32_t first_half = frame_atual->vetor_de_variaveis_locais[2];
+    int32_t second_half = frame_atual->vetor_de_variaveis_locais[3];
+
+    stack_push(&(frame_atual->pilha_de_operandos), first_half);
+    stack_push(&(frame_atual->pilha_de_operandos), second_half);
+
     typepush_opstack(frame_atual, 'D');
+
     jvm->pc++;
 }
 
 void func_dload_3(Jvm * jvm,frame* frame_atual, classcode * code){
-    push_double_in_stack(&(frame_atual->pilha_de_operandos), 3);
+    int32_t first_half = frame_atual->vetor_de_variaveis_locais[3];
+    int32_t second_half = frame_atual->vetor_de_variaveis_locais[4];
+
+    stack_push(&(frame_atual->pilha_de_operandos), first_half);
+    stack_push(&(frame_atual->pilha_de_operandos), second_half);
+
     typepush_opstack(frame_atual, 'D');
-    jvm->pc++; 
+
+    jvm->pc++;
 }
 
 void func_aload_0(Jvm * jvm,frame* frame_atual, classcode * code){
